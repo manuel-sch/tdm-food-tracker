@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.LruCache;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,8 +24,8 @@ public class NetworkDataTransmitterSingleton {
 
     private static NetworkDataTransmitterSingleton instance = null;
     private RequestQueue queue;
-    private static Context queueContext;
-    private ImageLoader imageLoader;
+    private final Context queueContext;
+    private final ImageLoader imageLoader;
 
 
     private NetworkDataTransmitterSingleton(Context context) {
@@ -73,23 +72,27 @@ public class NetworkDataTransmitterSingleton {
     }
 
     public void requestJsonObjectResponseForJsonRequestWithContext(JsonRequest jsonReq, Context context) {
-        final String tag = context.getClass().getSimpleName();
-        Log.d(tag, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getJsonObject().toString());
+        final String TAG = context.getClass().getSimpleName();
+        if (jsonReq.getJsonObject() != null)
+            Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getJsonObject().toString());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(jsonReq.getRequestMethod(), jsonReq.getUrl(), jsonReq.getJsonObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(tag, "onResponse: " + response.toString());
+                Log.d(TAG, "onResponse: " + response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(tag, "onErrorResponse: " + error.getMessage());
+                Log.e(TAG, "onErrorResponse: " + error.getMessage());
             }
         }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<>();
-                params.put("Authorization",  "Token token=" + UrlRequestConstants.API_KEY_FOODREPO);
+                Log.d(TAG, "getHeaders: " + AppInfoConstants.getAppName() + " " + AppInfoConstants.getAppVersion());
+                // Represents our Requests as Request from our Application for API Server.
+                params.put("User-Agent",  AppInfoConstants.getAppName() + " - Android - " + AppInfoConstants.getAppVersion());
+                //params.put("Authorization",  "Token token=" + UrlRequestConstants.API_KEY_FOODREPO);
                 //headers.put("Authorization", "UrlRequestConstants.API_KEY_FOODREPO");
                 //params.put("Authorization",  "Token");
                 //params.put("token",  UrlRequestConstants.API_KEY_FOODREPO);
@@ -103,7 +106,7 @@ public class NetworkDataTransmitterSingleton {
             }
         };
 
-        jsonObjectRequest.setTag(tag);
+        jsonObjectRequest.setTag(TAG);
         queue.add(jsonObjectRequest);
     }
 
@@ -115,7 +118,7 @@ public class NetworkDataTransmitterSingleton {
 
     public RequestQueue getRequestQueue() {
         if (queue == null) {
-            queue = Volley.newRequestQueue(queueContext.getApplicationContext());
+            queue = Volley.newRequestQueue(queueContext);
         }
         return queue;
     }
