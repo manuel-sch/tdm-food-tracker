@@ -5,25 +5,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.android.volley.Request;
-
-import org.json.JSONObject;
+import com.example.tdm_food_tracker.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = MainActivity.class.getSimpleName();
     private RequestTester reqTester;
+    private ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        View viewRoot = activityMainBinding.getRoot();
+        setContentView(viewRoot);
         AppInfoConstants utilConstants = new AppInfoConstants(this);
         reqTester = new RequestTester(this);
     }
 
     public void testQueue(View view) {
-        reqTester.testSearchQueueOpenFoodFacts();
+
+        reqTester.testBarcodeSearchQueueOpenFoodFacts();
+        //reqTester.testProductNameSearchQueueOpenFoodFacts();
     }
 
 

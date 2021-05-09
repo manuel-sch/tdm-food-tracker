@@ -2,16 +2,11 @@ package com.example.tdm_food_tracker;
 
 public class UrlRequestConstants {
 
-    public static final String API_KEY_SPOONACULAR = "apiKey=8103018db6f148139288368c0e257b8c";
-    public static final String SPOONACULAR_PRODUCT_SEARCH= "https://api.spoonacular.com/food/products/search?query=";
-
-    public static final String API_KEY_FOODREPO = "02a5de387628e360ff690e298bd16084";
-    public static final String FOODREPO_POST_PRODUCT_SEARCH= "https://www.foodrepo.org/api/v3/products/_search";
-    public static final String FOODREPO_GET_BARCODES= "https://www.foodrepo.org/api/v3/products/barcodes";
-
+    public static final String NOVA_CODE_EXPLANATION = "https://de.openfoodfacts.org/nova";
+    public static final String NUTRI_SCORE_EXPLANATION = "https://de.openfoodfacts.org/nutriscore";
     // Important! Insert ".json" after barcode number
-    public static final String OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE= "https://de.openfoodfacts.org/api/v0/product/";
-
+    public static final String OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE= "https://de-en.openfoodfacts.org/api/v0/product/";
+    public static final String OPENFOODFACTS_SEARCH_PRODUCT_WTIH_PRODUCT_NAME = "https://de-en.openfoodfacts.org/cgi/search.pl?action=process&json=true&sort_by=unique_scans_n&page_size=20&search_terms=";
 
 
 

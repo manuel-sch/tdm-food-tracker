@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -26,11 +27,13 @@ public class NetworkDataTransmitterSingleton {
     private RequestQueue queue;
     private final Context queueContext;
     private final ImageLoader imageLoader;
+    private JsonHandlerSingleton jsonHandler;
 
 
     private NetworkDataTransmitterSingleton(Context context) {
         queueContext = context;
         queue = getRequestQueue();
+        jsonHandler = JsonHandlerSingleton.getInstance(context);
 
         imageLoader = new ImageLoader(queue,
                 new ImageLoader.ImageCache() {
@@ -75,10 +78,30 @@ public class NetworkDataTransmitterSingleton {
         final String TAG = context.getClass().getSimpleName();
         if (jsonReq.getJsonObject() != null)
             Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getJsonObject().toString());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(jsonReq.getRequestMethod(), jsonReq.getUrl(), jsonReq.getJsonObject(), new Response.Listener<JSONObject>() {
+        if(jsonReq.getUrl() != null)
+            Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getUrl());
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(jsonReq.getHttpMethod(), jsonReq.getUrl(), jsonReq.getJsonObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "onResponse: " + response.toString());
+                try {
+                    Log.d(TAG, "onResponse: " + response.toString(1));
+                    if(response.getString("status_verbose").equals("product found")){
+                        if(jsonReq.getRequestMethod() == RequestMethod.BARCODE){
+                            jsonHandler.parseJsonObjectToProduct(response);
+                        }
+                        else if(jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME){
+
+                        }
+                        else{
+                            Log.e(TAG, "onResponse: No Requestmethod!");
+                        }
+                    }
+                    else
+                        Log.d(TAG, "onResponse: No Products found!");
+                    
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
