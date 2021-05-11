@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/productPrice"
+        android:onClick="productPriceClicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="productPrice"
+        app:layout_constraintTop_toBottomOf="@+id/productCount"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/productCount"
+        android:onClick="productCountClicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="productCount"
+        app:layout_constraintTop_toBottomOf="@+id/productIngredient"
+        tools:layout_editor_absoluteX="1dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/productIngredient"
+        android:onClick="productIngredientClicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="productIngredient"
+        app:layout_constraintTop_toBottomOf="@+id/productUnit"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/productUnit"
+        android:onClick="productUnitClicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="productUnit"
+        app:layout_constraintTop_toBottomOf="@+id/productName"
+        tools:layout_editor_absoluteX="3dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/productName"
+        android:onClick="productNameClicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="productName"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="1dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
