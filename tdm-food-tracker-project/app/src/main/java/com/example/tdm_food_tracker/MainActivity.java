@@ -5,10 +5,12 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -19,6 +21,7 @@ import com.android.volley.Request;
 
 import org.json.JSONObject;
 
+import com.example.tdm_food_tracker.ProduktForm.FormEdit;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
         surfaceView = findViewById(R.id.surface_view);
         barcodeText = findViewById(R.id.barcode_text);
-        initialiseDetectorsAndSources();
+        //initialiseDetectorsAndSources();
     }
 
     public void testQueue(View view) {
@@ -191,5 +194,12 @@ public class MainActivity extends AppCompatActivity {
         initialiseDetectorsAndSources();
     }
 
+    public void buttonToFormClick(View view) {
+        Log.d("clickform","yeeee");
+        Intent intent = new Intent(this, FormEdit.class);
+        startActivity(intent);
+
+
+    }
 }
 

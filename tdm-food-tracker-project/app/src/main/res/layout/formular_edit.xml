@@ -7,46 +7,106 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/productPrice"
-        android:onClick="productPriceClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="productPrice"
-        app:layout_constraintTop_toBottomOf="@+id/productCount"
+        android:onClick="productPriceClicked"
+        app:layout_constraintTop_toBottomOf="@+id/textPrice"
         tools:layout_editor_absoluteX="0dp" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/productCount"
-        android:onClick="productCountClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="productCount"
-        app:layout_constraintTop_toBottomOf="@+id/productIngredient"
+        android:onClick="productCountClicked"
+        app:layout_constraintTop_toBottomOf="@+id/textCount"
         tools:layout_editor_absoluteX="1dp" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/productIngredient"
-        android:onClick="productIngredientClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="productIngredient"
-        app:layout_constraintTop_toBottomOf="@+id/productUnit"
+        android:onClick="productIngredientClicked"
+        app:layout_constraintTop_toBottomOf="@+id/textIngrdient"
         tools:layout_editor_absoluteX="0dp" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/productUnit"
-        android:onClick="productUnitClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="productUnit"
-        app:layout_constraintTop_toBottomOf="@+id/productName"
+        android:onClick="productUnitClicked"
+        app:layout_constraintTop_toBottomOf="@+id/textUnit"
         tools:layout_editor_absoluteX="3dp" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/productName"
-        android:onClick="productNameClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="productName"
-        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="productNameClicked"
+        app:layout_constraintTop_toBottomOf="@+id/nameText"
         tools:layout_editor_absoluteX="1dp" />
+
+    <Button
+        android:id="@+id/formSave"
+        android:onClick="saveForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productPrice" />
+
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Titel"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maßeinheit"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productName" />
+
+    <TextView
+        android:id="@+id/textIngrdient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inhaltsstoffe"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productUnit" />
+
+    <TextView
+        android:id="@+id/textCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Anzahl"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productIngredient" />
+
+    <TextView
+        android:id="@+id/textPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Preis"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productCount" />
 </androidx.constraintlayout.widget.ConstraintLayout>
