@@ -1,4 +1,6 @@
-package com.example.tdm_food_tracker;
+package com.example.tdm_food_tracker.network;
+
+import com.example.tdm_food_tracker.utils.RequestMethod;
 
 import org.json.JSONObject;
 

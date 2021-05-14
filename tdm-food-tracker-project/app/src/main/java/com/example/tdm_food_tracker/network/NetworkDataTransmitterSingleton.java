@@ -1,4 +1,4 @@
-package com.example.tdm_food_tracker;
+package com.example.tdm_food_tracker.network;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,6 +13,9 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.tdm_food_tracker.utils.JsonHandlerSingleton;
+import com.example.tdm_food_tracker.constants.AppInfoConstants;
+import com.example.tdm_food_tracker.utils.RequestMethod;
 
 import org.json.JSONException;
 import org.json.JSONObject;

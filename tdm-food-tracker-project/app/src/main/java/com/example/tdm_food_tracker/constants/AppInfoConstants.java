@@ -1,6 +1,9 @@
-package com.example.tdm_food_tracker;
+package com.example.tdm_food_tracker.constants;
 
 import android.content.Context;
+
+import com.example.tdm_food_tracker.BuildConfig;
+import com.example.tdm_food_tracker.R;
 
 
 public class AppInfoConstants

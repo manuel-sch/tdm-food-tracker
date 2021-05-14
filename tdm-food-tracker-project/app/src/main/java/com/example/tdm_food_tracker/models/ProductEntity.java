@@ -1,4 +1,4 @@
-package com.example.tdm_food_tracker;
+package com.example.tdm_food_tracker.models;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

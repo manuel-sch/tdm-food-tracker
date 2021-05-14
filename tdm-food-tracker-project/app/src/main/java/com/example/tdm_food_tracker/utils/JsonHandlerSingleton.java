@@ -1,7 +1,9 @@
-package com.example.tdm_food_tracker;
+package com.example.tdm_food_tracker.utils;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.example.tdm_food_tracker.models.ProductEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +53,7 @@ public class JsonHandlerSingleton {
 
     }
 
-    public Product parseJsonObjectToProduct(JSONObject jsonObject) throws JSONException {
+    public ProductEntity parseJsonObjectToProduct(JSONObject jsonObject) throws JSONException {
 
         JSONObject productJsonObject = jsonObject.getJSONObject("product");
 
@@ -60,16 +62,15 @@ public class JsonHandlerSingleton {
         String genericName = getGenericNameFromProductJsonObject(jsonObject);
         String brand = getBrandFromResponseJsonObject(jsonObject);
         String imageUrl = getImageUrlFromResponseJsonObject(jsonObject);
-        String[] allergens = getAllergensFromResponseJsonObject(jsonObject);
-        String[] categories = getCategoriesFromResponseJsonObject(jsonObject);
+        String allergens = getAllergensFromResponseJsonObject(jsonObject);
+        String categories = getCategoriesFromResponseJsonObject(jsonObject);
         String ingredients = getIngredientsFromResponseJsonObject(jsonObject);
         String ecoScore = getEcoscoreFromResponseJsonObject(jsonObject);
         String novaGroup = getNovaGroupFromResponseJsonObject(jsonObject);
         String nutrientScore = getNutriScoreFromResponseJsonObject(jsonObject);
         String quantity = getQuantityFromResponseJsonObject(jsonObject);
 
-
-        Product product = new Product(barcode, productName, genericName, brand,
+        ProductEntity product = new ProductEntity(barcode, productName, genericName, brand,
                 imageUrl, allergens, categories, ingredients,
                 nutrientScore, novaGroup, ecoScore, quantity, 0);
 
@@ -78,6 +79,7 @@ public class JsonHandlerSingleton {
         return product;
 
         /*
+        Falls nur Igredientname aus Array geholt werden soll werden soll, dann über einelne Objekte aus Array
         JSONArray jsonIngredients = product.getJSONArray("ingredients_hierarchy");
         String[] ingredients = new String[jsonIngredients.length()];
         for(int i = 0; i < jsonIngredients.length(); i++){
@@ -131,24 +133,28 @@ public class JsonHandlerSingleton {
         return ecoscore;
     }
 
-    private String[] getCategoriesFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    private String getCategoriesFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         JSONArray jsonCategories = jsonObject.getJSONArray("categories_hierarchy");
-        String[] categories = new String[jsonCategories.length()];
+        StringBuilder categories = new StringBuilder();
         for(int i = 0; i < jsonCategories.length(); i++){
-            categories[i] = jsonCategories.get(i).toString().substring(3);
-            Log.d(TAG, "getCategoriesFromResponseJsonObject: allergen: " + categories[i]);
+            categories.append(jsonCategories.get(i).toString().substring(3));
+            if(jsonCategories.get(i) != null)
+                categories.append(",");
         }
-        return categories;
+        Log.d(TAG, "getCategoriesFromResponseJsonObject: allergen: " + categories);
+        return categories.toString();
     }
 
-    private String[] getAllergensFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    private String getAllergensFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         JSONArray jsonAllergens = jsonObject.getJSONArray("allergens_hierarchy");
-        String[] allergens = new String[jsonAllergens.length()];
+        StringBuilder allergens = new StringBuilder();
         for(int i = 0; i < jsonAllergens.length(); i++){
-            allergens[i] = jsonAllergens.get(i).toString().substring(3);
-            Log.d(TAG, "getAllergensFromResponseJsonObject: allergen: " + allergens[i]);
+            allergens.append(jsonAllergens.get(i).toString().substring(3));
+            if(jsonAllergens.get(i) != null)
+                allergens.append(",");
         }
-        return allergens;
+        Log.d(TAG, "getAllergensFromResponseJsonObject: allergen: " + allergens);
+        return allergens.toString();
     }
 
     private String getImageUrlFromResponseJsonObject(JSONObject jsonObject) throws JSONException {

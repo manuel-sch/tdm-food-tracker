@@ -1,10 +1,12 @@
-package com.example.tdm_food_tracker;
+package com.example.tdm_food_tracker.utils;
 
 import android.content.Context;
 
 import com.android.volley.Request;
-
-import org.json.JSONObject;
+import com.example.tdm_food_tracker.network.JsonRequest;
+import com.example.tdm_food_tracker.network.NetworkDataTransmitterSingleton;
+import com.example.tdm_food_tracker.constants.AppInfoConstants;
+import com.example.tdm_food_tracker.constants.UrlRequestConstants;
 
 public class RequestTester {
 

@@ -1,4 +1,4 @@
-package com.example.tdm_food_tracker;
+package com.example.tdm_food_tracker.constants;
 
 public class UrlRequestConstants {
 

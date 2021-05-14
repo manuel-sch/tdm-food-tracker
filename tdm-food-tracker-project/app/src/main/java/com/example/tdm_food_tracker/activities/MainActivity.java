@@ -1,16 +1,19 @@
-package com.example.tdm_food_tracker;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.tdm_food_tracker.activities;
 
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.tdm_food_tracker.constants.AppInfoConstants;
+import com.example.tdm_food_tracker.utils.RequestTester;
 import com.example.tdm_food_tracker.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = MainActivity.class.getSimpleName();
     private RequestTester reqTester;
+    // ViewBinding ermöglicht direktes zugreifen auf Views aus Layout über Objekt mit .viewName
     private ActivityMainBinding activityMainBinding;
 
     @Override
@@ -24,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void testQueue(View view) {
-
         reqTester.testBarcodeSearchQueueOpenFoodFacts();
         //reqTester.testProductNameSearchQueueOpenFoodFacts();
     }
