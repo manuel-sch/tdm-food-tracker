@@ -3,10 +3,7 @@ package com.example.tdm_food_tracker.ProduktForm;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +15,7 @@ public class FormEdit extends AppCompatActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.formular_edit);
+        setContentView(R.layout.activity_formular_edit);
     }
     public void productPriceClicked(View v) {
 
