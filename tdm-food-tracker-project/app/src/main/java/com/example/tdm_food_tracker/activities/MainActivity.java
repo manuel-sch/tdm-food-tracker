@@ -1,13 +1,15 @@
 package com.example.tdm_food_tracker.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tdm_food_tracker.constants.AppInfoConstants;
-import com.example.tdm_food_tracker.utils.RequestTester;
 import com.example.tdm_food_tracker.databinding.ActivityMainBinding;
+import com.example.tdm_food_tracker.utils.RequestTester;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,5 +33,11 @@ public class MainActivity extends AppCompatActivity {
         //reqTester.testProductNameSearchQueueOpenFoodFacts();
     }
 
+
+    public void buttonToFormClick(View view) {
+        Log.d(TAG, "buttonToFormClick: Form Activity should be started now.");
+        Intent intent = new Intent(this, FormEditActivity.class);
+        startActivity(intent);
+    }
 
 }
