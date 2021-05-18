@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">tdm-food-tracker</string>
+
+    <string-array name="product_storage">
+        <item>Getränke</item>
+        <item>Gefrierfach</item>
+        <item>Kühlfach</item>
+        <item>Regal</item>
+    </string-array>
+
 </resources>

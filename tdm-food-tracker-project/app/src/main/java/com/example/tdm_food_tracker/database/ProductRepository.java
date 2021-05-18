@@ -5,14 +5,14 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.example.tdm_food_tracker.daos.ProductDao;
-import com.example.tdm_food_tracker.models.ProductEntity;
+import com.example.tdm_food_tracker.models.Product;
 
 import java.util.List;
 
 public class ProductRepository {
 
     private ProductDao productDao;
-    private LiveData<List<ProductEntity>> products;
+    private LiveData<List<Product>> products;
 
     public ProductRepository(Application application) {
         MealStockDatabase db = MealStockDatabase.getDatabase(application);
@@ -20,23 +20,23 @@ public class ProductRepository {
         products = productDao.getAll();
     }
 
-    public LiveData<List<ProductEntity>> getAllProducts() {
+    public LiveData<List<Product>> getAllProducts() {
         return products;
     }
 
-    public void insert(ProductEntity product) {
+    public void insert(Product product) {
         MealStockDatabase.databaseWriteExecutor.execute(() -> {
             productDao.insert(product);
         });
     }
 
-    public void update(ProductEntity product) {
+    public void update(Product product) {
         MealStockDatabase.databaseWriteExecutor.execute(() -> {
             productDao.update(product);
         });
     }
 
-    public void delete(ProductEntity product) {
+    public void delete(Product product) {
         MealStockDatabase.databaseWriteExecutor.execute(() -> {
             productDao.delete(product);
         });
