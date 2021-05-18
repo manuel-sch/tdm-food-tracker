@@ -4,33 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
-
-
-    <Button
-        android:id="@+id/button_goTo_inputActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="144dp"
-        android:onClick="goToInputActivity"
-        android:text="Gehe zu Inputactivity"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    tools:context=".activities.ProductInputActivity">
 
     <Button
-        android:id="@+id/sign_in_button"
+        android:id="@+id/barCodeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="144dp"
-        android:onClick="signIn"
-        android:text="sign in"
+        android:onClick="barcodeActivityButton"
+        android:text="BarcodeScan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="button_goTo_inputActivity"/>
-
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/buttonToForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:onClick="buttonToFormClick"
+        android:text="button To Form"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barCodeButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,24 +13,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-public class JsonHandlerSingleton {
+public class JsonHandler {
 
-    private static JsonHandlerSingleton instance = null;
-    private static Context context;
-    final String TAG;
+    public static String TAG;
 
-    private JsonHandlerSingleton(Context _context) {
-        context = _context;
+    public static String parseJsonFileFromAssetsToString(Context context, String path) {
         TAG = context.getClass().getSimpleName();
-    }
-
-    public static JsonHandlerSingleton getInstance(Context context) {
-        if (instance == null)
-            instance = new JsonHandlerSingleton(context);
-        return instance;
-    }
-
-    public String parseJsonFileFromAssetsToString(String path) {
         String json;
         try {
             InputStream is = context.getAssets().open(path);
@@ -47,10 +35,11 @@ public class JsonHandlerSingleton {
         return json;
     }
 
-    public JSONObject parseJsonFileFromAssetsToJsonObject(String path) {
+    public static JSONObject parseJsonFileFromAssetsToJsonObject(Context context, String path) {
+        TAG = context.getClass().getSimpleName();
         JSONObject jsonObject;
         try {
-            jsonObject = new JSONObject(parseJsonFileFromAssetsToString(path));
+            jsonObject = new JSONObject(parseJsonFileFromAssetsToString(context, path));
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
@@ -59,8 +48,8 @@ public class JsonHandlerSingleton {
 
     }
 
-    public Product parseJsonObjectToProduct(JSONObject jsonObject) throws JSONException {
-
+    public static Product parseJsonObjectToProduct(Context context, JSONObject jsonObject) throws JSONException {
+        TAG = context.getClass().getSimpleName();
         JSONObject productJsonObject = jsonObject.getJSONObject("product");
         Product product = setUpProductEntityAndGetItForProductJsonObject(productJsonObject);
         Log.d(TAG, "parseJsonObjectToProduct: product " + product);
@@ -69,7 +58,7 @@ public class JsonHandlerSingleton {
     }
 
 
-    Product setUpProductEntityAndGetItForProductJsonObject(JSONObject productJsonObject) throws JSONException {
+    public  static Product setUpProductEntityAndGetItForProductJsonObject(JSONObject productJsonObject) throws JSONException {
         Product product = new Product();
 
         product.setBarcode(getBarcodeFromResponseJsonObject(productJsonObject));
@@ -88,39 +77,39 @@ public class JsonHandlerSingleton {
         return product;
     }
 
-    private String getQuantityFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getQuantityFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         String quantity = jsonObject.getString("product_quantity");
         Log.d(TAG, "getQuantityFromResponseJsonObject: quantity " + quantity);
         return quantity;
     }
 
-    private String getNutriScoreFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getNutriScoreFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         String nutriScore = jsonObject.getString("nutriscore_grade");
         Log.d(TAG, "getNutriScoreFromResponseJsonObject: nutriScore " + nutriScore);
         return nutriScore;
     }
 
-    private String getNovaGroupFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getNovaGroupFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         JSONObject nutriments = jsonObject.getJSONObject("nutriments");
         String novaGroup = nutriments.getString("nova-group");
         Log.d(TAG, "getNovaGroupFromResponseJsonObject: novaGroup " + novaGroup);
         return novaGroup;
     }
 
-    private String getIngredientsFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getIngredientsFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         String ingredients = jsonObject.getString("ingredients_text_de");
         Log.d(TAG, "getIngredientsFromResponseJsonObject: ingredients: " + ingredients);
         return ingredients;
     }
 
-    private String getEcoscoreFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getEcoscoreFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         JSONObject ecoscore_data = jsonObject.getJSONObject("ecoscore_data");
         String ecoscore = ecoscore_data.getString("grade");
         Log.d(TAG, "getEcoscoreFromResponseJsonObject: " + ecoscore);
         return ecoscore;
     }
 
-    private String getCategoriesFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getCategoriesFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         JSONArray jsonCategories = jsonObject.getJSONArray("categories_hierarchy");
         StringBuilder categories = new StringBuilder();
         for (int i = 0; i < jsonCategories.length(); i++) {
@@ -132,7 +121,7 @@ public class JsonHandlerSingleton {
         return categories.toString();
     }
 
-    private String getAllergensFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getAllergensFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         JSONArray jsonAllergens = jsonObject.getJSONArray("allergens_hierarchy");
         StringBuilder allergens = new StringBuilder();
         for (int i = 0; i < jsonAllergens.length(); i++) {
@@ -144,19 +133,19 @@ public class JsonHandlerSingleton {
         return allergens.toString();
     }
 
-    private String getImageUrlFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getImageUrlFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         String image_url = jsonObject.getString("image_url");
         Log.d(TAG, "getImageUrlFromResponseJsonObject: " + image_url);
         return image_url;
     }
 
-    private String getBrandFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getBrandFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         String brand = jsonObject.getString("brands");
         Log.d(TAG, "getBrandFromResponseJsonObject: " + brand);
         return brand;
     }
 
-    private String getGenericNameFromProductJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getGenericNameFromProductJsonObject(JSONObject jsonObject) throws JSONException {
         String generic_name;
         if (!jsonObject.getString("generic_name_de").isEmpty())
             generic_name = jsonObject.getString("generic_name_de");
@@ -168,13 +157,13 @@ public class JsonHandlerSingleton {
         return generic_name;
     }
 
-    private String getProductNameFromProductJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getProductNameFromProductJsonObject(JSONObject jsonObject) throws JSONException {
         String product_name = jsonObject.getString("product_name");
         Log.d(TAG, "getProductNameFromProductJsonObject: " + product_name);
         return product_name;
     }
 
-    private String getBarcodeFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+    public  static String getBarcodeFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         String barcode = jsonObject.getString("code");
         Log.d(TAG, "getBarcodeFromResponseJsonObject: " + barcode);
         return barcode;

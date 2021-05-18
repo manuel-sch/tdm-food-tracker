@@ -12,11 +12,9 @@ public class RequestTester {
 
     private final Context context;
     private NetworkDataTransmitterSingleton dataTransmitter;
-    private final JsonHandlerSingleton jsonHandler;
 
     public RequestTester(Context context){
         this.context = context;
-        this.jsonHandler = JsonHandlerSingleton.getInstance(context);
         this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(AppInfoConstants.getAppContext());
     }
 

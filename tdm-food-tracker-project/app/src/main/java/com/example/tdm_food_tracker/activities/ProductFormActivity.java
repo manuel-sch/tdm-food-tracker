@@ -28,7 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class FormEditActivity extends AppCompatActivity {
+public class ProductFormActivity extends AppCompatActivity {
 
     public static final String EXTRA_REPLY = AppInfoConstants.getAppPackageName() + ".REPLY";
 
@@ -105,7 +105,7 @@ public class FormEditActivity extends AppCompatActivity {
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
-                datePickerDialog = new DatePickerDialog(FormEditActivity.this, new DatePickerDialog.OnDateSetListener() {
+                datePickerDialog = new DatePickerDialog(ProductFormActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         productDateEditText.setText(dayOfMonth + "/" + (month + 1) + "/" + year);

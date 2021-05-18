@@ -11,7 +11,7 @@ import java.util.Date;
 @Entity
 public class Product implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    private int pId;
+    protected int pId;
 
     @ColumnInfo(name = "barcode")
     private String barcode = "";
@@ -85,6 +85,10 @@ public class Product implements Serializable {
 
     public int getpId() {
         return pId;
+    }
+
+    public void setpId(int pId) {
+        this.pId = pId;
     }
 
     public String getBarcode() {

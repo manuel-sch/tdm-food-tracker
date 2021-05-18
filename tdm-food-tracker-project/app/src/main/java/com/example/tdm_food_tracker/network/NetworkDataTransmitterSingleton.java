@@ -13,7 +13,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.tdm_food_tracker.utils.JsonHandlerSingleton;
+import com.example.tdm_food_tracker.utils.JsonHandler;
 import com.example.tdm_food_tracker.constants.AppInfoConstants;
 import com.example.tdm_food_tracker.utils.RequestMethod;
 
@@ -30,13 +30,11 @@ public class NetworkDataTransmitterSingleton {
     private RequestQueue queue;
     private final Context queueContext;
     private final ImageLoader imageLoader;
-    private JsonHandlerSingleton jsonHandler;
 
 
     private NetworkDataTransmitterSingleton(Context context) {
         queueContext = context;
         queue = getRequestQueue();
-        jsonHandler = JsonHandlerSingleton.getInstance(context);
 
         imageLoader = new ImageLoader(queue,
                 new ImageLoader.ImageCache() {
@@ -90,7 +88,7 @@ public class NetworkDataTransmitterSingleton {
                     Log.d(TAG, "onResponse: " + response.toString(1));
                     if(response.getString("status_verbose").equals("product found")){
                         if(jsonReq.getRequestMethod() == RequestMethod.BARCODE){
-                            jsonHandler.parseJsonObjectToProduct(response);
+                            JsonHandler.parseJsonObjectToProduct(context, response);
                         }
                         else if(jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME){
 
