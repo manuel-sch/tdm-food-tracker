@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void goToInputActivity(View view) {
-        Intent intent = new Intent(this, ProductFormActivity.class);
+        Intent intent = new Intent(this, ProductInputActivity.class);
         startActivity(intent);
     }
 }
