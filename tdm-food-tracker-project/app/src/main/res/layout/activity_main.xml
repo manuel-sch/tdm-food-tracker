@@ -11,26 +11,21 @@
         android:id="@+id/button_goTo_inputActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="144dp"
         android:onClick="goToInputActivity"
         android:text="Gehe zu Inputactivity"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="144dp"
         android:onClick="signIn"
         android:text="sign in"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="button_goTo_inputActivity"/>
+        app:layout_constraintTop_toBottomOf="@+id/button_goTo_inputActivity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

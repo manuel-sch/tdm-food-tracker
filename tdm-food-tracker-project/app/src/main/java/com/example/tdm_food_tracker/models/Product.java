@@ -1,64 +1,57 @@
 package com.example.tdm_food_tracker.models;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity
 public class Product implements Serializable {
-    @PrimaryKey(autoGenerate = true)
-    protected int pId;
 
-    @ColumnInfo(name = "barcode")
     private String barcode = "";
 
-    @ColumnInfo(name = "product_name")
+
     private String productName = "";
 
-    @ColumnInfo(name = "generic_name")
+
     private String genericName = "";
 
-    @ColumnInfo(name = "brand")
+
     private String brand = "";
 
-    @ColumnInfo(name = "imageUrl")
+
     private String imageUrl = "";
 
-    @ColumnInfo(name = "allergens")
+
     private String allergens = "";
 
-    @ColumnInfo(name = "categories")
+
     private String categories = "";
 
-    @ColumnInfo(name = "ingredients")
+
     private String ingredients = "";
 
-    @ColumnInfo(name = "expiry-date")
+
     private Date expiryDate = new Date();
 
-    @ColumnInfo(name = "storage")
+
     private String storage = "Gefrierfach";
 
-    @ColumnInfo(name = "nutrientLevel")
+
     private String nutrientLevel = "";
 
-    @ColumnInfo(name = "novaGroup")
+
     private String novaGroup = "";
 
-    @ColumnInfo(name = "ecoScore")
+
     private String ecoScore = "";
 
-    @ColumnInfo(name = "quantity")
+
     private String quantity = "";
 
-    @ColumnInfo(name = "price")
+
     private double price = 0;
 
-    @ColumnInfo(name = "unit")
+
     private int unit = 0;
 
 
@@ -83,13 +76,6 @@ public class Product implements Serializable {
     }
     */
 
-    public int getpId() {
-        return pId;
-    }
-
-    public void setpId(int pId) {
-        this.pId = pId;
-    }
 
     public String getBarcode() {
         return barcode;
@@ -223,7 +209,6 @@ public class Product implements Serializable {
     @Override
     public String toString() {
         return "ProductEntity{" +
-                "pId=" + pId +
                 ", barcode='" + barcode + '\'' +
                 ", productName='" + productName + '\'' +
                 ", genericName='" + genericName + '\'' +

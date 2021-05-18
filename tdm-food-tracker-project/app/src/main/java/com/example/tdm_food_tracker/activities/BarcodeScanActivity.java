@@ -140,7 +140,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
                             String barcodeSearchUrl = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
                             String combinedUrl = barcodeSearchUrl + barcodeData + ".json";
                             JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE, null);
-                            //dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq ;
+                            dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, BarcodeScanActivity.this);
 
                         }
                     });

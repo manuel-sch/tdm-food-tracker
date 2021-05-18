@@ -33,7 +33,7 @@ public class NetworkDataTransmitterSingleton {
 
 
     private NetworkDataTransmitterSingleton(Context context) {
-        queueContext = context;
+        queueContext = context.getApplicationContext();
         queue = getRequestQueue();
 
         imageLoader = new ImageLoader(queue,
@@ -58,22 +58,7 @@ public class NetworkDataTransmitterSingleton {
             queue.cancelAll(context.getClass().getSimpleName());
     }
 
-    public void requestStringResponseForUrlWithContext(String url, Context context) {
-        final String tag = context.getClass().getSimpleName();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d(tag, "onResponse: " + response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(tag, "onErrorResponse: " + error.getMessage());
-            }
-        });
-        stringRequest.setTag(tag);
-        queue.add(stringRequest);
-    }
+
 
     public void requestJsonObjectResponseForJsonRequestWithContext(JsonRequest jsonReq, Context context) {
         final String TAG = context.getClass().getSimpleName();
@@ -132,6 +117,23 @@ public class NetworkDataTransmitterSingleton {
 
         jsonObjectRequest.setTag(TAG);
         queue.add(jsonObjectRequest);
+    }
+
+    public void requestStringResponseForUrlWithContext(String url, Context context) {
+        final String tag = context.getClass().getSimpleName();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(tag, "onResponse: " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(tag, "onErrorResponse: " + error.getMessage());
+            }
+        });
+        stringRequest.setTag(tag);
+        queue.add(stringRequest);
     }
 
     public static NetworkDataTransmitterSingleton getInstance(Context queueContext) {
