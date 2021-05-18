@@ -77,95 +77,145 @@ public class JsonHandler {
         return product;
     }
 
-    public  static String getQuantityFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
-        String quantity = jsonObject.getString("product_quantity");
+    public  static double getQuantityFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
+        double quantity = 0;
+        if(jsonObject.has("product_quantity"))
+            quantity = Double.parseDouble(jsonObject.getString("product_quantity"));
         Log.d(TAG, "getQuantityFromResponseJsonObject: quantity " + quantity);
         return quantity;
     }
 
     public  static String getNutriScoreFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
-        String nutriScore = jsonObject.getString("nutriscore_grade");
-        Log.d(TAG, "getNutriScoreFromResponseJsonObject: nutriScore " + nutriScore);
+        String nutriScore = "";
+        if(jsonObject.has("nutriscore_grade")){
+            nutriScore = jsonObject.getString("nutriscore_grade");
+            Log.d(TAG, "getNutriScoreFromResponseJsonObject: nutriScore " + nutriScore);
+        }
+
         return nutriScore;
     }
 
     public  static String getNovaGroupFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         JSONObject nutriments = jsonObject.getJSONObject("nutriments");
-        String novaGroup = nutriments.getString("nova-group");
-        Log.d(TAG, "getNovaGroupFromResponseJsonObject: novaGroup " + novaGroup);
+        String novaGroup = "";
+        if(nutriments.has("nova-group")){
+            novaGroup = nutriments.getString("nova-group");
+            Log.d(TAG, "getNovaGroupFromResponseJsonObject: novaGroup " + novaGroup);
+        }
+
         return novaGroup;
     }
 
     public  static String getIngredientsFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
-        String ingredients = jsonObject.getString("ingredients_text_de");
-        Log.d(TAG, "getIngredientsFromResponseJsonObject: ingredients: " + ingredients);
+        String ingredients = "";
+        if(jsonObject.has("ingredients_text_de")){
+            ingredients = jsonObject.getString("ingredients_text_de");
+            Log.d(TAG, "getIngredientsFromResponseJsonObject: ingredients: " + ingredients);
+        }
+
         return ingredients;
     }
 
     public  static String getEcoscoreFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         JSONObject ecoscore_data = jsonObject.getJSONObject("ecoscore_data");
-        String ecoscore = ecoscore_data.getString("grade");
-        Log.d(TAG, "getEcoscoreFromResponseJsonObject: " + ecoscore);
+        String ecoscore = "";
+        if(ecoscore_data.has("grade")){
+            ecoscore = ecoscore_data.getString("grade");
+            Log.d(TAG, "getEcoscoreFromResponseJsonObject: " + ecoscore);
+        }
+
+
         return ecoscore;
     }
 
     public  static String getCategoriesFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
-        JSONArray jsonCategories = jsonObject.getJSONArray("categories_hierarchy");
         StringBuilder categories = new StringBuilder();
-        for (int i = 0; i < jsonCategories.length(); i++) {
-            categories.append(jsonCategories.get(i).toString().substring(3));
-            if (jsonCategories.get(i) != null)
-                categories.append(",");
+        if(jsonObject.has("categories_hierarchy")){
+            JSONArray jsonCategories = jsonObject.getJSONArray("categories_hierarchy");
+            for (int i = 0; i < jsonCategories.length(); i++) {
+                categories.append(jsonCategories.get(i).toString().substring(3));
+                if (jsonCategories.get(i) != null)
+                    categories.append(",");
+            }
+            Log.d(TAG, "getCategoriesFromResponseJsonObject: allergen: " + categories);
         }
-        Log.d(TAG, "getCategoriesFromResponseJsonObject: allergen: " + categories);
+
         return categories.toString();
     }
 
     public  static String getAllergensFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
-        JSONArray jsonAllergens = jsonObject.getJSONArray("allergens_hierarchy");
         StringBuilder allergens = new StringBuilder();
-        for (int i = 0; i < jsonAllergens.length(); i++) {
-            allergens.append(jsonAllergens.get(i).toString().substring(3));
-            if (jsonAllergens.get(i) != null)
-                allergens.append(",");
+        if(jsonObject.has("allergens_hierarchy")){
+            JSONArray jsonAllergens = jsonObject.getJSONArray("allergens_hierarchy");
+            for (int i = 0; i < jsonAllergens.length(); i++) {
+                allergens.append(jsonAllergens.get(i).toString().substring(3));
+                if (jsonAllergens.get(i) != null)
+                    allergens.append(",");
+            }
+            Log.d(TAG, "getAllergensFromResponseJsonObject: allergen: " + allergens);
         }
-        Log.d(TAG, "getAllergensFromResponseJsonObject: allergen: " + allergens);
+
         return allergens.toString();
     }
 
     public  static String getImageUrlFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
-        String image_url = jsonObject.getString("image_url");
-        Log.d(TAG, "getImageUrlFromResponseJsonObject: " + image_url);
+        String image_url = "";
+        if (jsonObject.has("image_url")){
+            image_url = jsonObject.getString("image_url");
+            Log.d(TAG, "getImageUrlFromResponseJsonObject: " + image_url);
+        }
+
         return image_url;
     }
 
     public  static String getBrandFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
-        String brand = jsonObject.getString("brands");
-        Log.d(TAG, "getBrandFromResponseJsonObject: " + brand);
+        String brand = "";
+        if(jsonObject.has("brands")){
+            brand = jsonObject.getString("brands");
+            Log.d(TAG, "getBrandFromResponseJsonObject: " + brand);
+        }
+
         return brand;
     }
 
-    public  static String getGenericNameFromProductJsonObject(JSONObject jsonObject) throws JSONException {
-        String generic_name;
-        if (!jsonObject.getString("generic_name_de").isEmpty())
-            generic_name = jsonObject.getString("generic_name_de");
-        else if (!jsonObject.getString("generic_name_en").isEmpty())
-            generic_name = jsonObject.getString("generic_name_en");
-        else
-            generic_name = jsonObject.getString("generic_name");
+    public static String getGenericNameFromProductJsonObject(JSONObject jsonObject) throws JSONException {
+        String generic_name = "";
+        if(jsonObject.has("generic_name_de")){
+            if (!jsonObject.getString("generic_name_de").isEmpty())
+                generic_name = jsonObject.getString("generic_name_de");
+        }
+        else if(jsonObject.has("generic_name_en")){
+            if (!jsonObject.getString("generic_name_en").isEmpty())
+                generic_name = jsonObject.getString("generic_name_en");
+        }
+        else if (jsonObject.has("generic_name_en")){
+            if (!jsonObject.getString("generic_name_en").isEmpty())
+                generic_name = jsonObject.getString("generic_name_en");
+        }
+        else if (jsonObject.has("generic_name")){
+            if (!jsonObject.getString("generic_name").isEmpty())
+                generic_name = jsonObject.getString("generic_name");
+        }
+
         Log.d(TAG, "getGenericNameFromProductJsonObject: " + generic_name);
         return generic_name;
     }
 
     public  static String getProductNameFromProductJsonObject(JSONObject jsonObject) throws JSONException {
-        String product_name = jsonObject.getString("product_name");
+        String product_name = "";
+        if (jsonObject.has("product_name"))
+            product_name = jsonObject.getString("product_name");
         Log.d(TAG, "getProductNameFromProductJsonObject: " + product_name);
         return product_name;
     }
 
     public  static String getBarcodeFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
-        String barcode = jsonObject.getString("code");
-        Log.d(TAG, "getBarcodeFromResponseJsonObject: " + barcode);
+        String barcode = "";
+        if(jsonObject.has("code")){
+            barcode = jsonObject.getString("code");
+            Log.d(TAG, "getBarcodeFromResponseJsonObject: " + barcode);
+        }
+
         return barcode;
     }
 

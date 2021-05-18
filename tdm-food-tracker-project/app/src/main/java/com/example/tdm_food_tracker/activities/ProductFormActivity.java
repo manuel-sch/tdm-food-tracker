@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -17,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tdm_food_tracker.R;
-import com.example.tdm_food_tracker.constants.AppInfoConstants;
 import com.example.tdm_food_tracker.databinding.ActivityProductFormBinding;
 import com.example.tdm_food_tracker.models.Product;
 import com.example.tdm_food_tracker.viewmodels.ProductViewModel;
@@ -26,15 +26,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class ProductFormActivity extends AppCompatActivity {
 
-    public static final String EXTRA_REPLY = AppInfoConstants.getAppPackageName() + ".REPLY";
-
+    private static final String TAG = ProductFormActivity.class.getSimpleName();
+    private String EXTRA_REPLY;
+    private final Calendar myCalendar = Calendar.getInstance();
+    private ProductViewModel productViewModel;
     private ActivityProductFormBinding activityBinding;
-    ProductViewModel productViewModel;
-
     private EditText productNameEditText;
     private EditText productQuanityEditText;
     private EditText productIngredientEditText;
@@ -42,8 +43,7 @@ public class ProductFormActivity extends AppCompatActivity {
     private EditText productUnitEditText;
     private EditText productDateEditText;
     private Spinner productStorageSpinner;
-
-    private DatePickerDialog datePickerDialog;
+    private DatePickerDialog.OnDateSetListener datePickerDialog;
 
     private ArrayAdapter<CharSequence> adapter;
 
@@ -53,12 +53,14 @@ public class ProductFormActivity extends AppCompatActivity {
         activityBinding = ActivityProductFormBinding.inflate(getLayoutInflater());
         View viewRoot = activityBinding.getRoot();
         setContentView(viewRoot);
+        EXTRA_REPLY = this.getApplicationContext() + ".REPLY";
+        Log.d(TAG, "onCreate: " + "Test");
         initializeViews();
         setUpViews();
         setUpViewObserving();
     }
 
-    void initializeViews(){
+    void initializeViews() {
         productNameEditText = activityBinding.productName;
         productQuanityEditText = activityBinding.productQuantity;
         productIngredientEditText = activityBinding.productIngredient;
@@ -68,16 +70,17 @@ public class ProductFormActivity extends AppCompatActivity {
         productStorageSpinner = activityBinding.spinnerStorage;
     }
 
-    void setUpViews(){
+    void setUpViews() {
         setUpStorageSpinner();
         setUpDatePicker();
     }
 
-    void setUpViewObserving(){
+
+    void setUpViewObserving() {
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         productViewModel.getProduct().observe(this, product -> {
             productNameEditText.setText(product.getProductName());
-            productQuanityEditText.setText(product.getQuantity());
+            productQuanityEditText.setText(String.valueOf(product.getQuantity()));
             productIngredientEditText.setText(product.getIngredients());
             productPriceEditText.setText((int) product.getPrice());
             productUnitEditText.setText(product.getUnit());
@@ -86,7 +89,7 @@ public class ProductFormActivity extends AppCompatActivity {
         });
     }
 
-    void setUpStorageSpinner(){
+    void setUpStorageSpinner() {
         // Create an ArrayAdapter using the string array and a default spinner layout
         adapter = ArrayAdapter.createFromResource(this,
                 R.array.product_storage, android.R.layout.simple_spinner_item);
@@ -96,29 +99,56 @@ public class ProductFormActivity extends AppCompatActivity {
         productStorageSpinner.setAdapter(adapter);
     }
 
-    void setUpDatePicker(){
+
+
+    void setUpDatePicker() {
         productDateEditText.setInputType(InputType.TYPE_NULL);
+        datePickerDialog = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                setProductDateEditTextFromCurrentCalendar();
+            }
+        };
         productDateEditText.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                datePickerDialog = new DatePickerDialog(ProductFormActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        productDateEditText.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-                    }
-                }, year, month, day);
+                // TODO Auto-generated method stub
+                new DatePickerDialog(ProductFormActivity.this, datePickerDialog, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+    }
+
+    private void setProductDateEditTextFromCurrentCalendar() {
+        String myFormat = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.GERMANY);
+        productDateEditText.setText(sdf.format(myCalendar.getTime()));
+    }
+
+
+    Date buildDateFromEditText() {
+        String dayMonthYear = productDateEditText.getText().toString();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            return format.parse(dayMonthYear);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
     public void saveForm(View v) {
         Intent replyIntent = new Intent();
-        Product newProduct = setUpProductEntityAndGetIt();
+        Product newProduct = buildAndGetProduct();
 
         if (TextUtils.isEmpty(productNameEditText.getText())) {
             setResult(RESULT_CANCELED, replyIntent);
@@ -130,33 +160,23 @@ public class ProductFormActivity extends AppCompatActivity {
 
     }
 
-    Product setUpProductEntityAndGetIt(){
+    Product buildAndGetProduct() {
 
         Product newProduct = new Product();
 
         newProduct.setProductName(productNameEditText.getText().toString());
-        newProduct.setQuantity(productQuanityEditText.getText().toString());
+        newProduct.setQuantity(Double.parseDouble(productQuanityEditText.getText().toString()));
         newProduct.setIngredients(productIngredientEditText.getText().toString());
         newProduct.setPrice(Double.parseDouble(productPriceEditText.getText().toString()));
         newProduct.setUnit(Integer.parseInt(productUnitEditText.getText().toString()));
         newProduct.setStorage(productStorageSpinner.getItemAtPosition(productStorageSpinner.getSelectedItemPosition()).toString());
         newProduct.setExpiryDate(buildDateFromEditText());
 
+        Log.d(TAG, "setUpProductEntityAndGetIt: " + newProduct.toString());
+
 
         return newProduct;
     }
-
-    Date buildDateFromEditText(){
-        String dayMonthYear = productDateEditText.getText().toString();
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            return format.parse(dayMonthYear);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 
     private void showToastMessage(String message) {
         Context context = getApplicationContext();

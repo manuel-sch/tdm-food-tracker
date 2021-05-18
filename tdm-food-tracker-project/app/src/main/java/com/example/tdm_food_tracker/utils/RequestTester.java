@@ -3,10 +3,9 @@ package com.example.tdm_food_tracker.utils;
 import android.content.Context;
 
 import com.android.volley.Request;
+import com.example.tdm_food_tracker.constants.UrlRequestConstants;
 import com.example.tdm_food_tracker.network.JsonRequest;
 import com.example.tdm_food_tracker.network.NetworkDataTransmitterSingleton;
-import com.example.tdm_food_tracker.constants.AppInfoConstants;
-import com.example.tdm_food_tracker.constants.UrlRequestConstants;
 
 public class RequestTester {
 
@@ -15,7 +14,7 @@ public class RequestTester {
 
     public RequestTester(Context context){
         this.context = context;
-        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(AppInfoConstants.getAppContext());
+        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(context.getApplicationContext());
     }
 
     public void testBarcodeSearchQueueOpenFoodFacts(){
@@ -23,7 +22,7 @@ public class RequestTester {
         String testUrl1 = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
         String nutellaBarcode = "3017620422003";
         String combinedUrl = testUrl1 + nutellaBarcode + ".json";
-        JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE, null);
+        JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE_SEARCH, null);
 
         dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, context);
     }

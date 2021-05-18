@@ -10,23 +10,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tdm_food_tracker.R;
-import com.example.tdm_food_tracker.constants.AppInfoConstants;
 import com.example.tdm_food_tracker.models.Product;
-import com.example.tdm_food_tracker.network.NetworkDataTransmitterSingleton;
 import com.example.tdm_food_tracker.viewmodels.ProductListViewModel;
 
 public class ProductInputActivity extends AppCompatActivity {
 
     public static final int NEW_PRODUCT_ACTIVITY_REQUEST_CODE = 1;
+    public String EXTRA_REPLY;
+
     private final String TAG = ProductInputActivity.class.getSimpleName();
-    private NetworkDataTransmitterSingleton dataTransmitter;
     private ProductListViewModel productViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_input);
-        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(AppInfoConstants.getAppContext());
+        EXTRA_REPLY = this.getApplicationContext() + ".REPLY";
         productViewModel = new ViewModelProvider(this).get(ProductListViewModel.class);
     }
 
@@ -46,7 +45,7 @@ public class ProductInputActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case NEW_PRODUCT_ACTIVITY_REQUEST_CODE:
-                    Product newProduct = (Product) data.getSerializableExtra(ProductFormActivity.EXTRA_REPLY);
+                    Product newProduct = (Product) data.getSerializableExtra(EXTRA_REPLY);
                     productViewModel.insert(newProduct);
                     break;
             }

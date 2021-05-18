@@ -46,7 +46,7 @@ public class Product implements Serializable {
     private String ecoScore = "";
 
 
-    private String quantity = "";
+    private double quantity = 0;
 
 
     private double price = 0;
@@ -166,11 +166,11 @@ public class Product implements Serializable {
         this.ecoScore = ecoScore;
     }
 
-    public String getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 
@@ -208,8 +208,8 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "ProductEntity{" +
-                ", barcode='" + barcode + '\'' +
+        return "Product{" +
+                "barcode='" + barcode + '\'' +
                 ", productName='" + productName + '\'' +
                 ", genericName='" + genericName + '\'' +
                 ", brand='" + brand + '\'' +
@@ -222,7 +222,7 @@ public class Product implements Serializable {
                 ", nutrientLevel='" + nutrientLevel + '\'' +
                 ", novaGroup='" + novaGroup + '\'' +
                 ", ecoScore='" + ecoScore + '\'' +
-                ", quantity='" + quantity + '\'' +
+                ", quantity=" + quantity +
                 ", price=" + price +
                 ", unit=" + unit +
                 '}';

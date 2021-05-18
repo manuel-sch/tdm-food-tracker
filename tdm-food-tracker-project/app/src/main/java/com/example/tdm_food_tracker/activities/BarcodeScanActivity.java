@@ -2,6 +2,7 @@ package com.example.tdm_food_tracker.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.util.SparseArray;
@@ -12,14 +13,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
-import com.example.tdm_food_tracker.constants.AppInfoConstants;
 import com.example.tdm_food_tracker.constants.UrlRequestConstants;
 import com.example.tdm_food_tracker.databinding.ActivityBarcodeScanBinding;
 import com.example.tdm_food_tracker.network.JsonRequest;
 import com.example.tdm_food_tracker.network.NetworkDataTransmitterSingleton;
 import com.example.tdm_food_tracker.utils.RequestMethod;
+import com.example.tdm_food_tracker.viewmodels.BarcodeScanViewModel;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -43,9 +45,9 @@ public class BarcodeScanActivity extends AppCompatActivity {
 
     private NetworkDataTransmitterSingleton dataTransmitter;
 
+    private BarcodeScanViewModel barcodeScanViewModel;
 
     private ActivityBarcodeScanBinding activityBarcodeScanBinding;
-
 
 
     @Override
@@ -55,13 +57,24 @@ public class BarcodeScanActivity extends AppCompatActivity {
         View viewRoot = activityBarcodeScanBinding.getRoot();
         setContentView(viewRoot);
 
-        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(AppInfoConstants.getAppContext());
 
+        toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+
+        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(this.getApplicationContext());
+
+        setUpViewModelObserving();
         initializeViews();
         initialiseDetectorsAndSources();
     }
 
-    private void initializeViews(){
+    private void setUpViewModelObserving() {
+        barcodeScanViewModel = new ViewModelProvider(this).get(BarcodeScanViewModel.class);
+        barcodeScanViewModel.getBarcode().observe(this, barcode -> {
+            barcodeText.setText(barcode);
+        });
+    }
+
+    private void initializeViews() {
         surfaceView = activityBarcodeScanBinding.surfaceView;
         barcodeText = activityBarcodeScanBinding.barcodeText;
     }
@@ -124,23 +137,30 @@ public class BarcodeScanActivity extends AppCompatActivity {
 
                         @Override
                         public void run() {
-
+                            String newBarcodeData;
                             if (barcodes.valueAt(0).email != null) {
                                 barcodeText.removeCallbacks(null);
-                                barcodeData = barcodes.valueAt(0).email.address;
-                                barcodeText.setText(barcodeData);
+                                newBarcodeData = barcodes.valueAt(0).email.address;
+                                //barcodeData = barcodes.valueAt(0).email.address;
+                                //barcodeText.setText(barcodeData);
+                                barcodeScanViewModel.setBarcode(barcodeData);
                                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
 
                             } else {
-                                barcodeData = barcodes.valueAt(0).displayValue;
-                                barcodeText.setText(barcodeData);
+                                newBarcodeData = barcodes.valueAt(0).displayValue;
+                                //barcodeData = barcodes.valueAt(0).displayValue;
+                                //barcodeText.setText(barcodeData);
+                                barcodeScanViewModel.setBarcode(barcodeData);
                                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
                             }
+                            if(!newBarcodeData.equals(barcodeData)){
+                                String barcodeSearchUrl = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
+                                String combinedUrl = barcodeSearchUrl + newBarcodeData + ".json";
+                                JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE_SEARCH, null);
+                                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, BarcodeScanActivity.this);
+                            }
+                            barcodeData = newBarcodeData;
 
-                            String barcodeSearchUrl = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
-                            String combinedUrl = barcodeSearchUrl + barcodeData + ".json";
-                            JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE, null);
-                            dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, BarcodeScanActivity.this);
 
                         }
                     });
@@ -149,7 +169,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     @Override

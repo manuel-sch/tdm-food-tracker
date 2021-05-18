@@ -1,25 +1,14 @@
 package com.example.tdm_food_tracker.viewmodels;
 
-import android.app.Application;
-
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
-import com.example.tdm_food_tracker.database.ProductRepository;
 import com.example.tdm_food_tracker.models.Product;
 
-public class ProductViewModel extends AndroidViewModel {
-
-
-    private ProductRepository repository;
+public class ProductViewModel extends ViewModel {
 
     private MutableLiveData<Product> product;
-
-    public ProductViewModel(Application application) {
-        super(application);
-        repository = new ProductRepository(application);
-    }
 
     public LiveData<Product> getProduct() {
         if (product == null) {
@@ -28,16 +17,7 @@ public class ProductViewModel extends AndroidViewModel {
         return product;
     }
 
-    public void insert(Product product) {
-        repository.insert(product);
+    public void setProduct(Product product) {
+        this.product.setValue(product);
     }
-
-    public void delete(Product product) {
-        repository.delete(product);
-    }
-
-    public void update(Product product) {
-        repository.update(product);
-    }
-
 }

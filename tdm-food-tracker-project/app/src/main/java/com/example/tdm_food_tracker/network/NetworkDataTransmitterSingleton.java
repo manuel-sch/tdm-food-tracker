@@ -33,9 +33,8 @@ public class NetworkDataTransmitterSingleton {
 
 
     private NetworkDataTransmitterSingleton(Context context) {
-        queueContext = context.getApplicationContext();
+        queueContext = context;
         queue = getRequestQueue();
-
         imageLoader = new ImageLoader(queue,
                 new ImageLoader.ImageCache() {
                     private final LruCache<String, Bitmap>
@@ -72,7 +71,7 @@ public class NetworkDataTransmitterSingleton {
                 try {
                     Log.d(TAG, "onResponse: " + response.toString(1));
                     if(response.getString("status_verbose").equals("product found")){
-                        if(jsonReq.getRequestMethod() == RequestMethod.BARCODE){
+                        if(jsonReq.getRequestMethod() == RequestMethod.BARCODE_SEARCH){
                             JsonHandler.parseJsonObjectToProduct(context, response);
                         }
                         else if(jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME){
