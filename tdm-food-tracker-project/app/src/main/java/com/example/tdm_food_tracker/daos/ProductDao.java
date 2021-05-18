@@ -8,33 +8,40 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.tdm_food_tracker.models.ProductEntity;
+import com.example.tdm_food_tracker.models.Product;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
 public interface ProductDao {
-    @Query("SELECT * FROM productentity")
-    LiveData<List<ProductEntity>> getAll();
+    @Query("SELECT * FROM Product")
+    LiveData<List<Product>> getAll();
 
-    @Query("SELECT * FROM productentity ORDER BY product_name ASC")
-    List<ProductEntity> getAlphabetizedWords();
+    @Query("SELECT * FROM Product WHERE `expiry-date` <= :targetDate")
+    LiveData<List<Product>> findProductsThatExpireBeforeOrEqualToTargetDate(Date targetDate);
 
-    @Query("SELECT * FROM productentity WHERE pId IN (:productIds)")
-    List<ProductEntity> loadAllByIds(int[] productIds);
+    @Query("SELECT * FROM Product ORDER BY product_name ASC")
+    List<Product> getAlphabetizedWords();
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(ProductEntity product);
+    @Query("SELECT * FROM Product WHERE pId IN (:productIds)")
+    List<Product> loadAllByIds(int[] productIds);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertAll(ProductEntity... products);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Product product);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(Product... products);
 
     @Update
-    void update(ProductEntity product);
+    void update(Product product);
+
+    @Update
+    void updateProducts(Product... product);
 
     @Delete
-    void delete(ProductEntity product);
+    void delete(Product product);
 
-    @Query("DELETE FROM productentity")
-    void deleteAll();
+    @Delete
+    void deleteProducts(Product... product);
 }

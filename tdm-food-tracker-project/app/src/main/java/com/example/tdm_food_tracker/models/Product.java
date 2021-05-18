@@ -5,51 +5,64 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+import java.util.Date;
+
 @Entity
-public class ProductEntity {
+public class Product implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    public int pId;
+    protected int pId;
 
     @ColumnInfo(name = "barcode")
-    public String barcode;
+    private String barcode = "";
 
     @ColumnInfo(name = "product_name")
-    @NonNull
-    public String productName;
+    private String productName = "";
 
     @ColumnInfo(name = "generic_name")
-    public String genericName;
+    private String genericName = "";
 
     @ColumnInfo(name = "brand")
-    public String brand;
+    private String brand = "";
 
     @ColumnInfo(name = "imageUrl")
-    public String imageUrl;
+    private String imageUrl = "";
 
     @ColumnInfo(name = "allergens")
-    public String allergens;
+    private String allergens = "";
 
     @ColumnInfo(name = "categories")
-    public String categories;
+    private String categories = "";
 
     @ColumnInfo(name = "ingredients")
-    public String ingredients;
+    private String ingredients = "";
+
+    @ColumnInfo(name = "expiry-date")
+    private Date expiryDate = new Date();
+
+    @ColumnInfo(name = "storage")
+    private String storage = "Gefrierfach";
 
     @ColumnInfo(name = "nutrientLevel")
-    public String nutrientLevel;
+    private String nutrientLevel = "";
 
     @ColumnInfo(name = "novaGroup")
-    public String novaGroup;
+    private String novaGroup = "";
 
     @ColumnInfo(name = "ecoScore")
-    public String ecoScore;
+    private String ecoScore = "";
 
     @ColumnInfo(name = "quantity")
-    public String quantity;
+    private String quantity = "";
 
     @ColumnInfo(name = "price")
-    public double price;
+    private double price = 0;
 
+    @ColumnInfo(name = "unit")
+    private int unit = 0;
+
+
+/*
     public ProductEntity(String barcode, @NonNull String productName, String genericName,
                          String brand, String imageUrl, String allergens, String categories,
                          String ingredients, String nutrientLevel, String novaGroup, String ecoScore,
@@ -68,9 +81,14 @@ public class ProductEntity {
         this.quantity = quantity;
         this.price = price;
     }
+    */
 
     public int getpId() {
         return pId;
+    }
+
+    public void setpId(int pId) {
+        this.pId = pId;
     }
 
     public String getBarcode() {
@@ -178,6 +196,30 @@ public class ProductEntity {
         this.price = price;
     }
 
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public int getUnit() {
+        return unit;
+    }
+
+    public void setUnit(int unit) {
+        this.unit = unit;
+    }
+
+    public String getStorage() {
+        return storage;
+    }
+
+    public void setStorage(String storage) {
+        this.storage = storage;
+    }
+
     @Override
     public String toString() {
         return "ProductEntity{" +
@@ -190,11 +232,14 @@ public class ProductEntity {
                 ", allergens='" + allergens + '\'' +
                 ", categories='" + categories + '\'' +
                 ", ingredients='" + ingredients + '\'' +
+                ", expiryDate=" + expiryDate +
+                ", storage='" + storage + '\'' +
                 ", nutrientLevel='" + nutrientLevel + '\'' +
                 ", novaGroup='" + novaGroup + '\'' +
                 ", ecoScore='" + ecoScore + '\'' +
                 ", quantity='" + quantity + '\'' +
                 ", price=" + price +
+                ", unit=" + unit +
                 '}';
     }
 }

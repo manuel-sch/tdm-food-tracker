@@ -4,32 +4,32 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.tdm_food_tracker.database.ProductRepository;
 import com.example.tdm_food_tracker.models.Product;
 
-public class ProductViewModel extends AndroidViewModel {
+import java.util.List;
+
+public class ProductListViewModel extends AndroidViewModel {
 
 
     private ProductRepository repository;
 
-    private MutableLiveData<Product> product;
+    private final LiveData<List<Product>> products;
 
-    public ProductViewModel(Application application) {
+    public ProductListViewModel(Application application) {
         super(application);
         repository = new ProductRepository(application);
+        products = repository.getAllProducts();
     }
 
-    public LiveData<Product> getProduct() {
-        if (product == null) {
-            product = new MutableLiveData<>();
-        }
-        return product;
+    public LiveData<List<Product>> getAllProducts() {
+        return products;
     }
 
     public void insert(Product product) {
         repository.insert(product);
+
     }
 
     public void delete(Product product) {
@@ -38,6 +38,7 @@ public class ProductViewModel extends AndroidViewModel {
 
     public void update(Product product) {
         repository.update(product);
+
     }
 
 }
