@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "797284219750",
+    "project_id": "tdxm-foodscanner-1620991586696",
+    "storage_bucket": "tdxm-foodscanner-1620991586696.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797284219750:android:0141c27fa7edaf2ecba6a7",
+        "android_client_info": {
+          "package_name": "com.example.tdm_food_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "797284219750-3rgo6o6oqsbla1e26ibcvitjpm7h71us.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXibss-CqzeownFdUNHwwETI_cKsOBLrU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "797284219750-3rgo6o6oqsbla1e26ibcvitjpm7h71us.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

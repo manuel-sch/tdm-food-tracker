@@ -2,6 +2,11 @@ plugins {
     id 'com.android.application'
 }
 
+apply plugin: 'com.android.application'
+
+apply plugin: 'com.google.gms.google-services'
+
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -36,6 +41,18 @@ android {
 
 dependencies {
     def room_version = "2.3.0"
+
+    //Firebase impl
+    implementation platform('com.google.firebase:firebase-bom:28.0.1')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    // Required only if Facebook login support is required
+    // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
+    implementation 'com.facebook.android:facebook-android-sdk'
+    // Required only if Twitter login support is required
+    // Find the latest Twitter SDK releases here: https://goo.gl/E5wZvQ
+    implementation 'com.twitter.sdk.android:twitter-core'
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
