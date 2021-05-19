@@ -3,11 +3,16 @@ package com.example.tdm_food_tracker.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tdm_food_tracker.R;
 import com.example.tdm_food_tracker.constants.AppInfoConstants;
 import com.example.tdm_food_tracker.databinding.ActivityMainBinding;
 import com.example.tdm_food_tracker.utils.RequestTester;
@@ -17,7 +22,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,12 +46,17 @@ public class MainActivity extends AppCompatActivity {
 
     private ProductListViewModel productViewModel;
 
+
+    private FirebaseAuth mAuth;
+    TextView password, email;
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        View viewRoot = activityMainBinding.getRoot();
-        setContentView(viewRoot);
+        setContentView(R.layout.activity_main);
+
         AppInfoConstants utilConstants = new AppInfoConstants(this);
         reqTester = new RequestTester(this);
 
@@ -52,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        //LogIn
+        password = (TextView) findViewById(R.id.signInPasswordInput);
+        email = (TextView) findViewById(R.id.signInEmailInput);
+        progressBar = (ProgressBar) findViewById(R.id.progressBarLogin);
+
+        mAuth = FirebaseAuth.getInstance();
+
+
     }
 
     public void signIn(View view) {
@@ -84,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
-            Intent intent = new Intent(this, SignInActivity.class);
+            Intent intent = new Intent(this, GoogleSignInActivity.class);
             startActivity(intent);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
@@ -97,6 +122,63 @@ public class MainActivity extends AppCompatActivity {
     public void goToInputActivity(View view) {
         Intent intent = new Intent(this, ProductInputActivity.class);
         startActivity(intent);
+    }
+
+    public void goToRegisteringActivity(View view) {
+        Intent intent = new Intent(this, RegisteringActivity.class);
+        startActivity(intent);
+    }
+
+    public void userLogIn(View view) {
+        String userEmail = email.getText().toString().trim();
+        String userPassword = password.getText().toString().trim();
+
+        if(userPassword.isEmpty()){
+            password.setError(""+R.string.field_not_filled_out);
+            password.requestFocus();
+            return;
+        }
+
+        if(userEmail.isEmpty()){
+            email.setError(""+R.string.field_not_filled_out);
+            email.requestFocus();
+            return;
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
+            email.setError(""+R.string.email_pattern_error);
+            email.requestFocus();
+            return;
+        }
+
+        if(password.length() < 6){
+            password.setError(""+R.string.password_to_short);
+            password.requestFocus();
+            return;
+
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+        mAuth.signInWithEmailAndPassword(userEmail,userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                    if(user.isEmailVerified()) {
+
+                        startActivity(new Intent(MainActivity.this, UserMainPage.class));
+                    }else{
+                        user.sendEmailVerification();
+                        Toast.makeText(MainActivity.this,"Check your email to vervy ypur account", Toast.LENGTH_LONG);
+                    }
+
+                }
+                else{
+                    Toast.makeText(MainActivity.this,"Failed to log in. Check your Credits", Toast.LENGTH_LONG);
+                }
+
+            }
+        });
     }
 }
 

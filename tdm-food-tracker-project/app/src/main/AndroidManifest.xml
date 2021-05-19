@@ -26,6 +26,10 @@
         <activity
             android:name=".activities.ProductInputActivity"
             android:exported="true" />
+        <activity
+            android:name=".activities.RegisteringActivity"
+            android:exported="true" />
+
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
@@ -39,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.ProductFormActivity" />
-        <activity android:name=".activities.SignInActivity" />
+        <activity android:name=".activities.GoogleSignInActivity" />
         <activity android:name=".activities.BarcodeScanActivity" />
     </application>
 

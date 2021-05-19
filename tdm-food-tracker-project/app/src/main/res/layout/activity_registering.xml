@@ -2,6 +2,7 @@
 <ScrollView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -11,65 +12,43 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/productPrice"
+            android:id="@+id/userPasswordConfirmInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="productPrice"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textPrice" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/productQuantity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="productQuantity"
-            android:inputType="number"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userPasswordConfirm" />
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/productIngredient"
+            android:id="@+id/userPasswordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="productIngredient"
-            android:inputType="textAutoCorrect|textMultiLine"
-            android:onClick="productIngredientClicked"
+            android:hint="Password"
+            android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userPassword" />
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/productUnit"
+            android:id="@+id/userEmailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="productUnit"
-            android:inputType="numberDecimal"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userEmail" />
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/productName"
+            android:id="@+id/userNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="productName"
-            android:inputType="textAutoCorrect"
+            android:hint="Name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userName" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editText_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Datum eingeben"
-            android:inputType="textAutoCorrect"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_date"/>
 
 
         <TextView
@@ -77,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Titel"
+            android:text="Name"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +66,7 @@
             android:id="@+id/userEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Maßeinheit"
+            android:text="Email"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +76,7 @@
             android:id="@+id/userPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inhaltsstoffe"
+            android:text="Password"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,51 +86,11 @@
             android:id="@+id/userPasswordConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Anzahl"
+            android:text="Confirm Password"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userPasswordInput" />
-
-        <TextView
-            android:id="@+id/textPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Preis"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userPasswordConfirmInput" />
-
-        <TextView
-            android:id="@+id/textView_storage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lagerung"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productPrice" />
-
-        <Spinner
-            android:id="@+id/spinner_storage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_storage">
-
-        </Spinner>
-
-        <TextView
-            android:id="@+id/textView_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Datum"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_storage" />
 
 
         <Button
@@ -162,7 +101,19 @@
             android:text="Save"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_date" />
+            app:layout_constraintTop_toBottomOf="@+id/userPasswordConfirmInput" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
