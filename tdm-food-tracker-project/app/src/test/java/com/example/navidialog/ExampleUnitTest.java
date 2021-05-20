@@ -1,4 +1,4 @@
-package com.example.tdm_food_tracker;
+package com.example.navidialog;
 
 import org.junit.Test;
 
