@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.android.volley.Request;
 import com.example.tdm_food_tracker.constants.UrlRequestConstants;
 import com.example.tdm_food_tracker.databinding.ActivityBarcodeScanBinding;
+import com.example.tdm_food_tracker.models.Product;
 import com.example.tdm_food_tracker.network.JsonRequest;
 import com.example.tdm_food_tracker.network.NetworkDataTransmitterSingleton;
 import com.example.tdm_food_tracker.utils.RequestMethod;
@@ -31,6 +33,9 @@ import java.io.IOException;
 
 public class BarcodeScanActivity extends AppCompatActivity {
 
+    private final String TAG = BarcodeScanActivity.class.getSimpleName();
+
+    private Product observedProduct = new Product();
 
     private static final int REQUEST_CAMERA_PERMISSION = 201;
 
@@ -72,6 +77,14 @@ public class BarcodeScanActivity extends AppCompatActivity {
         barcodeScanViewModel.getBarcode().observe(this, barcode -> {
             barcodeText.setText(barcode);
         });
+        barcodeScanViewModel.getProduct().observe(this, product -> {
+            Log.d(TAG, "setUpViewModelObserving: " + product);
+        });
+    }
+
+
+    public void setBarcodeProduct(Product product){
+        barcodeScanViewModel.setProduct(product);
     }
 
     private void initializeViews() {
@@ -168,6 +181,10 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void showBarcodeProductDialog(){
+
     }
 
 

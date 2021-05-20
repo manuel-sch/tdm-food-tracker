@@ -13,8 +13,10 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.tdm_food_tracker.utils.JsonHandler;
+import com.example.tdm_food_tracker.activities.BarcodeScanActivity;
 import com.example.tdm_food_tracker.constants.AppInfoConstants;
+import com.example.tdm_food_tracker.models.Product;
+import com.example.tdm_food_tracker.utils.JsonHandler;
 import com.example.tdm_food_tracker.utils.RequestMethod;
 
 import org.json.JSONException;
@@ -72,8 +74,11 @@ public class NetworkDataTransmitterSingleton {
                     Log.d(TAG, "onResponse: " + response.toString(1));
                     if(response.getString("status_verbose").equals("product found")){
                         if(jsonReq.getRequestMethod() == RequestMethod.BARCODE_SEARCH){
-                            JsonHandler.parseJsonObjectToProduct(context, response);
-                        }
+                            Product newProduct = JsonHandler.parseJsonObjectToProduct(context, response);
+                            BarcodeScanActivity barcodeScanActivity = (BarcodeScanActivity) context;
+                            barcodeScanActivity.setBarcodeProduct(newProduct);
+                            barcodeScanActivity.showBarcodeProductDialog();
+                    }
                         else if(jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME){
 
                         }

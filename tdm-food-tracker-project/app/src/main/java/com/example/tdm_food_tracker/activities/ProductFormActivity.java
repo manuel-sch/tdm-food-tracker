@@ -34,8 +34,10 @@ public class ProductFormActivity extends AppCompatActivity {
     private static final String TAG = ProductFormActivity.class.getSimpleName();
     private String EXTRA_REPLY;
     private final Calendar myCalendar = Calendar.getInstance();
+
     private ProductViewModel productViewModel;
     private ActivityProductFormBinding activityBinding;
+
     private EditText productNameEditText;
     private EditText productQuanityEditText;
     private EditText productIngredientEditText;
