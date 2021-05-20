@@ -19,7 +19,7 @@ public class BarcodeScanViewModel extends ViewModel {
 
     public LiveData<Product> getProduct() {
         if(product == null)
-            product = new MutableLiveData<Product>();
+            product = new MutableLiveData<>();
         return product;
     }
 

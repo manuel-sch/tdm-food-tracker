@@ -77,7 +77,7 @@ public class NetworkDataTransmitterSingleton {
                             Product newProduct = JsonHandler.parseJsonObjectToProduct(context, response);
                             BarcodeScanActivity barcodeScanActivity = (BarcodeScanActivity) context;
                             barcodeScanActivity.setBarcodeProduct(newProduct);
-                            barcodeScanActivity.showBarcodeProductDialog();
+                            barcodeScanActivity.showDialogForProductRequest();
                     }
                         else if(jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME){
 

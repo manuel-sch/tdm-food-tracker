@@ -1,22 +1,34 @@
 package com.example.tdm_food_tracker.activities;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
+import com.example.tdm_food_tracker.R;
 import com.example.tdm_food_tracker.constants.UrlRequestConstants;
 import com.example.tdm_food_tracker.databinding.ActivityBarcodeScanBinding;
 import com.example.tdm_food_tracker.models.Product;
@@ -30,8 +42,11 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
-public class BarcodeScanActivity extends AppCompatActivity {
+public class BarcodeScanActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private final String TAG = BarcodeScanActivity.class.getSimpleName();
 
@@ -40,10 +55,22 @@ public class BarcodeScanActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 201;
 
     private SurfaceView surfaceView;
-    private TextView barcodeText;
+    private Spinner storageSpiner;
 
+    private TextView barcodeText;
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
+
+    private Dialog dialog;
+    private String clickedDialogElement;
+    private EditText boughtDateEditTextOnDialog;
+    private EditText productExpiryDateEditTextInDialog;
+    private TextView productNameOnDialog;
+
+
+    private final Calendar myCalendar = Calendar.getInstance();
+    private DatePickerDialog.OnDateSetListener datePickerDialog;
+
 
     private ToneGenerator toneGen1;
     private String barcodeData;
@@ -68,8 +95,12 @@ public class BarcodeScanActivity extends AppCompatActivity {
         this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(this.getApplicationContext());
 
         setUpViewModelObserving();
+        setUpProductDialog();
         initializeViews();
-        initialiseDetectorsAndSources();
+        initialiseBarcodeDetectorsAndSources();
+        setUpDatePicker(boughtDateEditTextOnDialog);
+        setUpDatePicker(boughtDateEditTextOnDialog);
+
     }
 
     private void setUpViewModelObserving() {
@@ -79,6 +110,10 @@ public class BarcodeScanActivity extends AppCompatActivity {
         });
         barcodeScanViewModel.getProduct().observe(this, product -> {
             Log.d(TAG, "setUpViewModelObserving: " + product);
+            if(dialog.isShowing()){
+
+            }
+
         });
     }
 
@@ -90,9 +125,13 @@ public class BarcodeScanActivity extends AppCompatActivity {
     private void initializeViews() {
         surfaceView = activityBarcodeScanBinding.surfaceView;
         barcodeText = activityBarcodeScanBinding.barcodeText;
+        storageSpiner = (Spinner) dialog.findViewById(R.id.spinner);
+        boughtDateEditTextOnDialog = dialog.findViewById(R.id.editText_boughtDate);
+        productExpiryDateEditTextInDialog = dialog.findViewById(R.id.editText_expiryDate);
+        productNameOnDialog = dialog.findViewById(R.id.textView_productTitle);
     }
 
-    private void initialiseDetectorsAndSources() {
+    private void initialiseBarcodeDetectorsAndSources() {
 
         //Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
 
@@ -183,9 +222,88 @@ public class BarcodeScanActivity extends AppCompatActivity {
         });
     }
 
-    public void showBarcodeProductDialog(){
+    void setUpDatePicker(EditText datePickerEditText) {
+        datePickerEditText.setInputType(InputType.TYPE_NULL);
+        datePickerDialog = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                setProductDateEditTextFromCurrentCalendar(datePickerEditText);
+            }
+        };
+        datePickerEditText.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(BarcodeScanActivity.this, datePickerDialog, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+    }
+
+    private void setProductDateEditTextFromCurrentCalendar(EditText datePickerEditText) {
+        String myFormat = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.GERMANY);
+        datePickerEditText.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    void setUpProductDialog(){
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_product_from_barcode);
+
+
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background));
+        }
+
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.product_storage, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        storageSpiner.setAdapter(adapter);
+        storageSpiner.setOnItemSelectedListener(this);
 
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        clickedDialogElement = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), clickedDialogElement, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        Toast.makeText(this, "gespeichert in " + clickedDialogElement,Toast.LENGTH_SHORT).show();
+        dialog.dismiss();
+
+    }
+
+    public void bestaetigen(View v){
+        Toast.makeText(this, "gespeichert in " + clickedDialogElement,Toast.LENGTH_SHORT).show();
+        dialog.dismiss();
+    }
+
+
+    public void showDialogForProductRequest(){
+        dialog.show();
+    }
+
+    public void closeDialogForProductRequest(){
+        dialog.dismiss();
+    }
+
 
 
     @Override
@@ -199,7 +317,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getSupportActionBar().hide();
-        initialiseDetectorsAndSources();
+        initialiseBarcodeDetectorsAndSources();
     }
 
 }
