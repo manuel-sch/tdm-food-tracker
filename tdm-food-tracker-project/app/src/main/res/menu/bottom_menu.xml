@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Item" />
-    <item android:title="Item" />
-    <item android:title="Item" />
-    <item android:title="Item" />
-    <item android:title="Item" />
+    <item
+        android:id="@+id/calenderFrag"
+        android:title="Calender"
+        android:icon="@drawable/ic_calendar"/>
+    <item
+        android:id="@+id/searchFrag"
+        android:title="Search"
+        android:icon="@drawable/ic_search" />
+
+    <item
+        android:id="@+id/homeFrag"
+        android:title="Home"
+        android:icon="@drawable/ic_home"/>
+    <item
+        android:id="@+id/scanFrag"
+        android:title="Scan"
+        android:icon="@drawable/ic_scanner"/>
+    <item
+        android:id="@+id/settingFrag"
+        android:title="Settings"
+        android:icon="@drawable/ic_settings"/>
 </menu>
