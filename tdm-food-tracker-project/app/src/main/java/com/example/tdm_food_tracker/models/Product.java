@@ -30,6 +30,7 @@ public class Product implements Serializable {
 
     private String ingredients = "";
 
+    private Date boughtDate = new Date();
 
     private Date expiryDate = new Date();
 
@@ -182,6 +183,14 @@ public class Product implements Serializable {
         this.price = price;
     }
 
+    public Date getBoughtDate() {
+        return boughtDate;
+    }
+
+    public void setBoughtDate(Date boughtDate) {
+        this.boughtDate = boughtDate;
+    }
+
     public Date getExpiryDate() {
         return expiryDate;
     }
@@ -217,6 +226,7 @@ public class Product implements Serializable {
                 ", allergens='" + allergens + '\'' +
                 ", categories='" + categories + '\'' +
                 ", ingredients='" + ingredients + '\'' +
+                ", boughtDate=" + boughtDate +
                 ", expiryDate=" + expiryDate +
                 ", storage='" + storage + '\'' +
                 ", nutrientLevel='" + nutrientLevel + '\'' +

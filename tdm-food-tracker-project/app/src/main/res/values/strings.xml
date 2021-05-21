@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">tdm-food-tracker</string>
+    <string name="contentDescription_productImage">Productimage</string>
+    <string name="bought">gekauft:</string>
+    <string name="expires">läuft ab:</string>
+    <string name="hint_enterDate">Datum eingeben</string>
+    <string name="storage">Lagerung:</string>
+    <string name="abort">Abbrechen</string>
+    <string name="confirm">OK</string>
 
     <string-array name="product_storage">
         <item>Getränke</item>

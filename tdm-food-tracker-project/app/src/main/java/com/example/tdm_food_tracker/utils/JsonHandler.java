@@ -81,7 +81,7 @@ public class JsonHandler {
         double quantity = 0;
         if(jsonObject.has("product_quantity"))
             quantity = Double.parseDouble(jsonObject.getString("product_quantity"));
-        Log.d(TAG, "getQuantityFromResponseJsonObject: quantity " + quantity);
+        //Log.d(TAG, "getQuantityFromResponseJsonObject: quantity " + quantity);
         return quantity;
     }
 
@@ -89,7 +89,7 @@ public class JsonHandler {
         String nutriScore = "";
         if(jsonObject.has("nutriscore_grade")){
             nutriScore = jsonObject.getString("nutriscore_grade");
-            Log.d(TAG, "getNutriScoreFromResponseJsonObject: nutriScore " + nutriScore);
+            //Log.d(TAG, "getNutriScoreFromResponseJsonObject: nutriScore " + nutriScore);
         }
 
         return nutriScore;
@@ -100,7 +100,7 @@ public class JsonHandler {
         String novaGroup = "";
         if(nutriments.has("nova-group")){
             novaGroup = nutriments.getString("nova-group");
-            Log.d(TAG, "getNovaGroupFromResponseJsonObject: novaGroup " + novaGroup);
+            //Log.d(TAG, "getNovaGroupFromResponseJsonObject: novaGroup " + novaGroup);
         }
 
         return novaGroup;
@@ -110,7 +110,7 @@ public class JsonHandler {
         String ingredients = "";
         if(jsonObject.has("ingredients_text_de")){
             ingredients = jsonObject.getString("ingredients_text_de");
-            Log.d(TAG, "getIngredientsFromResponseJsonObject: ingredients: " + ingredients);
+            //Log.d(TAG, "getIngredientsFromResponseJsonObject: ingredients: " + ingredients);
         }
 
         return ingredients;
@@ -137,7 +137,7 @@ public class JsonHandler {
                 if (jsonCategories.get(i) != null)
                     categories.append(",");
             }
-            Log.d(TAG, "getCategoriesFromResponseJsonObject: allergen: " + categories);
+           // Log.d(TAG, "getCategoriesFromResponseJsonObject: allergen: " + categories);
         }
 
         return categories.toString();
@@ -152,7 +152,7 @@ public class JsonHandler {
                 if (jsonAllergens.get(i) != null)
                     allergens.append(",");
             }
-            Log.d(TAG, "getAllergensFromResponseJsonObject: allergen: " + allergens);
+            //Log.d(TAG, "getAllergensFromResponseJsonObject: allergen: " + allergens);
         }
 
         return allergens.toString();
@@ -162,7 +162,7 @@ public class JsonHandler {
         String image_url = "";
         if (jsonObject.has("image_url")){
             image_url = jsonObject.getString("image_url");
-            Log.d(TAG, "getImageUrlFromResponseJsonObject: " + image_url);
+            //Log.d(TAG, "getImageUrlFromResponseJsonObject: " + image_url);
         }
 
         return image_url;
@@ -172,7 +172,7 @@ public class JsonHandler {
         String brand = "";
         if(jsonObject.has("brands")){
             brand = jsonObject.getString("brands");
-            Log.d(TAG, "getBrandFromResponseJsonObject: " + brand);
+            //Log.d(TAG, "getBrandFromResponseJsonObject: " + brand);
         }
 
         return brand;
@@ -197,7 +197,7 @@ public class JsonHandler {
                 generic_name = jsonObject.getString("generic_name");
         }
 
-        Log.d(TAG, "getGenericNameFromProductJsonObject: " + generic_name);
+        //Log.d(TAG, "getGenericNameFromProductJsonObject: " + generic_name);
         return generic_name;
     }
 
@@ -205,7 +205,7 @@ public class JsonHandler {
         String product_name = "";
         if (jsonObject.has("product_name"))
             product_name = jsonObject.getString("product_name");
-        Log.d(TAG, "getProductNameFromProductJsonObject: " + product_name);
+        //Log.d(TAG, "getProductNameFromProductJsonObject: " + product_name);
         return product_name;
     }
 
@@ -213,7 +213,7 @@ public class JsonHandler {
         String barcode = "";
         if(jsonObject.has("code")){
             barcode = jsonObject.getString("code");
-            Log.d(TAG, "getBarcodeFromResponseJsonObject: " + barcode);
+            //Log.d(TAG, "getBarcodeFromResponseJsonObject: " + barcode);
         }
 
         return barcode;

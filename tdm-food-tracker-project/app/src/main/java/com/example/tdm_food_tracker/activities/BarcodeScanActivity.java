@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -19,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
+import com.bumptech.glide.Glide;
 import com.example.tdm_food_tracker.R;
 import com.example.tdm_food_tracker.constants.UrlRequestConstants;
 import com.example.tdm_food_tracker.databinding.ActivityBarcodeScanBinding;
@@ -55,7 +56,7 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
     private static final int REQUEST_CAMERA_PERMISSION = 201;
 
     private SurfaceView surfaceView;
-    private Spinner storageSpiner;
+    private Spinner storageSpinerOnDialog;
 
     private TextView barcodeText;
     private BarcodeDetector barcodeDetector;
@@ -63,13 +64,15 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
 
     private Dialog dialog;
     private String clickedDialogElement;
-    private EditText boughtDateEditTextOnDialog;
+    private EditText productBoughtDateEditTextOnDialog;
     private EditText productExpiryDateEditTextInDialog;
     private TextView productNameOnDialog;
+    private ImageView productImageOnDialog;
 
 
     private final Calendar myCalendar = Calendar.getInstance();
-    private DatePickerDialog.OnDateSetListener datePickerDialog;
+    private DatePickerDialog.OnDateSetListener boughtDatePickerDialog;
+    private DatePickerDialog.OnDateSetListener expiryDatePickerDialog;
 
 
     private ToneGenerator toneGen1;
@@ -98,8 +101,8 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
         setUpProductDialog();
         initializeViews();
         initialiseBarcodeDetectorsAndSources();
-        setUpDatePicker(boughtDateEditTextOnDialog);
-        setUpDatePicker(boughtDateEditTextOnDialog);
+        setUpDatePicker(productBoughtDateEditTextOnDialog, boughtDatePickerDialog);
+        setUpDatePicker(productExpiryDateEditTextInDialog, expiryDatePickerDialog);
 
     }
 
@@ -111,7 +114,8 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
         barcodeScanViewModel.getProduct().observe(this, product -> {
             Log.d(TAG, "setUpViewModelObserving: " + product);
             if(dialog.isShowing()){
-
+                productNameOnDialog.setText(product.getProductName());
+                Glide.with(this).load(product.getImageUrl()).centerCrop().placeholder(R.drawable.product_placeholder).into(productImageOnDialog);
             }
 
         });
@@ -125,10 +129,6 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
     private void initializeViews() {
         surfaceView = activityBarcodeScanBinding.surfaceView;
         barcodeText = activityBarcodeScanBinding.barcodeText;
-        storageSpiner = (Spinner) dialog.findViewById(R.id.spinner);
-        boughtDateEditTextOnDialog = dialog.findViewById(R.id.editText_boughtDate);
-        productExpiryDateEditTextInDialog = dialog.findViewById(R.id.editText_expiryDate);
-        productNameOnDialog = dialog.findViewById(R.id.textView_productTitle);
     }
 
     private void initialiseBarcodeDetectorsAndSources() {
@@ -222,7 +222,7 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
         });
     }
 
-    void setUpDatePicker(EditText datePickerEditText) {
+    void setUpDatePicker(EditText datePickerEditText, DatePickerDialog.OnDateSetListener datePickerDialog) {
         datePickerEditText.setInputType(InputType.TYPE_NULL);
         datePickerDialog = new DatePickerDialog.OnDateSetListener() {
 
@@ -236,12 +236,13 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
                 setProductDateEditTextFromCurrentCalendar(datePickerEditText);
             }
         };
+        DatePickerDialog.OnDateSetListener finalDatePickerDialog = datePickerDialog;
         datePickerEditText.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(BarcodeScanActivity.this, datePickerDialog, myCalendar
+                new DatePickerDialog(BarcodeScanActivity.this, finalDatePickerDialog, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -254,25 +255,35 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
         datePickerEditText.setText(sdf.format(myCalendar.getTime()));
     }
 
+    void initializeViewsOnDialog(){
+        storageSpinerOnDialog = dialog.findViewById(R.id.spinner);
+        productBoughtDateEditTextOnDialog = dialog.findViewById(R.id.editText_boughtDate);
+        productExpiryDateEditTextInDialog = dialog.findViewById(R.id.editText_expiryDate);
+        productNameOnDialog = dialog.findViewById(R.id.textView_productTitle);
+        productImageOnDialog = dialog.findViewById(R.id.imageView_product);
+    }
+
     void setUpProductDialog(){
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_product_from_barcode);
 
+        initializeViewsOnDialog();
 
-
+        /*
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background));
         }
+         */
 
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(false);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        //dialog.setCancelable(false);
         dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
 
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.product_storage, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        storageSpiner.setAdapter(adapter);
-        storageSpiner.setOnItemSelectedListener(this);
+        storageSpinerOnDialog.setAdapter(adapter);
+        storageSpinerOnDialog.setOnItemSelectedListener(this);
 
     }
 
@@ -300,7 +311,7 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
         dialog.show();
     }
 
-    public void closeDialogForProductRequest(){
+    public void closeDialogForProductRequest(View v){
         dialog.dismiss();
     }
 
