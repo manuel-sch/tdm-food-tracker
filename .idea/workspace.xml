@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="142fc164-b503-4338-954e-d9955193d16e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/tdm-food-tracker-project/app/src/main/java/com/example/tdm_food_tracker/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/tdm-food-tracker-project/app/src/main/java/com/example/tdm_food_tracker/MainActivity.java" afterDir="false" />
@@ -27,6 +30,7 @@
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="configurable.group.build" />
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="142fc164-b503-4338-954e-d9955193d16e" name="Default Changelist" comment="" />
