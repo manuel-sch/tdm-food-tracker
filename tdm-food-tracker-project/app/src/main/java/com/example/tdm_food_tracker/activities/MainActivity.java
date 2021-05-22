@@ -169,12 +169,12 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this, UserMainPage.class));
                     }else{
                         user.sendEmailVerification();
-                        Toast.makeText(MainActivity.this,"Check your email to vervy ypur account", Toast.LENGTH_LONG);
+                        Toast.makeText(MainActivity.this,"Check your email to verify your account", Toast.LENGTH_LONG).show();
                     }
 
                 }
                 else{
-                    Toast.makeText(MainActivity.this,"Failed to log in. Check your Credits", Toast.LENGTH_LONG);
+                    Toast.makeText(MainActivity.this,"Failed to log in. Check your Credits", Toast.LENGTH_LONG).show();
                 }
 
             }

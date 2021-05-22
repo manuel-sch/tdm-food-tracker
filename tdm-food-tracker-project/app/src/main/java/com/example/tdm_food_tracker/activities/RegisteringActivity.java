@@ -2,6 +2,7 @@ package com.example.tdm_food_tracker.activities;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -44,10 +45,10 @@ public class RegisteringActivity extends AppCompatActivity {
     }
 
     public void registerUser(View v){
-        String name = userName.toString().trim();
-        String email = userEmail.toString().trim();
-        String password = userPassword.toString().trim();
-        String confirmpassword = userPasswordConfirm.toString().trim();
+        String name = userName.getText().toString().trim();
+        String email = userEmail.getText().toString().trim();
+        String password = userPassword.getText().toString().trim();
+        String confirmpassword = userPasswordConfirm.getText().toString().trim();
 
         if(name.isEmpty()){
             userName.setError(getString(R.string.field_not_filled_out));
@@ -55,11 +56,14 @@ public class RegisteringActivity extends AppCompatActivity {
             return;
         }
 
+
         if(email.isEmpty()){
             userEmail.setError(getString(R.string.field_not_filled_out));
             userEmail.requestFocus();
             return;
         }
+
+
 
         if(password.isEmpty()){
             userPassword.setError(getString(R.string.field_not_filled_out));
@@ -67,18 +71,24 @@ public class RegisteringActivity extends AppCompatActivity {
             return;
         }
 
+
         if(confirmpassword.isEmpty()){
             userPasswordConfirm.setError(getString(R.string.field_not_filled_out));
             userPasswordConfirm.requestFocus();
             return;
         }
-       /* if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+
+
+        /*
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             userEmail.setError(getString(R.string.email_pattern_error));
             userEmail.requestFocus();
             return;
         }
 
-        */
+         */
+
+
 
         if(password.length() < 6){
             userPasswordConfirm.setError(getString(R.string.password_to_short));
@@ -87,7 +97,8 @@ public class RegisteringActivity extends AppCompatActivity {
 
         }
 
-        Log.d("nya", "toast 2: ");
+        Log.d("nya", "toast 2: "+name+password+email+confirmpassword);
+        toToast(name+password+email+confirmpassword);
 
 
         progressBar.setVisibility(View.VISIBLE);
@@ -127,6 +138,11 @@ public class RegisteringActivity extends AppCompatActivity {
                 });
 
 
+    }
+
+    public String toToast(String massage){
+        Toast.makeText(RegisteringActivity.this, massage, Toast.LENGTH_LONG).show();
+        return massage;
     }
 
 }

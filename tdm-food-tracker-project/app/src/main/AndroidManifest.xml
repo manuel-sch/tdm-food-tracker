@@ -45,6 +45,8 @@
         <activity android:name=".activities.ProductFormActivity" />
         <activity android:name=".activities.GoogleSignInActivity" />
         <activity android:name=".activities.BarcodeScanActivity" />
+        <activity android:name=".activities.UserMainPage" />
+
     </application>
 
 </manifest>
