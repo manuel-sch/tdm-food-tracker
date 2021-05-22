@@ -19,28 +19,39 @@
         android:theme="@style/Theme.Tdmfoodtracker">
         <activity
             android:name=".activities.ProductListActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ProductDetailActivity"
-        android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ProductInputActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <activity android:name=".activities.MainActivity">
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ProductFormActivity" />
-        <activity android:name=".activities.SignInActivity" />
-        <activity android:name=".activities.BarcodeScanActivity" />
+        <activity
+            android:name=".activities.ProductFormActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SignInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.BarcodeScanActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

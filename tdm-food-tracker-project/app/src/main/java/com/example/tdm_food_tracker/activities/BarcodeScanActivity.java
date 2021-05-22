@@ -2,7 +2,7 @@ package com.example.tdm_food_tracker.activities;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -10,19 +10,19 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -47,41 +47,41 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class BarcodeScanActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class BarcodeScanActivity extends AppCompatActivity{
 
     private final String TAG = BarcodeScanActivity.class.getSimpleName();
-
-    private Product observedProduct = new Product();
 
     private static final int REQUEST_CAMERA_PERMISSION = 201;
 
     private SurfaceView surfaceView;
-    private Spinner storageSpinerOnDialog;
 
+
+    // Activityviews
+    private ProgressBar progressBar;
     private TextView barcodeText;
+
+    // Barcode
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
+    private ToneGenerator toneGen1;
+    private String barcodeData;
 
-    private Dialog dialog;
-    private String clickedDialogElement;
-    private EditText productBoughtDateEditTextOnDialog;
-    private EditText productExpiryDateEditTextInDialog;
-    private TextView productNameOnDialog;
-    private ImageView productImageOnDialog;
-
-
+    // Datepicker/Calendar
     private final Calendar myCalendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener boughtDatePickerDialog;
     private DatePickerDialog.OnDateSetListener expiryDatePickerDialog;
 
+    // Dialog
+    private AlertDialog productAddDialog;
+    private View productAddDialogView;
+    private ImageView productImageOnDialog;
+    private EditText productBoughtDateEditTextOnDialog;
+    private EditText productExpiryDateEditTextInDialog;
+    private Spinner storageSpinerOnDialog;
 
-    private ToneGenerator toneGen1;
-    private String barcodeData;
-
+    // Utils
     private NetworkDataTransmitterSingleton dataTransmitter;
-
     private BarcodeScanViewModel barcodeScanViewModel;
-
     private ActivityBarcodeScanBinding activityBarcodeScanBinding;
 
 
@@ -92,14 +92,13 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
         View viewRoot = activityBarcodeScanBinding.getRoot();
         setContentView(viewRoot);
 
-
         toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
 
         this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(this.getApplicationContext());
 
         setUpViewModelObserving();
-        setUpProductDialog();
-        initializeViews();
+        setUpProductAddDialog();
+        initializeViewsOfActivity();
         initialiseBarcodeDetectorsAndSources();
         setUpDatePicker(productBoughtDateEditTextOnDialog, boughtDatePickerDialog);
         setUpDatePicker(productExpiryDateEditTextInDialog, expiryDatePickerDialog);
@@ -113,8 +112,8 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
         });
         barcodeScanViewModel.getProduct().observe(this, product -> {
             Log.d(TAG, "setUpViewModelObserving: " + product);
-            if(dialog.isShowing()){
-                productNameOnDialog.setText(product.getProductName());
+            if(productAddDialog.isShowing()){
+                productAddDialog.setTitle(product.getProductName());
                 Glide.with(this).load(product.getImageUrl()).centerCrop().placeholder(R.drawable.product_placeholder).into(productImageOnDialog);
             }
 
@@ -126,7 +125,8 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
         barcodeScanViewModel.setProduct(product);
     }
 
-    private void initializeViews() {
+    private void initializeViewsOfActivity() {
+        progressBar = activityBarcodeScanBinding.progressBar;
         surfaceView = activityBarcodeScanBinding.surfaceView;
         barcodeText = activityBarcodeScanBinding.barcodeText;
     }
@@ -256,66 +256,53 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
     }
 
     void initializeViewsOnDialog(){
-        storageSpinerOnDialog = dialog.findViewById(R.id.spinner);
-        productBoughtDateEditTextOnDialog = dialog.findViewById(R.id.editText_boughtDate);
-        productExpiryDateEditTextInDialog = dialog.findViewById(R.id.editText_expiryDate);
-        productNameOnDialog = dialog.findViewById(R.id.textView_productTitle);
-        productImageOnDialog = dialog.findViewById(R.id.imageView_product);
+        storageSpinerOnDialog = productAddDialogView.findViewById(R.id.spinner);
+        productBoughtDateEditTextOnDialog = productAddDialogView.findViewById(R.id.editText_boughtDate);
+        productExpiryDateEditTextInDialog = productAddDialogView.findViewById(R.id.editText_expiryDate);
+        productImageOnDialog = productAddDialogView.findViewById(R.id.imageView_product);
+
     }
 
-    void setUpProductDialog(){
-        dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_product_from_barcode);
 
+    void setUpProductAddDialog(){
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        productAddDialogView = inflater.inflate(R.layout.new_dialog_product_from_barcode, null);
+
+        builder.setTitle("Produkttitel")
+                .setView(productAddDialogView)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                    }
+                })
+                .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        barcodeData = null;
+                    }
+                });
+        productAddDialog = builder.create();
+        productAddDialog.getWindow().getAttributes().windowAnimations = R.style.animation;
         initializeViewsOnDialog();
-
-        /*
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background));
-        }
-         */
-
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        //dialog.setCancelable(false);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
-
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.product_storage, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         storageSpinerOnDialog.setAdapter(adapter);
-        storageSpinerOnDialog.setOnItemSelectedListener(this);
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        clickedDialogElement = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), clickedDialogElement, Toast.LENGTH_SHORT).show();
 
+    public void showProductAddDialog(){
+        productAddDialog.show();
     }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        Toast.makeText(this, "gespeichert in " + clickedDialogElement,Toast.LENGTH_SHORT).show();
-        dialog.dismiss();
-
+    
+    public void setProgressBarVisibilityWithBool(boolean showProgressbar){
+        if(showProgressbar)
+            progressBar.setVisibility(View.VISIBLE);
+        else
+            progressBar.setVisibility(View.GONE);
     }
-
-    public void bestaetigen(View v){
-        Toast.makeText(this, "gespeichert in " + clickedDialogElement,Toast.LENGTH_SHORT).show();
-        dialog.dismiss();
-    }
-
-
-    public void showDialogForProductRequest(){
-        dialog.show();
-    }
-
-    public void closeDialogForProductRequest(View v){
-        dialog.dismiss();
-    }
-
-
+    
 
     @Override
     protected void onPause() {
@@ -327,7 +314,7 @@ public class BarcodeScanActivity extends AppCompatActivity implements AdapterVie
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportActionBar().hide();
+        getSupportActionBar().show();
         initialiseBarcodeDetectorsAndSources();
     }
 

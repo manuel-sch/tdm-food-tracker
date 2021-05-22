@@ -67,6 +67,8 @@ public class NetworkDataTransmitterSingleton {
             Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getJsonObject().toString());
         if(jsonReq.getUrl() != null)
             Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getUrl());
+        BarcodeScanActivity barcodeScanActivity = (BarcodeScanActivity) context;
+        barcodeScanActivity.setProgressBarVisibilityWithBool(true);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(jsonReq.getHttpMethod(), jsonReq.getUrl(), jsonReq.getJsonObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -75,9 +77,9 @@ public class NetworkDataTransmitterSingleton {
                     if(response.getString("status_verbose").equals("product found")){
                         if(jsonReq.getRequestMethod() == RequestMethod.BARCODE_SEARCH){
                             Product newProduct = JsonHandler.parseJsonObjectToProduct(context, response);
-                            BarcodeScanActivity barcodeScanActivity = (BarcodeScanActivity) context;
+                            barcodeScanActivity.setProgressBarVisibilityWithBool(false);
                             barcodeScanActivity.setBarcodeProduct(newProduct);
-                            barcodeScanActivity.showDialogForProductRequest();
+                            barcodeScanActivity.showProductAddDialog();
                     }
                         else if(jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME){
 
@@ -97,6 +99,7 @@ public class NetworkDataTransmitterSingleton {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "onErrorResponse: " + error.getMessage());
+                barcodeScanActivity.setProgressBarVisibilityWithBool(false);
             }
         }) {
             @Override
