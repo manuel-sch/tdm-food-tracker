@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,9 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.jetbrains.annotations.NotNull;
-
-public class UserMainPage extends AppCompatActivity {
+public class UserMainPageActivity extends AppCompatActivity {
 
     private Button logOutButton;
     private TextView userDisplayName, userDisplayEmail;
@@ -62,7 +59,7 @@ public class UserMainPage extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(UserMainPage.this,"Oh no something went wrong",Toast.LENGTH_LONG).show();
+                Toast.makeText(UserMainPageActivity.this,"Oh no something went wrong",Toast.LENGTH_LONG).show();
 
             }
         });
@@ -73,7 +70,7 @@ public class UserMainPage extends AppCompatActivity {
 
         FirebaseAuth.getInstance().signOut();
 
-        startActivity(new Intent(UserMainPage.this, MainActivity.class));
+        startActivity(new Intent(UserMainPageActivity.this, MainActivity.class));
 
 
     }

@@ -129,6 +129,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void userPasswordForgotButton(View v){
+        Intent intent = new Intent(this, ResetPasswordActivity.class);
+        startActivity(intent);
+
+    }
+
     public void userLogIn(View view) {
         String userEmail = email.getText().toString().trim();
         String userPassword = password.getText().toString().trim();
@@ -166,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if(user.isEmailVerified()) {
 
-                        startActivity(new Intent(MainActivity.this, UserMainPage.class));
+                        startActivity(new Intent(MainActivity.this, UserMainPageActivity.class));
                     }else{
                         user.sendEmailVerification();
                         Toast.makeText(MainActivity.this,"Check your email to verify your account", Toast.LENGTH_LONG).show();

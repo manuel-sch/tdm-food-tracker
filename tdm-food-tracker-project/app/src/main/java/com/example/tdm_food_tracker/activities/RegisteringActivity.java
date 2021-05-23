@@ -123,6 +123,7 @@ public class RegisteringActivity extends AppCompatActivity {
                                         Log.d("nya", "toast: ");
                                         Toast.makeText(RegisteringActivity.this, R.string.user_has_been_registered_successfully, Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.VISIBLE);
+                                        onBackPressed();
                                     } else {
                                         Toast.makeText(RegisteringActivity.this, "Faild to register! Please try again.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.VISIBLE);
