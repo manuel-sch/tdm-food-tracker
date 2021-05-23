@@ -4,8 +4,6 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -41,6 +39,9 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -49,40 +50,41 @@ import java.util.Locale;
 
 public class BarcodeScanActivity extends AppCompatActivity{
 
-    private final String TAG = BarcodeScanActivity.class.getSimpleName();
-
+    // Constants
+    private static final String TAG = BarcodeScanActivity.class.getSimpleName();
     private static final int REQUEST_CAMERA_PERMISSION = 201;
 
-    private SurfaceView surfaceView;
-
-
     // Activityviews
+    private FloatingActionButton productSearchFab, productFormFab;
+    private ExtendedFloatingActionButton productInputFab;
+    private TextView productSearchTextView, productFormTextView;
+    private SurfaceView surfaceView;
     private ProgressBar progressBar;
     private TextView barcodeText;
 
     // Barcode
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
-    private ToneGenerator toneGen1;
     private String barcodeData;
 
     // Datepicker/Calendar
     private final Calendar myCalendar = Calendar.getInstance();
-    private DatePickerDialog.OnDateSetListener boughtDatePickerDialog;
-    private DatePickerDialog.OnDateSetListener expiryDatePickerDialog;
+    private DatePickerDialog.OnDateSetListener boughtDatePickerDialog, expiryDatePickerDialog;
 
     // Dialog
     private AlertDialog productAddDialog;
     private View productAddDialogView;
     private ImageView productImageOnDialog;
-    private EditText productBoughtDateEditTextOnDialog;
-    private EditText productExpiryDateEditTextInDialog;
+    private EditText productBoughtDateEditTextOnDialog, productExpiryDateEditTextInDialog;
     private Spinner storageSpinerOnDialog;
 
     // Utils
     private NetworkDataTransmitterSingleton dataTransmitter;
     private BarcodeScanViewModel barcodeScanViewModel;
     private ActivityBarcodeScanBinding activityBarcodeScanBinding;
+
+    // Other Variables
+    boolean isAllFabsVisible;
 
 
     @Override
@@ -92,17 +94,22 @@ public class BarcodeScanActivity extends AppCompatActivity{
         View viewRoot = activityBarcodeScanBinding.getRoot();
         setContentView(viewRoot);
 
-        toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-
         this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(this.getApplicationContext());
+
 
         setUpViewModelObserving();
         setUpProductAddDialog();
         initializeViewsOfActivity();
+        setUpFloatingActionButtons();
         initialiseBarcodeDetectorsAndSources();
         setUpDatePicker(productBoughtDateEditTextOnDialog, boughtDatePickerDialog);
         setUpDatePicker(productExpiryDateEditTextInDialog, expiryDatePickerDialog);
 
+    }
+
+    private void setUpFloatingActionButtons() {
+        isAllFabsVisible = false;
+        productInputFab.shrink();
     }
 
     private void setUpViewModelObserving() {
@@ -120,12 +127,37 @@ public class BarcodeScanActivity extends AppCompatActivity{
         });
     }
 
+    void setUpProductAddDialog(){
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        productAddDialogView = inflater.inflate(R.layout.new_dialog_product_from_barcode, null);
 
-    public void setBarcodeProduct(Product product){
-        barcodeScanViewModel.setProduct(product);
+        builder.setTitle("Produkttitel")
+                .setView(productAddDialogView)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                    }
+                })
+                .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        barcodeData = null;
+                    }
+                });
+        productAddDialog = builder.create();
+        productAddDialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+        initializeViewsFromDialog();
+        storageSpinerOnDialog.setAdapter(setUpStorageSpinner());
+
     }
 
     private void initializeViewsOfActivity() {
+        productInputFab = activityBarcodeScanBinding.fabProductInput;
+        productFormFab = activityBarcodeScanBinding.fabAddForm;
+        productSearchFab = activityBarcodeScanBinding.fabAddSearch;
+        productFormTextView = activityBarcodeScanBinding.textViewAddForm;
+        productSearchTextView = activityBarcodeScanBinding.textViewAddSearch;
         progressBar = activityBarcodeScanBinding.progressBar;
         surfaceView = activityBarcodeScanBinding.surfaceView;
         barcodeText = activityBarcodeScanBinding.barcodeText;
@@ -196,14 +228,12 @@ public class BarcodeScanActivity extends AppCompatActivity{
                                 //barcodeData = barcodes.valueAt(0).email.address;
                                 //barcodeText.setText(barcodeData);
                                 barcodeScanViewModel.setBarcode(barcodeData);
-                                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
 
                             } else {
                                 newBarcodeData = barcodes.valueAt(0).displayValue;
                                 //barcodeData = barcodes.valueAt(0).displayValue;
                                 //barcodeText.setText(barcodeData);
                                 barcodeScanViewModel.setBarcode(barcodeData);
-                                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
                             }
                             if(!newBarcodeData.equals(barcodeData)){
                                 String barcodeSearchUrl = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
@@ -221,6 +251,7 @@ public class BarcodeScanActivity extends AppCompatActivity{
             }
         });
     }
+
 
     void setUpDatePicker(EditText datePickerEditText, DatePickerDialog.OnDateSetListener datePickerDialog) {
         datePickerEditText.setInputType(InputType.TYPE_NULL);
@@ -255,7 +286,7 @@ public class BarcodeScanActivity extends AppCompatActivity{
         datePickerEditText.setText(sdf.format(myCalendar.getTime()));
     }
 
-    void initializeViewsOnDialog(){
+    void initializeViewsFromDialog(){
         storageSpinerOnDialog = productAddDialogView.findViewById(R.id.spinner);
         productBoughtDateEditTextOnDialog = productAddDialogView.findViewById(R.id.editText_boughtDate);
         productExpiryDateEditTextInDialog = productAddDialogView.findViewById(R.id.editText_expiryDate);
@@ -264,36 +295,22 @@ public class BarcodeScanActivity extends AppCompatActivity{
     }
 
 
-    void setUpProductAddDialog(){
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        productAddDialogView = inflater.inflate(R.layout.new_dialog_product_from_barcode, null);
-
-        builder.setTitle("Produkttitel")
-                .setView(productAddDialogView)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                    }
-                })
-                .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        barcodeData = null;
-                    }
-                });
-        productAddDialog = builder.create();
-        productAddDialog.getWindow().getAttributes().windowAnimations = R.style.animation;
-        initializeViewsOnDialog();
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.product_storage, android.R.layout.simple_spinner_item);
+    ArrayAdapter<CharSequence> setUpStorageSpinner() {
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.product_storage, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        storageSpinerOnDialog.setAdapter(adapter);
-
+        return adapter;
     }
 
 
     public void showProductAddDialog(){
         productAddDialog.show();
+    }
+
+    public void showProductAddErrorSnackbar(){
+        Snackbar.make(findViewById(R.id.coordinatorLayout), "Das Produkt ist leider nicht in der Datenbank.", Snackbar.LENGTH_SHORT).show();
     }
     
     public void setProgressBarVisibilityWithBool(boolean showProgressbar){
@@ -302,7 +319,47 @@ public class BarcodeScanActivity extends AppCompatActivity{
         else
             progressBar.setVisibility(View.GONE);
     }
-    
+
+    public void setBarcodeProduct(Product product){
+        barcodeScanViewModel.setProduct(product);
+    }
+
+
+    public void handleProductInputFab(View view) {
+
+        if (!isAllFabsVisible) {
+
+            productSearchFab.show();
+            productFormFab.show();
+            productSearchTextView.setVisibility(View.VISIBLE);
+            productFormTextView.setVisibility(View.VISIBLE);
+
+            productInputFab.extend();
+
+            isAllFabsVisible = true;
+
+        } else {
+
+            productSearchFab.hide();
+            productFormFab.hide();
+            productSearchTextView.setVisibility(View.GONE);
+            productFormTextView.setVisibility(View.GONE);
+
+            productInputFab.shrink();
+
+            isAllFabsVisible = false;
+        }
+    }
+
+    public void handleProductAddFormFab(View view) {
+    }
+
+    public void handleProductSearchFab(View view) {
+        /*
+        Intent intent = new Intent(this, ProductSearchActivity.class);
+        startActivity(intent);
+        */
+    }
 
     @Override
     protected void onPause() {

@@ -7,6 +7,7 @@
     <string name="storage">Lagerung:</string>
     <string name="abort">Abbrechen</string>
     <string name="confirm">OK</string>
+    <string name="hint_productSearch">Suche nach dem Produkt</string>
 
     <string-array name="product_storage">
         <item>Getränke</item>

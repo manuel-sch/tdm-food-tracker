@@ -5,6 +5,8 @@
       <map>
         <entry key="../../../../Library/Android/sdk/platforms/android-30/data/res/layout/simple_spinner_item.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/drawable/background.xml" value="0.2828125" />
+        <entry key="app/src/main/res/drawable/ic_form.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/drawable/ic_input.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/activity_barcode_scan.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_formular_edit.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3532608695652174" />
@@ -12,10 +14,13 @@
         <entry key="app/src/main/res/layout/activity_product_detail2.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_product_form.xml" value="0.3532608695652174" />
         <entry key="app/src/main/res/layout/activity_product_input.xml" value="0.38958333333333334" />
+        <entry key="app/src/main/res/layout/activity_product_search.xml" value="0.25052083333333336" />
+        <entry key="app/src/main/res/layout/activity_product_searchable.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/dialog_product_from_barcode.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/formular_edit.xml" value="0.3532608695652174" />
         <entry key="app/src/main/res/layout/new_dialog_product_from_barcode.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/xml/searchable.xml" value="0.25052083333333336" />
       </map>
     </option>
   </component>

@@ -29,9 +29,9 @@ import java.util.Map;
 public class NetworkDataTransmitterSingleton {
 
     private static NetworkDataTransmitterSingleton instance = null;
-    private RequestQueue queue;
     private final Context queueContext;
     private final ImageLoader imageLoader;
+    private RequestQueue queue;
 
 
     private NetworkDataTransmitterSingleton(Context context) {
@@ -54,18 +54,22 @@ public class NetworkDataTransmitterSingleton {
                 });
     }
 
+    public static NetworkDataTransmitterSingleton getInstance(Context queueContext) {
+        if (instance == null)
+            instance = new NetworkDataTransmitterSingleton(queueContext);
+        return instance;
+    }
+
     public void cancelAllRequestsForContext(Context context) {
         if (instance != null)
             queue.cancelAll(context.getClass().getSimpleName());
     }
 
-
-
     public void requestJsonObjectResponseForJsonRequestWithContext(JsonRequest jsonReq, Context context) {
         final String TAG = context.getClass().getSimpleName();
         if (jsonReq.getJsonObject() != null)
             Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getJsonObject().toString());
-        if(jsonReq.getUrl() != null)
+        if (jsonReq.getUrl() != null)
             Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getUrl());
         BarcodeScanActivity barcodeScanActivity = (BarcodeScanActivity) context;
         barcodeScanActivity.setProgressBarVisibilityWithBool(true);
@@ -74,23 +78,23 @@ public class NetworkDataTransmitterSingleton {
             public void onResponse(JSONObject response) {
                 try {
                     Log.d(TAG, "onResponse: " + response.toString(1));
-                    if(response.getString("status_verbose").equals("product found")){
-                        if(jsonReq.getRequestMethod() == RequestMethod.BARCODE_SEARCH){
+                    if (response.getString("status_verbose").equals("product found")) {
+                        if (jsonReq.getRequestMethod() == RequestMethod.BARCODE_SEARCH) {
                             Product newProduct = JsonHandler.parseJsonObjectToProduct(context, response);
                             barcodeScanActivity.setProgressBarVisibilityWithBool(false);
                             barcodeScanActivity.setBarcodeProduct(newProduct);
                             barcodeScanActivity.showProductAddDialog();
-                    }
-                        else if(jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME){
+                        } else if (jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME) {
 
-                        }
-                        else{
+                        } else {
                             Log.e(TAG, "onResponse: No Requestmethod!");
                         }
-                    }
-                    else
+                    } else{
                         Log.d(TAG, "onResponse: No Products found!");
-                    
+                        barcodeScanActivity.showProductAddErrorSnackbar();
+                    }
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -107,7 +111,7 @@ public class NetworkDataTransmitterSingleton {
                 Map<String, String> params = new HashMap<>();
                 Log.d(TAG, "getHeaders: " + AppInfoConstants.getAppName() + " " + AppInfoConstants.getAppVersion());
                 // Represents our Requests as Request from our Application for API Server.
-                params.put("User-Agent",  AppInfoConstants.getAppName() + " - Android - " + AppInfoConstants.getAppVersion());
+                params.put("User-Agent", AppInfoConstants.getAppName() + " - Android - " + AppInfoConstants.getAppVersion());
                 //params.put("Authorization",  "Token token=" + UrlRequestConstants.API_KEY_FOODREPO);
                 //headers.put("Authorization", "UrlRequestConstants.API_KEY_FOODREPO");
                 //params.put("Authorization",  "Token");
@@ -141,12 +145,6 @@ public class NetworkDataTransmitterSingleton {
         });
         stringRequest.setTag(tag);
         queue.add(stringRequest);
-    }
-
-    public static NetworkDataTransmitterSingleton getInstance(Context queueContext) {
-        if (instance == null)
-            instance = new NetworkDataTransmitterSingleton(queueContext);
-        return instance;
     }
 
     public RequestQueue getRequestQueue() {
