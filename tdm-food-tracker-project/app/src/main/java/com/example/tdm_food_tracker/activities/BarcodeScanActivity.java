@@ -3,6 +3,7 @@ package com.example.tdm_food_tracker.activities;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.InputType;
@@ -69,9 +70,11 @@ public class BarcodeScanActivity extends AppCompatActivity{
 
     // Datepicker/Calendar
     private final Calendar myCalendar = Calendar.getInstance();
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
     private DatePickerDialog.OnDateSetListener boughtDatePickerDialog, expiryDatePickerDialog;
 
     // Dialog
+    private TextView productTitleTextViewOnDialog;
     private AlertDialog productAddDialog;
     private View productAddDialogView;
     private ImageView productImageOnDialog;
@@ -85,6 +88,7 @@ public class BarcodeScanActivity extends AppCompatActivity{
 
     // Other Variables
     boolean isAllFabsVisible;
+    private Product currentProduct = new Product();
 
 
     @Override
@@ -119,9 +123,15 @@ public class BarcodeScanActivity extends AppCompatActivity{
         });
         barcodeScanViewModel.getProduct().observe(this, product -> {
             Log.d(TAG, "setUpViewModelObserving: " + product);
+            currentProduct = product;
             if(productAddDialog.isShowing()){
-                productAddDialog.setTitle(product.getProductName());
+                productTitleTextViewOnDialog.setText(product.getProductName());
                 Glide.with(this).load(product.getImageUrl()).centerCrop().placeholder(R.drawable.product_placeholder).into(productImageOnDialog);
+                if(!product.getBoughtDate().toString().equals(""))
+                    productBoughtDateEditTextOnDialog.setText(sdf.format(product.getBoughtDate()));
+                if(!product.getExpiryDate().toString().equals(""))
+                    productExpiryDateEditTextInDialog.setText(sdf.format(product.getExpiryDate()));
+
             }
 
         });
@@ -132,10 +142,10 @@ public class BarcodeScanActivity extends AppCompatActivity{
         LayoutInflater inflater = getLayoutInflater();
         productAddDialogView = inflater.inflate(R.layout.new_dialog_product_from_barcode, null);
 
-        builder.setTitle("Produkttitel")
-                .setView(productAddDialogView)
+        builder.setView(productAddDialogView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        barcodeScanViewModel.insertProduct(currentProduct);
                         // User clicked OK button
                     }
                 })
@@ -143,6 +153,8 @@ public class BarcodeScanActivity extends AppCompatActivity{
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
                         barcodeData = null;
+                        barcodeScanViewModel.setBarcode("");
+                        barcodeScanViewModel.setProduct(null);
                     }
                 });
         productAddDialog = builder.create();
@@ -281,12 +293,16 @@ public class BarcodeScanActivity extends AppCompatActivity{
     }
 
     private void setProductDateEditTextFromCurrentCalendar(EditText datePickerEditText) {
-        String myFormat = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.GERMANY);
-        datePickerEditText.setText(sdf.format(myCalendar.getTime()));
+        if(datePickerEditText.getId() == R.id.editText_boughtDate)
+            currentProduct.setBoughtDate(myCalendar.getTime());
+        else if(datePickerEditText.getId() == R.id.editText_expiryDate)
+            currentProduct.setExpiryDate(myCalendar.getTime());
+        barcodeScanViewModel.setProduct(currentProduct);
+        //datePickerEditText.setText(sdf.format(myCalendar.getTime()));
     }
 
     void initializeViewsFromDialog(){
+        productTitleTextViewOnDialog = productAddDialogView.findViewById(R.id.textView_productTitle);
         storageSpinerOnDialog = productAddDialogView.findViewById(R.id.spinner);
         productBoughtDateEditTextOnDialog = productAddDialogView.findViewById(R.id.editText_boughtDate);
         productExpiryDateEditTextInDialog = productAddDialogView.findViewById(R.id.editText_expiryDate);
@@ -352,6 +368,8 @@ public class BarcodeScanActivity extends AppCompatActivity{
     }
 
     public void handleProductAddFormFab(View view) {
+        Intent intent = new Intent(this, ProductFormActivity.class);
+        startActivity(intent);
     }
 
     public void handleProductSearchFab(View view) {

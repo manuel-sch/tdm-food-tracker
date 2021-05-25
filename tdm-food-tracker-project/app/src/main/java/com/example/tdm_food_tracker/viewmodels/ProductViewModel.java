@@ -18,6 +18,10 @@ public class ProductViewModel extends ViewModel {
     }
 
     public void setProduct(Product product) {
-        this.product.setValue(product);
+        this.product.postValue(product);
+    }
+
+    public void insertProduct(Product product){
+
     }
 }

@@ -12,15 +12,14 @@
 
     <TextView
         android:id="@+id/textView_productTitle"
+        style="@style/dialog_product_from_barcode_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
         android:text="Produkttitel"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <ImageView
         android:id="@+id/imageView_product"
@@ -62,7 +61,7 @@
         android:focusable="false"
         android:longClickable="false"
         android:focusableInTouchMode="false"
-        android:hint="@string/hint_enterDate"
+        android:hint="@string/hint_enter_bought_date"
         android:inputType="textAutoCorrect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_productTitle" />
@@ -77,7 +76,7 @@
         android:focusable="false"
         android:longClickable="false"
         android:focusableInTouchMode="false"
-        android:hint="@string/hint_enterDate"
+        android:hint="@string/hint_enter_bought_date"
         android:inputType="textAutoCorrect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_boughtDate" />

@@ -27,11 +27,12 @@ public class BarcodeScanViewModel extends ViewModel {
         this.product.postValue(product);
     }
 
-    public void setBarcode(MutableLiveData<String> barcode) {
-        this.barcode = barcode;
-    }
 
     public void setBarcode(String barcode) {
         this.barcode.postValue(barcode);
+    }
+
+    public void insertProduct(Product product){
+
     }
 }

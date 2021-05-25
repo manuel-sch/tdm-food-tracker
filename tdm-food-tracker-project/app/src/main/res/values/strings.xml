@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">tdm-food-tracker</string>
+    <string name="app_name">Mealstock</string>
     <string name="contentDescription_productImage">Productimage</string>
     <string name="bought">gekauft:</string>
     <string name="expires">läuft ab:</string>
-    <string name="hint_enterDate">Datum eingeben</string>
+    <string name="hint_enter_bought_date">Einkaufsdatum</string>
+    <string name="hint_enter_expiry_date">Ablaufdatum</string>
     <string name="storage">Lagerung:</string>
     <string name="abort">Abbrechen</string>
     <string name="confirm">OK</string>

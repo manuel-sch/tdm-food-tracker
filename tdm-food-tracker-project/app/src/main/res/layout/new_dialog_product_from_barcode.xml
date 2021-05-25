@@ -1,91 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
     android:padding="20dp">
 
+    <TextView
+        android:id="@+id/textView_productTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="10dp"
+        android:text="Produkttitel"
+        style="@style/dialog_product_from_barcode_title"/>
 
     <ImageView
         android:id="@+id/imageView_product"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/contentDescription_productImage"
-        android:paddingEnd="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/textView_productTitle"
+        android:adjustViewBounds="true"
+        android:paddingEnd="20dp"
+        android:contentDescription="@string/contentDescription_productImage"
+         />
 
-    <TextView
-        android:id="@+id/textView_bought"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/bought"
-        app:layout_constraintStart_toEndOf="@id/imageView_product"
-        app:layout_constraintTop_toTopOf="@id/editText_boughtDate"
-        app:layout_constraintBottom_toBottomOf="@id/editText_boughtDate" />
 
-    <TextView
-        android:id="@+id/textView_expires"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/expires"
-        app:layout_constraintTop_toTopOf="@id/editText_expiryDate"
-        app:layout_constraintBottom_toBottomOf="@id/editText_expiryDate"
-        app:layout_constraintStart_toEndOf="@id/imageView_product" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editText_boughtDate"
-        style="@style/TextAppearance.AppCompat"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editText_boughtDate_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:longClickable="false"
-        android:focusableInTouchMode="false"
-        android:hint="@string/hint_enterDate"
-        android:inputType="textAutoCorrect"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/imageView_product"
+        app:layout_constraintTop_toBottomOf="@id/textView_productTitle"
+        android:textColor="?attr/colorPrimaryDark"
+        android:textColorHint="?attr/colorPrimary"
+        android:layout_marginTop="30dp">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editText_expiryDate"
-        style="@style/TextAppearance.AppCompat.Body1"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText_boughtDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="@string/hint_enter_bought_date"
+            android:inputType="textAutoCorrect"
+            android:longClickable="false"
+            android:background="@color/white"
+            android:textSize="16sp"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editText_expiry_date_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:longClickable="false"
-        android:focusableInTouchMode="false"
-        android:hint="@string/hint_enterDate"
-        android:inputType="textAutoCorrect"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_boughtDate" />
+        app:layout_constraintStart_toEndOf="@+id/imageView_product"
+        app:layout_constraintTop_toBottomOf="@id/editText_boughtDate_layout"
+        android:textColor="?attr/colorPrimaryDark"
+        android:textColorHint="?attr/colorPrimary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText_expiryDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="@string/hint_enter_expiry_date"
+            android:inputType="textAutoCorrect"
+            android:longClickable="false"
+            android:background="@color/white"
+            android:textSize="16sp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <TextView
         android:id="@+id/textView_storage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/storage"
         app:layout_constraintStart_toEndOf="@id/imageView_product"
-        app:layout_constraintTop_toBottomOf="@id/textView_expires" />
+        app:layout_constraintTop_toBottomOf="@id/editText_expiry_date_layout"
+        android:text="@string/storage"
+        android:fontFamily="@font/montserrat"
+        style="@style/dialog_product_from_barcode_text"
+        />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:spinnerMode="dialog"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="@+id/editText_expiryDate"
+        app:layout_constraintEnd_toEndOf="@+id/editText_expiry_date_layout"
         app:layout_constraintStart_toEndOf="@id/imageView_product"
-        app:layout_constraintTop_toBottomOf="@id/textView_storage" />
+        app:layout_constraintTop_toBottomOf="@id/textView_storage"
+        android:dropDownWidth="match_parent"
+        android:spinnerMode="dialog"
+        />
 
 
 

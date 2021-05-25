@@ -2,12 +2,11 @@ package com.example.tdm_food_tracker.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -38,6 +37,7 @@ public class ProductFormActivity extends AppCompatActivity {
     private ProductViewModel productViewModel;
     private ActivityProductFormBinding activityBinding;
 
+
     private EditText productNameEditText;
     private EditText productQuanityEditText;
     private EditText productIngredientEditText;
@@ -46,6 +46,8 @@ public class ProductFormActivity extends AppCompatActivity {
     private EditText productDateEditText;
     private Spinner productStorageSpinner;
     private DatePickerDialog.OnDateSetListener datePickerDialog;
+
+    private Product currentProduct = new Product();
 
     private ArrayAdapter<CharSequence> adapter;
 
@@ -81,6 +83,7 @@ public class ProductFormActivity extends AppCompatActivity {
     void setUpViewObserving() {
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         productViewModel.getProduct().observe(this, product -> {
+            currentProduct = product;
             productNameEditText.setText(product.getProductName());
             productQuanityEditText.setText(String.valueOf(product.getQuantity()));
             productIngredientEditText.setText(product.getIngredients());
@@ -99,6 +102,20 @@ public class ProductFormActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         productStorageSpinner.setAdapter(adapter);
+
+        productStorageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                currentProduct.setStorage(productStorageSpinner.getItemAtPosition(position).toString());
+                productViewModel.setProduct(currentProduct);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
     }
 
 
@@ -148,36 +165,9 @@ public class ProductFormActivity extends AppCompatActivity {
     }
 
 
-    public void saveForm(View v) {
-        Intent replyIntent = new Intent();
-        Product newProduct = buildAndGetProduct();
+    public void handleSaveForm(View v) {
+        productViewModel.insertProduct(currentProduct);
 
-        if (TextUtils.isEmpty(productNameEditText.getText())) {
-            setResult(RESULT_CANCELED, replyIntent);
-        } else {
-            replyIntent.putExtra(EXTRA_REPLY, newProduct);
-            setResult(RESULT_OK, replyIntent);
-        }
-        finish();
-
-    }
-
-    Product buildAndGetProduct() {
-
-        Product newProduct = new Product();
-
-        newProduct.setProductName(productNameEditText.getText().toString());
-        newProduct.setQuantity(Double.parseDouble(productQuanityEditText.getText().toString()));
-        newProduct.setIngredients(productIngredientEditText.getText().toString());
-        newProduct.setPrice(Double.parseDouble(productPriceEditText.getText().toString()));
-        newProduct.setUnit(Integer.parseInt(productUnitEditText.getText().toString()));
-        newProduct.setStorage(productStorageSpinner.getItemAtPosition(productStorageSpinner.getSelectedItemPosition()).toString());
-        newProduct.setExpiryDate(buildDateFromEditText());
-
-        Log.d(TAG, "setUpProductEntityAndGetIt: " + newProduct.toString());
-
-
-        return newProduct;
     }
 
     private void showToastMessage(String message) {
