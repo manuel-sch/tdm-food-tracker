@@ -21,10 +21,8 @@ import com.example.tdm_food_tracker.databinding.ActivityProductFormBinding;
 import com.example.tdm_food_tracker.models.Product;
 import com.example.tdm_food_tracker.viewmodels.ProductViewModel;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 
@@ -33,6 +31,7 @@ public class ProductFormActivity extends AppCompatActivity {
     private static final String TAG = ProductFormActivity.class.getSimpleName();
     private String EXTRA_REPLY;
     private final Calendar myCalendar = Calendar.getInstance();
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
 
     private ProductViewModel productViewModel;
     private ActivityProductFormBinding activityBinding;
@@ -43,9 +42,10 @@ public class ProductFormActivity extends AppCompatActivity {
     private EditText productIngredientEditText;
     private EditText productPriceEditText;
     private EditText productUnitEditText;
-    private EditText productDateEditText;
+    private EditText productBoughtDateEditText;
+    private EditText productExpiryDateEditText;
     private Spinner productStorageSpinner;
-    private DatePickerDialog.OnDateSetListener datePickerDialog;
+    private DatePickerDialog.OnDateSetListener boughtDatePickerDialog, expiryDatePickerDialog;
 
     private Product currentProduct = new Product();
 
@@ -65,18 +65,20 @@ public class ProductFormActivity extends AppCompatActivity {
     }
 
     void initializeViews() {
-        productNameEditText = activityBinding.productName;
-        productQuanityEditText = activityBinding.productQuantity;
-        productIngredientEditText = activityBinding.productIngredient;
-        productPriceEditText = activityBinding.productPrice;
-        productUnitEditText = activityBinding.productUnit;
-        productDateEditText = activityBinding.editTextDate;
+        productNameEditText = activityBinding.editTextProductName;
+        productQuanityEditText = activityBinding.editTextProductQuantity;
+        productIngredientEditText = activityBinding.editTextProductIngredients;
+        productPriceEditText = activityBinding.editTextProductPrice;
+        productUnitEditText = activityBinding.editTextProductUnit;
+        productBoughtDateEditText = activityBinding.editTextBoughtDate;
+        productExpiryDateEditText = activityBinding.editTextExpiryDate;
         productStorageSpinner = activityBinding.spinnerStorage;
     }
 
     void setUpViews() {
         setUpStorageSpinner();
-        setUpDatePicker();
+        setUpDatePicker(productBoughtDateEditText, boughtDatePickerDialog);
+        setUpDatePicker(productExpiryDateEditText, expiryDatePickerDialog);
     }
 
 
@@ -84,12 +86,20 @@ public class ProductFormActivity extends AppCompatActivity {
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         productViewModel.getProduct().observe(this, product -> {
             currentProduct = product;
-            productNameEditText.setText(product.getProductName());
-            productQuanityEditText.setText(String.valueOf(product.getQuantity()));
-            productIngredientEditText.setText(product.getIngredients());
-            productPriceEditText.setText((int) product.getPrice());
-            productUnitEditText.setText(product.getUnit());
-            productDateEditText.setText(product.getExpiryDate().toString());
+            if(product.getProductName() != null)
+                productNameEditText.setText(product.getProductName());
+            if(product.getQuantity() != 0)
+                productQuanityEditText.setText(String.valueOf(product.getQuantity()));
+            if(product.getUnit() != 0)
+                productQuanityEditText.setText(String.valueOf(product.getUnit()));
+            if(product.getIngredients() != null)
+                productIngredientEditText.setText(product.getIngredients());
+            if(product.getPrice() != 0)
+                productPriceEditText.setText(String.valueOf(product.getPrice()));
+            if(!product.getBoughtDate().toString().equals(""))
+                productBoughtDateEditText.setText(sdf.format(product.getBoughtDate()));
+            if(!product.getExpiryDate().toString().equals(""))
+                productExpiryDateEditText.setText(sdf.format(product.getExpiryDate()));
             productStorageSpinner.setSelection(adapter.getPosition(product.getStorage()));
         });
     }
@@ -120,8 +130,8 @@ public class ProductFormActivity extends AppCompatActivity {
 
 
 
-    void setUpDatePicker() {
-        productDateEditText.setInputType(InputType.TYPE_NULL);
+    void setUpDatePicker(EditText datePickerEditText, DatePickerDialog.OnDateSetListener datePickerDialog) {
+        datePickerEditText.setInputType(InputType.TYPE_NULL);
         datePickerDialog = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -131,37 +141,29 @@ public class ProductFormActivity extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                setProductDateEditTextFromCurrentCalendar();
+                setProductDateEditTextFromCurrentCalendar(datePickerEditText);
             }
         };
-        productDateEditText.setOnClickListener(new View.OnClickListener() {
+        DatePickerDialog.OnDateSetListener finalDatePickerDialog = datePickerDialog;
+        datePickerEditText.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(ProductFormActivity.this, datePickerDialog, myCalendar
+                new DatePickerDialog(ProductFormActivity.this, finalDatePickerDialog, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
     }
 
-    private void setProductDateEditTextFromCurrentCalendar() {
-        String myFormat = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.GERMANY);
-        productDateEditText.setText(sdf.format(myCalendar.getTime()));
-    }
-
-
-    Date buildDateFromEditText() {
-        String dayMonthYear = productDateEditText.getText().toString();
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            return format.parse(dayMonthYear);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private void setProductDateEditTextFromCurrentCalendar(EditText datePickerEditText) {
+        if(datePickerEditText.getId() == R.id.editText_boughtDate)
+            currentProduct.setBoughtDate(myCalendar.getTime());
+        else if(datePickerEditText.getId() == R.id.editText_expiryDate)
+            currentProduct.setExpiryDate(myCalendar.getTime());
+        productViewModel.setProduct(currentProduct);
+        //datePickerEditText.setText(sdf.format(myCalendar.getTime()));
     }
 
 

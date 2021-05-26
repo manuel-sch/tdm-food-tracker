@@ -1,7 +1,5 @@
 package com.example.tdm_food_tracker.models;
 
-import androidx.annotation.NonNull;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,7 +8,7 @@ public class Product implements Serializable {
     private String barcode = "";
 
 
-    private String productName = "";
+    private String productName;
 
 
     private String genericName = "";
@@ -28,7 +26,7 @@ public class Product implements Serializable {
     private String categories = "";
 
 
-    private String ingredients = "";
+    private String ingredients;
 
     private Date boughtDate = new Date();
 
@@ -50,7 +48,7 @@ public class Product implements Serializable {
     private double quantity = 0;
 
 
-    private double price = 0;
+    private double price;
 
 
     private int unit = 0;
@@ -86,12 +84,12 @@ public class Product implements Serializable {
         this.barcode = barcode;
     }
 
-    @NonNull
+
     public String getProductName() {
         return productName;
     }
 
-    public void setProductName(@NonNull String productName) {
+    public void setProductName( String productName) {
         this.productName = productName;
     }
 

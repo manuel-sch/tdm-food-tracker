@@ -13,9 +13,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:paddingBottom="10dp"
         android:text="Produkttitel"
-        style="@style/dialog_product_from_barcode_title"/>
+        style="@style/title_primary_2"/>
 
     <ImageView
         android:id="@+id/imageView_product"

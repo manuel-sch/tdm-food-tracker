@@ -1,227 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:padding="20dp"
     tools:context=".activities.ProductFormActivity">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView_productTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:paddingBottom="40dp"
-            android:text="Produkttitel"
-            style="@style/dialog_product_from_barcode_title"
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/editText_productName_layout"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_productTitle"
-            android:textColor="?attr/colorPrimaryDark"
-            android:textColorHint="?attr/colorPrimary"
-            android:layout_marginTop="30dp">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_productName"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="productName"
-                android:inputType="textAutoCorrect"
-                android:background="@color/white"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView_productTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/title_product_form"
+                    style="@style/title_primary_1"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editText_productName_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_productTitle"
+                    android:layout_marginTop="30dp"
+                    style="@style/editText_primary_1"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_productName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:hint="@string/hint_product_name"
+                        android:inputType="textAutoCorrect"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editText_productUnit_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_productName_layout"
+                    style="@style/editText_primary_1"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_productUnit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:inputType="numberDecimal"
+                        android:textSize="16sp"
+                        android:hint="@string/hint_product_unit"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editText_productIngredients_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_productPrice_layout"
+                    android:layout_marginTop="30dp"
+                    style="@style/editText_primary_1"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_productIngredients"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:inputType="textAutoCorrect|textMultiLine"
+                        android:textSize="16sp"
+                        android:hint="@string/hint_product_ingredients"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editText_productQuantity_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_productUnit_layout"
+                    style="@style/editText_primary_1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_productQuantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:inputType="number"
+                        android:textSize="16sp"
+                        android:hint="@string/hint_product_quanity"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editText_productPrice_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_productQuantity_layout"
+                    android:layout_marginTop="30dp"
+                    style="@style/editText_primary_1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_productPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:inputType="number"
+                        android:textSize="16sp"
+                        android:hint="@string/hint_product_price"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editText_boughtDate_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editText_productIngredients_layout"
+                    android:layout_marginTop="30dp"
+                    style="@style/editText_primary_1"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_boughtDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:hint="@string/hint_enter_bought_date"
+                        style="@style/editText_picker_1"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editText_expiry_date_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editText_boughtDate_layout"
+                    style="@style/editText_primary_1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_expiryDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:hint="@string/hint_enter_expiry_date"
+                        style="@style/editText_picker_1"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textView_storage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editText_expiry_date_layout"
+                    android:text="@string/storage"
+                    style="@style/dialog_product_from_barcode_text"
+                    />
+
+                <Spinner
+                    android:id="@+id/spinner_storage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_storage">
+
+                </Spinner>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+        </ScrollView>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/productPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="productPrice"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textPrice" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/productQuantity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="productQuantity"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textCount" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/productIngredient"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="productIngredient"
-            android:inputType="textAutoCorrect|textMultiLine"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textIngrdient" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/productUnit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="productUnit"
-            android:inputType="numberDecimal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textUnit" />
-
-
-
-
-        <TextView
-            android:id="@+id/textUnit"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_product_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Maßeinheit"
-            android:textSize="20sp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/bluegreen_dark"
+            app:fabSize="normal"
+            app:tint="@color/white"
+            android:text="Speichern"
+            android:textColor="@color/white"
+            app:srcCompat="@drawable/ic_save"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_productName_layout"
-            android:textColor="?attr/colorPrimaryDark"/>
-
-        <TextView
-            android:id="@+id/textIngrdient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Inhaltsstoffe"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productUnit"
-            android:textColor="?attr/colorPrimaryDark"/>
-
-        <TextView
-            android:id="@+id/textCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Anzahl"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productIngredient"
-            android:textColor="?attr/colorPrimaryDark"/>
-
-        <TextView
-            android:id="@+id/textPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Preis"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productQuantity"
-            android:textColor="?attr/colorPrimaryDark"/>
-
-        <TextView
-            android:id="@+id/textView_storage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lagerung"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productPrice"
-            android:textColor="?attr/colorPrimaryDark"/>
-
-        <Spinner
-            android:id="@+id/spinner_storage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_storage">
-
-        </Spinner>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/editText_boughtDate_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/spinner_storage"
-            android:textColor="?attr/colorPrimaryDark"
-            android:textColorHint="?attr/colorPrimary"
-            android:layout_marginTop="30dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editText_boughtDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/hint_enter_bought_date"
-            android:inputType="textAutoCorrect"
-            android:longClickable="false"
-            android:background="@color/white"
-            android:textSize="16sp"
-            />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/editText_expiry_date_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editText_boughtDate_layout"
-            android:textColor="?attr/colorPrimaryDark"
-            android:textColorHint="?attr/colorPrimary">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_expiryDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:hint="@string/hint_enter_expiry_date"
-                android:inputType="textAutoCorrect"
-                android:longClickable="false"
-                android:background="@color/white"
-                android:textSize="16sp"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <Button
-            android:id="@+id/formSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:contentDescription="TODO"
             android:onClick="handleSaveForm"
-            android:text="Save"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_expiry_date_layout" />
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

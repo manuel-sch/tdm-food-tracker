@@ -158,7 +158,7 @@ public class BarcodeScanActivity extends AppCompatActivity{
                     }
                 });
         productAddDialog = builder.create();
-        productAddDialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+        productAddDialog.getWindow().getAttributes().windowAnimations = R.style.animation_fade_in_fade_out;
         initializeViewsFromDialog();
         storageSpinerOnDialog.setAdapter(setUpStorageSpinner());
 
