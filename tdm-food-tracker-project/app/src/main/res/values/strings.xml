@@ -7,4 +7,18 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="check_deinen_kuehlschrank">Check deinen Kühlschrank!</string>
+
+    <string name="Button_for_gefrierfach_list">Button for gefrierfach-list</string>
+    <string name="Button_for_kuehlfach_list">Button for kuehlfach-list</string>
+    <string name="searchbar">searchbar</string>
+
+    <string-array name="productlist_filter_array">
+        <item>Milchprodukte</item>
+        <item>Fleisch</item>
+        <item>Gemüse</item>
+        <item>Obst</item>
+    </string-array>
+
+
 </resources>

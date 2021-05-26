@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="142fc164-b503-4338-954e-d9955193d16e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/tdm-food-tracker-project/app/src/main/java/com/example/tdm_food_tracker/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/tdm-food-tracker-project/app/src/main/java/com/example/tdm_food_tracker/MainActivity.java" afterDir="false" />
-    </list>
+    <list default="true" id="142fc164-b503-4338-954e-d9955193d16e" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,11 +19,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tdm-food-tracker-project" />
     <property name="project.structure.last.edited" value="SDK Location" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="configurable.group.build" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -36,5 +37,11 @@
       <updated>1620254385905</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="581" y="185" key="FileChooserDialogImpl" timestamp="1621783618685">
+      <screen x="0" y="0" width="1603" height="862" />
+    </state>
+    <state x="581" y="185" key="FileChooserDialogImpl/0.0.1603.862@0.0.1603.862" timestamp="1621783618685" />
   </component>
 </project>

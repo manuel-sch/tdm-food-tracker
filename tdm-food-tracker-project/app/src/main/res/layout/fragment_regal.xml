@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F0"
+    android:background="@color/app_background"
     tools:context=".fragmentRegal">
 
     <!-- TODO: Update blank fragment layout -->
@@ -15,7 +15,7 @@
         android:layout_marginTop="50dp"
         android:fontFamily="sans-serif-black"
         android:text="Check dein Regal!"
-        android:textColor="#5CD6CE"
+        android:textColor="@color/app_maincolor"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

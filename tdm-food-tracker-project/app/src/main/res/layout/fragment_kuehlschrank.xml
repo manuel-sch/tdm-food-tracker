@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F0"
+    android:background="@color/app_background"
     tools:context=".fragmentKuehlschrank">
 
     <TextView
@@ -13,33 +13,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:fontFamily="sans-serif-black"
-        android:text="Check dein Kühlschrank!"
-        android:textColor="#5CD6CE"
+        android:text="@string/check_deinen_kuehlschrank"
+        android:textColor="@color/app_maincolor"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="500dp"
-        android:layout_height="500dp"
-        android:layout_marginBottom="120dp"
+        android:id="@+id/kuehl"
+        android:layout_width="210dp"
+        android:layout_height="260dp"
+        android:layout_marginBottom="164dp"
+        android:contentDescription="@string/Button_for_kuehlfach_list"
         android:src="@drawable/fridge_kuehl"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="500dp"
-        android:layout_height="500dp"
-        android:layout_marginBottom="120dp"
+        android:id="@+id/gefrierfach"
+        android:layout_width="210dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="416dp"
+        android:contentDescription="@string/Button_for_gefrierfach_list"
         android:src="@drawable/fridge_frierfach"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

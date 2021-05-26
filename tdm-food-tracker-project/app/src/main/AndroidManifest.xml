@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.foodtracker">
 
     <application
@@ -17,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ScreenSlidePagerActivity">
-
+        </activity>
+        <activity android:name=".ProductListActivity">
         </activity>
         <meta-data
             android:name="preloaded_fonts"
