@@ -1,4 +1,4 @@
-package com.example.tdm_food_tracker.activities;
+package com.example.tdm_food_tracker.fragments;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,16 +22,21 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
 import com.bumptech.glide.Glide;
 import com.example.tdm_food_tracker.R;
+import com.example.tdm_food_tracker.activities.BarcodeScanActivity;
+import com.example.tdm_food_tracker.activities.ProductFormActivity;
 import com.example.tdm_food_tracker.constants.UrlRequestConstants;
-import com.example.tdm_food_tracker.databinding.ActivityBarcodeScanBinding;
+import com.example.tdm_food_tracker.databinding.FragmentScanBinding;
 import com.example.tdm_food_tracker.models.Product;
 import com.example.tdm_food_tracker.network.JsonRequest;
 import com.example.tdm_food_tracker.network.NetworkDataTransmitterSingleton;
@@ -49,7 +55,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class BarcodeScanActivity extends AppCompatActivity{
+public class ScanFrag extends Fragment implements View.OnClickListener {
 
     // Constants
     private static final String TAG = BarcodeScanActivity.class.getSimpleName();
@@ -84,22 +90,40 @@ public class BarcodeScanActivity extends AppCompatActivity{
     // Utils
     private NetworkDataTransmitterSingleton dataTransmitter;
     private BarcodeScanViewModel barcodeScanViewModel;
-    private ActivityBarcodeScanBinding activityBarcodeScanBinding;
+    private FragmentScanBinding fragmentScanBinding;
 
     // Other Variables
     boolean isAllFabsVisible;
     private Product currentProduct = new Product();
 
+    public ScanFrag() {
+        super(R.layout.fragment_scan);
+    }
 
+    // This event fires 2nd, before views are created for the fragment
+    // The onCreate method is called when the Fragment instance is being created, or re-created.
+    // Use onCreate for any standard setup that does not require the activity to be fully created
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityBarcodeScanBinding = ActivityBarcodeScanBinding.inflate(getLayoutInflater());
-        View viewRoot = activityBarcodeScanBinding.getRoot();
-        setContentView(viewRoot);
+    }
 
-        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(this.getApplicationContext());
+    // The onCreateView method is called when Fragment should create its View object hierarchy,
+    // either dynamically or via XML layout inflation.
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        fragmentScanBinding = FragmentScanBinding.inflate(inflater, container, false);
+        View view = fragmentScanBinding.getRoot();
+        return view;
+    }
 
+    // This event is triggered soon after onCreateView().
+    // onViewCreated() is only called if the view returned from onCreateView() is non-null.
+    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(getActivity().getApplicationContext());
 
         setUpViewModelObserving();
         setUpProductAddDialog();
@@ -109,6 +133,7 @@ public class BarcodeScanActivity extends AppCompatActivity{
         setUpDatePicker(productBoughtDateEditTextOnDialog, boughtDatePickerDialog);
         setUpDatePicker(productExpiryDateEditTextInDialog, expiryDatePickerDialog);
 
+        super.onViewCreated(view, savedInstanceState);
     }
 
     private void setUpFloatingActionButtons() {
@@ -118,10 +143,10 @@ public class BarcodeScanActivity extends AppCompatActivity{
 
     private void setUpViewModelObserving() {
         barcodeScanViewModel = new ViewModelProvider(this).get(BarcodeScanViewModel.class);
-        barcodeScanViewModel.getBarcode().observe(this, barcode -> {
+        barcodeScanViewModel.getBarcode().observe(getActivity(), barcode -> {
             barcodeText.setText(barcode);
         });
-        barcodeScanViewModel.getProduct().observe(this, product -> {
+        barcodeScanViewModel.getProduct().observe(getActivity(), product -> {
             Log.d(TAG, "setUpViewModelObserving: " + product);
             currentProduct = product;
             if(productAddDialog.isShowing()){
@@ -138,7 +163,7 @@ public class BarcodeScanActivity extends AppCompatActivity{
     }
 
     void setUpProductAddDialog(){
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getLayoutInflater();
         productAddDialogView = inflater.inflate(R.layout.dialog_product_from_barcode, null);
 
@@ -165,25 +190,28 @@ public class BarcodeScanActivity extends AppCompatActivity{
     }
 
     private void initializeViewsOfActivity() {
-        productInputFab = activityBarcodeScanBinding.fabProductInput;
-        productFormFab = activityBarcodeScanBinding.fabAddForm;
-        productSearchFab = activityBarcodeScanBinding.fabAddSearch;
-        productFormTextView = activityBarcodeScanBinding.textViewAddForm;
-        productSearchTextView = activityBarcodeScanBinding.textViewAddSearch;
-        progressBar = activityBarcodeScanBinding.progressBar;
-        surfaceView = activityBarcodeScanBinding.surfaceView;
-        barcodeText = activityBarcodeScanBinding.barcodeText;
+        productInputFab = fragmentScanBinding.fabProductInput;
+        productInputFab.setOnClickListener(this);
+        productFormFab = fragmentScanBinding.fabAddForm;
+        productFormFab.setOnClickListener(this);
+        productSearchFab = fragmentScanBinding.fabAddSearch;
+        productSearchFab.setOnClickListener(this);
+        productFormTextView = fragmentScanBinding.textViewAddForm;
+        productSearchTextView = fragmentScanBinding.textViewAddSearch;
+        progressBar = fragmentScanBinding.progressBar;
+        surfaceView = fragmentScanBinding.surfaceView;
+        barcodeText = fragmentScanBinding.barcodeText;
     }
 
     private void initialiseBarcodeDetectorsAndSources() {
 
         //Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
 
-        barcodeDetector = new BarcodeDetector.Builder(this)
+        barcodeDetector = new BarcodeDetector.Builder(getActivity())
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
 
-        cameraSource = new CameraSource.Builder(this, barcodeDetector)
+        cameraSource = new CameraSource.Builder(getActivity(), barcodeDetector)
                 .setRequestedPreviewSize(1920, 1080)
                 .setAutoFocusEnabled(true) //you should add this feature
                 .build();
@@ -192,10 +220,10 @@ public class BarcodeScanActivity extends AppCompatActivity{
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 try {
-                    if (ActivityCompat.checkSelfPermission(BarcodeScanActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                         cameraSource.start(surfaceView.getHolder());
                     } else {
-                        ActivityCompat.requestPermissions(BarcodeScanActivity.this, new
+                        ActivityCompat.requestPermissions(getActivity(), new
                                 String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
                     }
 
@@ -251,7 +279,7 @@ public class BarcodeScanActivity extends AppCompatActivity{
                                 String barcodeSearchUrl = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
                                 String combinedUrl = barcodeSearchUrl + newBarcodeData + ".json";
                                 JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE_SEARCH, null);
-                                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, BarcodeScanActivity.this);
+                                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, getActivity());
                             }
                             barcodeData = newBarcodeData;
 
@@ -285,7 +313,7 @@ public class BarcodeScanActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(BarcodeScanActivity.this, finalDatePickerDialog, myCalendar
+                new DatePickerDialog(getActivity(), finalDatePickerDialog, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -313,7 +341,7 @@ public class BarcodeScanActivity extends AppCompatActivity{
 
     ArrayAdapter<CharSequence> setUpStorageSpinner() {
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.product_storage, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -326,9 +354,9 @@ public class BarcodeScanActivity extends AppCompatActivity{
     }
 
     public void showProductAddErrorSnackbar(){
-        Snackbar.make(findViewById(R.id.coordinatorLayout), "Das Produkt ist leider nicht in der Datenbank.", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getView().findViewById(R.id.coordinatorLayout), "Das Produkt ist leider nicht in der Datenbank.", Snackbar.LENGTH_SHORT).show();
     }
-    
+
     public void setProgressBarVisibilityWithBool(boolean showProgressbar){
         if(showProgressbar)
             progressBar.setVisibility(View.VISIBLE);
@@ -341,7 +369,7 @@ public class BarcodeScanActivity extends AppCompatActivity{
     }
 
 
-    public void handleProductInputFab(View view) {
+    public void handleProductInputFab() {
 
         if (!isAllFabsVisible) {
 
@@ -367,12 +395,12 @@ public class BarcodeScanActivity extends AppCompatActivity{
         }
     }
 
-    public void handleProductAddFormFab(View view) {
-        Intent intent = new Intent(this, ProductFormActivity.class);
+    public void handleProductAddFormFab() {
+        Intent intent = new Intent(getActivity(), ProductFormActivity.class);
         startActivity(intent);
     }
 
-    public void handleProductSearchFab(View view) {
+    public void handleProductSearchFab() {
         /*
         Intent intent = new Intent(this, ProductSearchActivity.class);
         startActivity(intent);
@@ -380,17 +408,37 @@ public class BarcodeScanActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onPause() {
+    public void onDestroyView() {
+        super.onDestroyView();
+        fragmentScanBinding = null;
+    }
+
+    @Override
+    public void onPause() {
         super.onPause();
-        getSupportActionBar().hide();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         cameraSource.release();
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         initialiseBarcodeDetectorsAndSources();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.fab_add_form:
+                handleProductAddFormFab();
+                break;
+            case R.id.fab_add_search:
+                handleProductSearchFab();
+                break;
+            case R.id.fab_product_input:
+                handleProductInputFab();
+                break;
+        }
+    }
 }

@@ -1,2 +1,2 @@
+rootProject.name = "NaviDialog"
 include ':app'
-rootProject.name = "tdm-food-tracker"

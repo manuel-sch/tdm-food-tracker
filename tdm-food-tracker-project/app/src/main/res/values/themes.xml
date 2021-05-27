@@ -26,6 +26,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.Tdmfoodtracker.AppBarOverlay"
         parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.Tdmfoodtracker.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

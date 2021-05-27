@@ -182,7 +182,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/editText_expiry_date_layout"
                     android:text="@string/storage"
-                    style="@style/dialog_product_from_barcode_text"
+                    style="@style/editText_primary_1"
                     />
 
                 <Spinner

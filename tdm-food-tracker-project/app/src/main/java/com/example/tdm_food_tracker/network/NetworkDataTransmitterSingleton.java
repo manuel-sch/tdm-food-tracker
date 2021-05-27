@@ -1,9 +1,13 @@
 package com.example.tdm_food_tracker.network;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.LruCache;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,8 +17,10 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.tdm_food_tracker.activities.BarcodeScanActivity;
+import com.example.tdm_food_tracker.R;
+import com.example.tdm_food_tracker.activities.MainActivity;
 import com.example.tdm_food_tracker.constants.AppInfoConstants;
+import com.example.tdm_food_tracker.fragments.ScanFrag;
 import com.example.tdm_food_tracker.models.Product;
 import com.example.tdm_food_tracker.utils.JsonHandler;
 import com.example.tdm_food_tracker.utils.RequestMethod;
@@ -71,8 +77,13 @@ public class NetworkDataTransmitterSingleton {
             Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getJsonObject().toString());
         if (jsonReq.getUrl() != null)
             Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getUrl());
-        BarcodeScanActivity barcodeScanActivity = (BarcodeScanActivity) context;
-        barcodeScanActivity.setProgressBarVisibilityWithBool(true);
+        FragmentManager fragmentManager = ((MainActivity) context).getSupportFragmentManager();
+        for(Fragment frag : fragmentManager.getFragments()){
+            Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + frag.getId());
+        };
+        @SuppressLint("ResourceType") Fragment barcodeScanActivity = fragmentManager.findFragmentById(2131361993);
+        ScanFrag scanFragment = (ScanFrag) barcodeScanActivity.getChildFragmentManager().getFragments().get(0);
+        scanFragment.setProgressBarVisibilityWithBool(true);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(jsonReq.getHttpMethod(), jsonReq.getUrl(), jsonReq.getJsonObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -81,9 +92,9 @@ public class NetworkDataTransmitterSingleton {
                     if (response.getString("status_verbose").equals("product found")) {
                         if (jsonReq.getRequestMethod() == RequestMethod.BARCODE_SEARCH) {
                             Product newProduct = JsonHandler.parseJsonObjectToProduct(context, response);
-                            barcodeScanActivity.setProgressBarVisibilityWithBool(false);
-                            barcodeScanActivity.setBarcodeProduct(newProduct);
-                            barcodeScanActivity.showProductAddDialog();
+                            scanFragment.setProgressBarVisibilityWithBool(false);
+                            scanFragment.setBarcodeProduct(newProduct);
+                            scanFragment.showProductAddDialog();
                         } else if (jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME) {
 
                         } else {
@@ -91,7 +102,7 @@ public class NetworkDataTransmitterSingleton {
                         }
                     } else{
                         Log.d(TAG, "onResponse: No Products found!");
-                        barcodeScanActivity.showProductAddErrorSnackbar();
+                        scanFragment.showProductAddErrorSnackbar();
                     }
 
 
@@ -103,7 +114,7 @@ public class NetworkDataTransmitterSingleton {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "onErrorResponse: " + error.getMessage());
-                barcodeScanActivity.setProgressBarVisibilityWithBool(false);
+                scanFragment.setProgressBarVisibilityWithBool(false);
             }
         }) {
             @Override
