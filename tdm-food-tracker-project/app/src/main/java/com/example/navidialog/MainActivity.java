@@ -1,29 +1,26 @@
 package com.example.navidialog;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -78,7 +75,32 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Toast.makeText(MainActivity.this, "gespeichert in " + text,Toast.LENGTH_SHORT).show();
         dialog.dismiss();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
 
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.searchbar,menu);
+
+        MenuItem.OnActionExpandListener onActionExpandListener= new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                Toast.makeText(MainActivity.this, "Search expanded", Toast.LENGTH_SHORT).show();
+
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                Toast.makeText(MainActivity.this, "Search collapse", Toast.LENGTH_SHORT).show();
+
+                return true;
+            }
+        };
+        menu.findItem(R.id.nav_search).setOnActionExpandListener(onActionExpandListener);
+        SearchView searchView= (androidx.appcompat.widget.SearchView) menu.findItem(R.id.nav_search).getActionView();
+        searchView.setQueryHint("Suche");
+        return true;
+    }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         text = parent.getItemAtPosition(position).toString();
