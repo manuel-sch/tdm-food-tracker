@@ -1,8 +1,6 @@
 package com.example.tdm_food_tracker.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -14,7 +12,7 @@ import com.example.tdm_food_tracker.R;
 import com.example.tdm_food_tracker.network.NetworkDataTransmitterSingleton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private final String TAG = MainActivity.class.getSimpleName();
     private NetworkDataTransmitterSingleton dataTransmitter;
@@ -33,11 +31,6 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(bottomNav, navController);
 
 
-
-    }
-    public void goToInputActivity(View view) {
-        Intent intent = new Intent(this, ProductInputActivity.class);
-        startActivity(intent);
     }
 
 }

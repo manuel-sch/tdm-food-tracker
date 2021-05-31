@@ -6,7 +6,7 @@
     app:startDestination="@id/homeFrag">
     <fragment
         android:id="@+id/searchFrag"
-        android:name="com.example.tdm_food_tracker.fragments.SearchFrag"
+        android:name="com.example.tdm_food_tracker.fragments.SearchLocalFrag"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
     <fragment

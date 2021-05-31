@@ -28,6 +28,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
@@ -76,7 +77,7 @@ public class ScanFrag extends Fragment implements View.OnClickListener {
 
     // Datepicker/Calendar
     private final Calendar myCalendar = Calendar.getInstance();
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
     private DatePickerDialog.OnDateSetListener boughtDatePickerDialog, expiryDatePickerDialog;
 
     // Dialog
@@ -91,9 +92,10 @@ public class ScanFrag extends Fragment implements View.OnClickListener {
     private NetworkDataTransmitterSingleton dataTransmitter;
     private BarcodeScanViewModel barcodeScanViewModel;
     private FragmentScanBinding fragmentScanBinding;
+    private FragmentManager parentFragmentManager;
 
     // Other Variables
-    boolean isAllFabsVisible;
+    private boolean isAllFabsVisible;
     private Product currentProduct = new Product();
 
     public ScanFrag() {
@@ -124,7 +126,7 @@ public class ScanFrag extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(getActivity().getApplicationContext());
-
+        parentFragmentManager = getParentFragmentManager();
         setUpViewModelObserving();
         setUpProductAddDialog();
         initializeViewsOfActivity();
@@ -401,10 +403,9 @@ public class ScanFrag extends Fragment implements View.OnClickListener {
     }
 
     public void handleProductSearchFab() {
-        /*
-        Intent intent = new Intent(this, ProductSearchActivity.class);
-        startActivity(intent);
-        */
+        parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, SearchRemoteFrag.class, null)
+                .commit();
     }
 
     @Override

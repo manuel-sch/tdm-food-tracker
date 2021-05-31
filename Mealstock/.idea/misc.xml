@@ -27,6 +27,7 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/fragment_scan.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.24479166666666666" />
+        <entry key="app/src/main/res/layout/fragment_search_remote.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/new_dialog_product_from_barcode.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/xml/searchable.xml" value="0.25052083333333336" />
       </map>

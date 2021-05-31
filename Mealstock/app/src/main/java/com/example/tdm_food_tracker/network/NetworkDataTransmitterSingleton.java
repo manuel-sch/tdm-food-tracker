@@ -17,7 +17,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.tdm_food_tracker.R;
 import com.example.tdm_food_tracker.activities.MainActivity;
 import com.example.tdm_food_tracker.constants.AppInfoConstants;
 import com.example.tdm_food_tracker.fragments.ScanFrag;
@@ -73,17 +72,22 @@ public class NetworkDataTransmitterSingleton {
 
     public void requestJsonObjectResponseForJsonRequestWithContext(JsonRequest jsonReq, Context context) {
         final String TAG = context.getClass().getSimpleName();
+
         if (jsonReq.getJsonObject() != null)
             Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getJsonObject().toString());
         if (jsonReq.getUrl() != null)
             Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + jsonReq.getUrl());
+
         FragmentManager fragmentManager = ((MainActivity) context).getSupportFragmentManager();
+
         for(Fragment frag : fragmentManager.getFragments()){
             Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + frag.getId());
         };
-        @SuppressLint("ResourceType") Fragment barcodeScanActivity = fragmentManager.findFragmentById(2131361993);
-        ScanFrag scanFragment = (ScanFrag) barcodeScanActivity.getChildFragmentManager().getFragments().get(0);
+
+        @SuppressLint("ResourceType") Fragment navHostFragment = fragmentManager.findFragmentById(2131361993);
+        ScanFrag scanFragment = (ScanFrag) navHostFragment.getChildFragmentManager().getFragments().get(0);
         scanFragment.setProgressBarVisibilityWithBool(true);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(jsonReq.getHttpMethod(), jsonReq.getUrl(), jsonReq.getJsonObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -99,6 +103,7 @@ public class NetworkDataTransmitterSingleton {
 
                         } else {
                             Log.e(TAG, "onResponse: No Requestmethod!");
+                            scanFragment.showProductAddErrorSnackbar();
                         }
                     } else{
                         Log.d(TAG, "onResponse: No Products found!");
@@ -123,10 +128,6 @@ public class NetworkDataTransmitterSingleton {
                 Log.d(TAG, "getHeaders: " + AppInfoConstants.getAppName() + " " + AppInfoConstants.getAppVersion());
                 // Represents our Requests as Request from our Application for API Server.
                 params.put("User-Agent", AppInfoConstants.getAppName() + " - Android - " + AppInfoConstants.getAppVersion());
-                //params.put("Authorization",  "Token token=" + UrlRequestConstants.API_KEY_FOODREPO);
-                //headers.put("Authorization", "UrlRequestConstants.API_KEY_FOODREPO");
-                //params.put("Authorization",  "Token");
-                //params.put("token",  UrlRequestConstants.API_KEY_FOODREPO);
                 return params;
             }
 
