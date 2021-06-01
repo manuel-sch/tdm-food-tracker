@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "859177012180",
+    "project_id": "mealstock-4f69f",
+    "storage_bucket": "mealstock-4f69f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859177012180:android:278df320f6fe7c2db02441",
+        "android_client_info": {
+          "package_name": "com.example.tdm_food_tracker.navidialog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859177012180-6tke1u7v9ch5rbe51d0t6vusf9afc89t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBUMsrSgNoraz-CGP9chh-Yla6NANw69g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859177012180-6tke1u7v9ch5rbe51d0t6vusf9afc89t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

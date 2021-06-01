@@ -39,7 +39,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.LogInMainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,6 +55,18 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.BarcodeScanActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.ResetPasswordActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.RegisteringActivity"
             android:screenOrientation="portrait" />
     </application>
 
