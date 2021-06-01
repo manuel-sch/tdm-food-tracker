@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tdm_food_tracker">
+    package="com.example.mealstock">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,15 +19,15 @@
 
         android:theme="@style/Theme.Tdmfoodtracker">
         <activity
-            android:name=".activities.ProductListActivity"
+            android:name="com.example.mealstock.activities.ProductListActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ProductDetailActivity"
+            android:name="com.example.mealstock.activities.ProductDetailActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ProductInputActivity"
+            android:name="com.example.mealstock.activities.ProductInputActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
 
@@ -39,7 +39,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.example.mealstock.activities.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,13 +48,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ProductFormActivity"
+            android:name="com.example.mealstock.activities.ProductFormActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.SignInActivity"
+            android:name="com.example.mealstock.activities.SignInActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.BarcodeScanActivity"
+            android:name="com.example.mealstock.activities.BarcodeScanActivity"
             android:screenOrientation="portrait" />
     </application>
 
