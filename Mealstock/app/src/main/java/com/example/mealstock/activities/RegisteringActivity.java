@@ -1,4 +1,4 @@
-package com.example.tdm_food_tracker.activities;
+package com.example.mealstock.activities;
 
 import android.os.Bundle;
 import android.util.Log;

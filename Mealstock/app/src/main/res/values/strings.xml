@@ -60,6 +60,13 @@
     <string name="user_has_been_registered_failed">User has been registered failed!</string>
     <string name="Failed_to_register_Please_try_again.">Failed to register! Please try again.</string>
     <string name="password_to_short">min password length should be 6 charters</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="check_deinen_kuehlschrank">Check deinen Kühlschrank</string>
+    <string name="Button_for_kuehlfach_list">Kühlschrankbutton</string>
+    <string name="Button_for_gefrierfach_list">Gefrierfachbutton</string>
+    <string name="message_no_results">Keine Ergebnisse!</string>
 
 
 </resources>

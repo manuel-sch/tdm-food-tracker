@@ -27,11 +27,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LogInMainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
 
     private static final int RC_SIGN_IN = 0;
-    private final String TAG = LogInMainActivity.class.getSimpleName();
+    private final String TAG = LoginActivity.class.getSimpleName();
 
 
     //Google signIn
@@ -48,7 +48,7 @@ public class LogInMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_main);
+        setContentView(R.layout.activity_login);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -119,13 +119,8 @@ public class LogInMainActivity extends AppCompatActivity {
     }
 
 
-    public void goToInputActivity(View view) {
-        Intent intent = new Intent(this, ProductInputActivity.class);
-        startActivity(intent);
-    }
-
     public void goToRegisteringActivity(View view) {
-        Intent intent = new Intent(this, com.example.tdm_food_tracker.activities.RegisteringActivity.class);
+        Intent intent = new Intent(this, com.example.mealstock.activities.RegisteringActivity.class);
         startActivity(intent);
     }
 
@@ -175,16 +170,16 @@ public class LogInMainActivity extends AppCompatActivity {
                     if(user.isEmailVerified()) {
 
                      // startActivity(new Intent(LogInMainActivity.this, UserMainPageActivity.class));
-                        startActivity(new Intent(LogInMainActivity.this, MainActivity.class));
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
                     }else{
                         user.sendEmailVerification();
-                        Toast.makeText(LogInMainActivity.this,"Check your email to verify your account", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this,"Check your email to verify your account", Toast.LENGTH_LONG).show();
                     }
 
                 }
                 else{
-                    Toast.makeText(LogInMainActivity.this,"Failed to log in. Check your Credits", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this,"Failed to log in. Check your Credits", Toast.LENGTH_LONG).show();
                 }
 
             }

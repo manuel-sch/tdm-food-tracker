@@ -19,7 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mealstock.activities.MainActivity;
 import com.example.mealstock.constants.AppInfoConstants;
-import com.example.mealstock.fragments.ScanFrag;
+import com.example.mealstock.fragments.ProductInsertFragment;
 import com.example.mealstock.models.Product;
 import com.example.mealstock.utils.JsonHandler;
 import com.example.mealstock.utils.RequestMethod;
@@ -95,7 +95,7 @@ public class NetworkDataTransmitterSingleton {
                     if (response.getString("status_verbose").equals("product found")) {
                         if (jsonReq.getRequestMethod() == RequestMethod.BARCODE_SEARCH) {
                             @SuppressLint("ResourceType") Fragment navHostFragment = fragmentManager.findFragmentById(2131361993);
-                            ScanFrag scanFragment = (ScanFrag) navHostFragment.getChildFragmentManager().getFragments().get(0);
+                            ProductInsertFragment scanFragment = (ProductInsertFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
 
                             Product newProduct = JsonHandler.parseJsonObjectToProduct(context, response);
                             mainActivity.setProgressBarVisibilityWithBool(false);

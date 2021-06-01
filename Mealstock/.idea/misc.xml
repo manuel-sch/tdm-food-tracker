@@ -14,26 +14,34 @@
         <entry key="app/src/main/res/font/montserrat.xml" value="0.2609375" />
         <entry key="app/src/main/res/layout/activity_barcode_scan.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_formular_edit.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_login_main.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3532608695652174" />
         <entry key="app/src/main/res/layout/activity_product_detail.xml" value="0.2109375" />
         <entry key="app/src/main/res/layout/activity_product_detail2.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_product_form.xml" value="0.3532608695652174" />
         <entry key="app/src/main/res/layout/activity_product_input.xml" value="0.38958333333333334" />
+        <entry key="app/src/main/res/layout/activity_product_list.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/activity_product_search.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_product_searchable.xml" value="0.25052083333333336" />
+        <entry key="app/src/main/res/layout/activity_productlist.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/dialog_product_from_barcode.xml" value="0.45" />
         <entry key="app/src/main/res/layout/formular_edit.xml" value="0.3532608695652174" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23020833333333332" />
+        <entry key="app/src/main/res/layout/fragment_kuehlschrank.xml" value="0.23072916666666668" />
+        <entry key="app/src/main/res/layout/fragment_product_cardviews.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/fragment_scan.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.24479166666666666" />
-        <entry key="app/src/main/res/layout/fragment_search_remote.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/fragment_shelf.xml" value="0.23072916666666668" />
+        <entry key="app/src/main/res/layout/fragment_splash_screen.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/new_dialog_product_from_barcode.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/recycler_row.xml" value="0.23072916666666668" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/xml/searchable.xml" value="0.25052083333333336" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="false" project-jdk-name="openjdk-16" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="openjdk-16" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

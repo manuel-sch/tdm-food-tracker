@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Tdmfoodtracker" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Mealstock" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/bluegreen_light</item>
         <item name="colorPrimaryVariant">@color/bluegreen_dark</item>
@@ -13,7 +13,6 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowAnimationStyle">@style/animation_fade_in_fade_out</item>
-
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="fontFamily">@font/montserrat</item>
 
@@ -22,7 +21,7 @@
 
 
 
-    <style name="Theme.Tdmfoodtracker.NoActionBar">
+    <style name="Theme.Mealstock.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
