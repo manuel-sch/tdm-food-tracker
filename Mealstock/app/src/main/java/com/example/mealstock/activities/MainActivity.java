@@ -63,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
             if(f instanceof ShelfFragment) {
                 ShelfFragment shelfFragment = (ShelfFragment) f;
                 handled = shelfFragment.handleBackPressWithHandledBoolean();
-                if(handled) {
-                    break;
-                }
+            }
+            if(handled) {
+                break;
             }
         }
 

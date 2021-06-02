@@ -8,9 +8,10 @@
     <!-- View Sizes -->
 
     <!-- Spacing -->
+    <dimen name="margin_large">25dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="main_content_padding">10dp</dimen>
-
+    <dimen name="margin_normal">10dp</dimen>
 
 
 </resources>

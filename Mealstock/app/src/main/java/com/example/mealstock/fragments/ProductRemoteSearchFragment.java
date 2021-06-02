@@ -1,6 +1,7 @@
 package com.example.mealstock.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
+import com.example.mealstock.adapters.ProductRecyclerViewAdapter;
 import com.example.mealstock.constants.UrlRequestConstants;
 import com.example.mealstock.databinding.FragmentSearchRemoteBinding;
 import com.example.mealstock.models.Product;
@@ -26,6 +29,9 @@ import com.example.mealstock.viewmodels.ProductListViewModel;
 import java.util.List;
 
 public class ProductRemoteSearchFragment extends Fragment {
+
+    // Constants
+    private static final String TAG = ProductRemoteSearchFragment.class.getSimpleName();
 
     // Main Variables
     private List<Product> currentProducts;
@@ -40,6 +46,7 @@ public class ProductRemoteSearchFragment extends Fragment {
     private NetworkDataTransmitterSingleton dataTransmitter;
     private FragmentManager parentFragmentManager;
     private ProductListViewModel productListViewModel;
+    private ProductRecyclerViewAdapter recyclerViewAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +81,10 @@ public class ProductRemoteSearchFragment extends Fragment {
         progressBar = binding.progressBar;
         searchView = binding.searchViewRemoteProduct;
         recyclerView = binding.recyclerViewRemoteProducts;
+        LinearLayoutManager llm = new LinearLayoutManager(requireContext());
+        recyclerView.setLayoutManager(llm);
+        recyclerViewAdapter = new ProductRecyclerViewAdapter();
+        recyclerView.setAdapter(recyclerViewAdapter);
     }
 
     private void setUpSearchBar() {
@@ -85,10 +96,10 @@ public class ProductRemoteSearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Log.d(TAG, "onQueryTextSubmit: " + query);
                 combinedUrl = UrlRequestConstants.OPENFOODFACTS_SEARCH_PRODUCT_WTIH_PRODUCT_NAME + query;
                 jsonRequest = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.PRODUCT_NAME, null);
                 dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonRequest, requireContext());
-                setProgressBarVisibilityWithBool(true);
                 setSearchViewActivationWithBool(false);
                 return false;
             }
@@ -104,18 +115,12 @@ public class ProductRemoteSearchFragment extends Fragment {
         productListViewModel = new ViewModelProvider(this).get(ProductListViewModel.class);
         productListViewModel.getProducts().observe(requireActivity(), products -> {
             currentProducts = products;
+            recyclerViewAdapter.updateProducts(products);
         });
     }
 
     public void setCurrentProducts(List<Product> products){
         productListViewModel.setProducts(products);
-    }
-
-    public void setProgressBarVisibilityWithBool(boolean showProgressbar){
-        if(showProgressbar)
-            progressBar.setVisibility(View.VISIBLE);
-        else
-            progressBar.setVisibility(View.GONE);
     }
 
     public void setSearchViewActivationWithBool(boolean activateSearchView){

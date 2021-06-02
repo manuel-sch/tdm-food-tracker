@@ -1,6 +1,5 @@
 package com.example.mealstock.network;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -19,7 +18,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mealstock.activities.MainActivity;
 import com.example.mealstock.constants.AppInfoConstants;
-import com.example.mealstock.fragments.ProductInsertFragment;
+import com.example.mealstock.fragments.ProductScanFragment;
+import com.example.mealstock.fragments.ProductRemoteSearchFragment;
 import com.example.mealstock.models.Product;
 import com.example.mealstock.utils.JsonHandler;
 import com.example.mealstock.utils.RequestMethod;
@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 // https://developer.android.com/training/volley
@@ -80,38 +81,28 @@ public class NetworkDataTransmitterSingleton {
 
         FragmentManager fragmentManager = ((MainActivity) context).getSupportFragmentManager();
 
-        for(Fragment frag : fragmentManager.getFragments()){
+        for (Fragment frag : fragmentManager.getFragments()) {
             Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: " + frag.getId());
-        };
+        }
+        ;
 
         MainActivity mainActivity = (MainActivity) context;
-        Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: derzeitiges Fragment - "+ mainActivity.getSupportFragmentManager().getFragments().get(0).toString());
+        Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: derzeitiges Fragment - " + mainActivity.getSupportFragmentManager().getFragments().get(0).toString());
+
+        mainActivity.setProgressBarVisibilityWithBool(true);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(jsonReq.getHttpMethod(), jsonReq.getUrl(), jsonReq.getJsonObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     Log.d(TAG, "onResponse: " + response.toString(1));
-                    if (response.getString("status_verbose").equals("product found")) {
-                        if (jsonReq.getRequestMethod() == RequestMethod.BARCODE_SEARCH) {
-                            @SuppressLint("ResourceType") Fragment navHostFragment = fragmentManager.findFragmentById(2131361993);
-                            ProductInsertFragment scanFragment = (ProductInsertFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
-
-                            Product newProduct = JsonHandler.parseJsonObjectToProduct(context, response);
-                            mainActivity.setProgressBarVisibilityWithBool(false);
-                            scanFragment.setBarcodeProduct(newProduct);
-                            scanFragment.showProductAddDialog();
-
-                        } else if (jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME) {
-
-                        } else {
-                            String errorMessage = "No Requestmethod!";
-                            Log.e(TAG, "onResponse: " + errorMessage);
-                            mainActivity.showShortSnackBarWithText(errorMessage);
-                        }
-                    } else{
-                        String errorMessage = "Keine Produkte gefunden!";
-                        Log.d(TAG, "onResponse: " +  errorMessage);
+                    if (jsonReq.getRequestMethod() == RequestMethod.BARCODE_SEARCH) {
+                        handleBarcodeSearchResponse(context, response);
+                    } else if (jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME) {
+                        handleProductNameSearchResponse(context, response);
+                    } else {
+                        String errorMessage = "Angegebene Requestmethode ist ungültig!";
+                        Log.e(TAG, "onResponse: " + errorMessage);
                         mainActivity.showShortSnackBarWithText(errorMessage);
                     }
 
@@ -164,6 +155,7 @@ public class NetworkDataTransmitterSingleton {
         queue.add(stringRequest);
     }
 
+
     public RequestQueue getRequestQueue() {
         if (queue == null) {
             queue = Volley.newRequestQueue(queueContext);
@@ -173,6 +165,55 @@ public class NetworkDataTransmitterSingleton {
 
     public ImageLoader getImageLoader() {
         return imageLoader;
+    }
+
+    private void handleBarcodeSearchResponse(Context context, JSONObject response) {
+        final String TAG = context.getClass().getSimpleName();
+        MainActivity mainActivity = (MainActivity) context;
+        try {
+            if (response.getString("status_verbose").equals("product found")) {
+
+                Fragment navHostFragment = mainActivity.getSupportFragmentManager().getFragments().get(0);
+                ProductScanFragment scanFragment = (ProductScanFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+
+                Product newProduct = JsonHandler.parseJsonObjectWithSingleProductToProduct(context, response);
+                scanFragment.setBarcodeProduct(newProduct);
+                scanFragment.showProductAddDialog();
+
+            } else {
+                String errorMessage = "Kein Produkt zum Code gefunden!";
+                Log.e(TAG, "handleBarcodeSearchResponse: " + errorMessage);
+                mainActivity.showShortSnackBarWithText(errorMessage);
+            }
+            mainActivity.setProgressBarVisibilityWithBool(false);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void handleProductNameSearchResponse(Context context, JSONObject response) {
+        final String TAG = context.getClass().getSimpleName();
+        MainActivity mainActivity = (MainActivity) context;
+        try {
+            if (response.getJSONArray("products").length() != 0){
+                Fragment navHostFragment = mainActivity.getSupportFragmentManager().getFragments().get(0);
+                ProductRemoteSearchFragment searchFragment = (ProductRemoteSearchFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+                List<Product> foundProducts = JsonHandler.parseJsonArrayWithMultipleProductsToProductList(context, response);
+                searchFragment.setCurrentProducts(foundProducts);
+                mainActivity.setProgressBarVisibilityWithBool(false);
+            } else {
+                String errorMessage = "Keine Produkte zum Namen gefunden!";
+                Log.e(TAG, "handleBarcodeSearchResponse: " + errorMessage);
+                mainActivity.showShortSnackBarWithText(errorMessage);
+                mainActivity.setProgressBarVisibilityWithBool(false);
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

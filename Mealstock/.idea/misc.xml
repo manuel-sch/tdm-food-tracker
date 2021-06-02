@@ -32,12 +32,16 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/fragment_kuehlschrank.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/fragment_product_cardviews.xml" value="0.23072916666666668" />
+        <entry key="app/src/main/res/layout/fragment_product_list.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/fragment_scan.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.24479166666666666" />
         <entry key="app/src/main/res/layout/fragment_search_local.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/layout/fragment_search_remote.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/fragment_shelf.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/fragment_splash_screen.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_storage_view_pager.xml" value="0.38958333333333334" />
+        <entry key="app/src/main/res/layout/item_product.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/layout/item_product_simple.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/new_dialog_product_from_barcode.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/recycler_row.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.22864583333333333" />

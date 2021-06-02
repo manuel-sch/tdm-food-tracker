@@ -11,6 +11,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class JsonHandler {
@@ -48,7 +50,26 @@ public class JsonHandler {
 
     }
 
-    public static Product parseJsonObjectToProduct(Context context, JSONObject jsonObject) throws JSONException {
+    public static List<Product> parseJsonArrayWithMultipleProductsToProductList(Context context, JSONObject jsonObject) throws JSONException {
+        TAG = context.getClass().getSimpleName();
+        List<Product> products = new ArrayList<>();
+        if(jsonObject.has("products")){
+            JSONArray productsJsonArray = jsonObject.getJSONArray("products");
+            for (int i = 0; i < productsJsonArray.length(); i++) {
+                products.add(setUpProductEntityAndGetItForProductJsonObject(productsJsonArray.getJSONObject(i)));
+            }
+        }
+        else if(jsonObject.has("product")){
+            JSONObject productJsonObject = jsonObject.getJSONObject("product");
+            Product product = setUpProductEntityAndGetItForProductJsonObject(productJsonObject);
+            products.add(product);
+        }
+        Log.d(TAG, "parseJsonObjectToProduct: product " + products);
+        return products;
+
+    }
+
+    public static Product parseJsonObjectWithSingleProductToProduct(Context context, JSONObject jsonObject) throws JSONException {
         TAG = context.getClass().getSimpleName();
         JSONObject productJsonObject = jsonObject.getJSONObject("product");
         Product product = setUpProductEntityAndGetItForProductJsonObject(productJsonObject);

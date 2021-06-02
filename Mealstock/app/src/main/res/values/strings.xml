@@ -67,6 +67,8 @@
     <string name="Button_for_kuehlfach_list">Kühlschrankbutton</string>
     <string name="Button_for_gefrierfach_list">Gefrierfachbutton</string>
     <string name="message_no_results">Keine Ergebnisse!</string>
+    <string name="placeholder_productname">Produktname</string>
+    <string name="placeholder_productUnit">Maßeinheit</string>
 
 
 </resources>

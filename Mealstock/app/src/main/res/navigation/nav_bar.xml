@@ -16,7 +16,7 @@
         tools:layout="@layout/fragment_calender" />
     <fragment
         android:id="@+id/scanFrag"
-        android:name="com.example.mealstock.fragments.ProductInsertFragment"
+        android:name="com.example.mealstock.fragments.ProductScanFragment"
         android:label="fragment_scan"
         tools:layout="@layout/fragment_scan" />
     <fragment

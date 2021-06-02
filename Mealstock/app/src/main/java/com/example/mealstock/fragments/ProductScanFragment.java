@@ -55,7 +55,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class ProductInsertFragment extends Fragment implements View.OnClickListener {
+public class ProductScanFragment extends Fragment implements View.OnClickListener {
 
     // Constants
     private static final String TAG = BarcodeScanActivity.class.getSimpleName();
@@ -98,7 +98,7 @@ public class ProductInsertFragment extends Fragment implements View.OnClickListe
     private boolean isAllFabsVisible;
     private Product currentProduct = new Product();
 
-    public ProductInsertFragment() {
+    public ProductScanFragment() {
         super(R.layout.fragment_scan);
     }
 
