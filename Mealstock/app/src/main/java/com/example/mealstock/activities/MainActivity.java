@@ -1,19 +1,24 @@
 package com.example.mealstock.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.mealstock.R;
+import com.example.mealstock.fragments.ShelfFragment;
 import com.example.mealstock.network.NetworkDataTransmitterSingleton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +52,28 @@ public class MainActivity extends AppCompatActivity {
         else
             progressBar.setVisibility(View.GONE);
     }
+
+
+    @Override
+    public void onBackPressed() {
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        boolean handled = false;
+        for(Fragment f : fragmentList) {
+            Log.d(TAG, "onBackPressed: " + f.toString());
+            if(f instanceof ShelfFragment) {
+                ShelfFragment shelfFragment = (ShelfFragment) f;
+                handled = shelfFragment.handleBackPressWithHandledBoolean();
+                if(handled) {
+                    break;
+                }
+            }
+        }
+
+        if(!handled) {
+            super.onBackPressed();
+        }
+    }
+
 
 }
 

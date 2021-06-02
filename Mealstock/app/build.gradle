@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.tdm_food_tracker.navidialog"
+        applicationId "com.example.mealstock"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
