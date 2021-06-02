@@ -2,8 +2,8 @@
 
 
     <!-- Font Sizes -->
-    <dimen name="font_normal">16dp</dimen>
-    <dimen name="font_large">20dp</dimen>
+    <dimen name="font_normal">16sp</dimen>
+    <dimen name="font_large">20sp</dimen>
 
     <!-- View Sizes -->
 
@@ -13,4 +13,4 @@
 
 
 
-    </resources>
+</resources>

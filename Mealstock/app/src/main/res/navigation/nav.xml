@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/fragmentSplashScreen">
+
+    <fragment
+        android:id="@+id/fragmentSplashScreen"
+        android:name="com.example.mealstock.fragments.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" />
+    <fragment
+        android:id="@+id/fragmentLogin2"
+        android:name="com.example.foodtracker.ui.loginScreen.fragmentLogin"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <activity
+        android:id="@+id/screenSlidePagerActivity"
+        android:name="com.example.mealstock.activities.ScreenSlidePagerActivity"
+        android:label="activity_screen_slide"
+        tools:layout="@layout/activity_screen_slide" />
+</navigation>

@@ -17,17 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
 
-        android:theme="@style/Theme.Tdmfoodtracker">
+        android:theme="@style/Theme.Mealstock">
         <activity
             android:name="com.example.mealstock.activities.ProductListActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.example.mealstock.activities.ProductDetailActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.example.mealstock.activities.ProductInputActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
 
@@ -39,7 +35,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name="com.example.mealstock.activities.LogInMainActivity"
+            android:name="com.example.mealstock.activities.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,7 +62,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activities.RegisteringActivity"
+            android:name="com.example.mealstock.activities.RegisteringActivity"
             android:screenOrientation="portrait" />
     </application>
 
