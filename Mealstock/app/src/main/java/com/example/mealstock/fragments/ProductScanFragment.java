@@ -42,7 +42,7 @@ import com.example.mealstock.models.Product;
 import com.example.mealstock.network.JsonRequest;
 import com.example.mealstock.network.NetworkDataTransmitterSingleton;
 import com.example.mealstock.utils.RequestMethod;
-import com.example.mealstock.viewmodels.BarcodeScanViewModel;
+import com.example.mealstock.viewmodels.ProductScanViewModel;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -89,7 +89,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
 
     // Utils
     private NetworkDataTransmitterSingleton dataTransmitter;
-    private BarcodeScanViewModel barcodeScanViewModel;
+    private ProductScanViewModel barcodeScanViewModel;
     private FragmentScanBinding fragmentScanBinding;
     private FragmentManager parentFragmentManager;
     private MainActivity mainActivity;
@@ -145,7 +145,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     }
 
     private void setUpViewModelObserving() {
-        barcodeScanViewModel = new ViewModelProvider(this).get(BarcodeScanViewModel.class);
+        barcodeScanViewModel = new ViewModelProvider(this).get(ProductScanViewModel.class);
         barcodeScanViewModel.getBarcode().observe(getActivity(), barcode -> {
             barcodeText.setText(barcode);
         });

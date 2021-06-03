@@ -10,12 +10,12 @@ import com.example.mealstock.models.Product;
 
 import java.util.List;
 
-public class ProductListViewModel extends AndroidViewModel {
+public class ProductRemoteSearchViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Product>> products;
     private MutableLiveData<Product> selectedProduct;
 
-    public ProductListViewModel(Application application) {
+    public ProductRemoteSearchViewModel(Application application) {
         super(application);
     }
 

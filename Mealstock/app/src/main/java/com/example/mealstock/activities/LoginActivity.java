@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mealstock.R;
 import com.example.mealstock.constants.AppInfoConstants;
 import com.example.mealstock.utils.RequestTester;
-import com.example.mealstock.viewmodels.ProductListViewModel;
+import com.example.mealstock.viewmodels.ProductRemoteSearchViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private RequestTester reqTester;
 
-    private ProductListViewModel productViewModel;
+    private ProductRemoteSearchViewModel productViewModel;
 
 
     private FirebaseAuth mAuth;

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.mealstock.models.Product;
 
-public class BarcodeScanViewModel extends ViewModel {
+public class ProductScanViewModel extends ViewModel {
 
     private MutableLiveData<String> barcode;
     private MutableLiveData<Product> product;

@@ -1,15 +1,25 @@
 package com.example.mealstock.fragments;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
+import com.bumptech.glide.Glide;
 import com.example.mealstock.R;
 import com.example.mealstock.adapters.ProductRecyclerViewAdapter;
 import com.example.mealstock.constants.UrlRequestConstants;
@@ -25,10 +36,13 @@ import com.example.mealstock.models.Product;
 import com.example.mealstock.network.JsonRequest;
 import com.example.mealstock.network.NetworkDataTransmitterSingleton;
 import com.example.mealstock.utils.RequestMethod;
-import com.example.mealstock.viewmodels.ProductListViewModel;
+import com.example.mealstock.viewmodels.ProductRemoteSearchViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductRemoteSearchFragment extends Fragment implements ProductRecyclerViewAdapter.ProductItemClickListener, View.OnClickListener {
 
@@ -39,17 +53,31 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRecy
     private List<Product> currentProducts;
     private Product selectedProduct;
 
+    // Datepicker/Calendar
+    private final Calendar myCalendar = Calendar.getInstance();
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
+    private DatePickerDialog.OnDateSetListener boughtDatePickerDialog, expiryDatePickerDialog;
+
     // Views
     private ProgressBar progressBar;
     private SearchView searchView;
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
 
+
+    // Dialog
+    private TextView productTitleTextViewOnDialog;
+    private AlertDialog productAddDialog;
+    private View productAddDialogView;
+    private ImageView productImageOnDialog;
+    private EditText productBoughtDateEditTextOnDialog, productExpiryDateEditTextInDialog;
+    private Spinner storageSpinerOnDialog;
+
     // Utils
     private FragmentSearchRemoteBinding binding;
     private NetworkDataTransmitterSingleton dataTransmitter;
     private FragmentManager parentFragmentManager;
-    private ProductListViewModel productListViewModel;
+    private ProductRemoteSearchViewModel productListViewModel;
     private ProductRecyclerViewAdapter recyclerViewAdapter;
 
     @Override
@@ -72,8 +100,12 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRecy
 
         initializeUtils();
         initializeViews();
+        setUpProductAddDialog();
+        initializeViewsFromDialog();
         setUpSearchBar();
         setUpViewObserving();
+        setUpDatePicker(productBoughtDateEditTextOnDialog, boughtDatePickerDialog);
+        setUpDatePicker(productExpiryDateEditTextInDialog, expiryDatePickerDialog);
     }
 
     private void initializeUtils() {
@@ -118,11 +150,97 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRecy
     }
 
     private void setUpViewObserving() {
-        productListViewModel = new ViewModelProvider(this).get(ProductListViewModel.class);
+        productListViewModel = new ViewModelProvider(this).get(ProductRemoteSearchViewModel.class);
         productListViewModel.getProducts().observe(requireActivity(), products -> {
             currentProducts = products;
             recyclerViewAdapter.updateProducts(products);
         });
+        productListViewModel.getSelectedProduct().observe(requireActivity(), product -> {
+            selectedProduct = product;
+            if(productAddDialog.isShowing()) {
+                productTitleTextViewOnDialog.setText(product.getProductName());
+                Glide.with(this).load(product.getImageUrl()).centerCrop().placeholder(R.drawable.product_placeholder).into(productImageOnDialog);
+                if (!product.getBoughtDate().toString().equals(""))
+                    productBoughtDateEditTextOnDialog.setText(sdf.format(product.getBoughtDate()));
+                if (!product.getExpiryDate().toString().equals(""))
+                    productExpiryDateEditTextInDialog.setText(sdf.format(product.getExpiryDate()));
+            }
+
+        });
+    }
+
+    private void setUpProductAddDialog(){
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getLayoutInflater();
+        productAddDialogView = inflater.inflate(R.layout.dialog_product_from_barcode, null);
+
+        builder.setView(productAddDialogView)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Log.d(TAG, "onClick: Gespeichertes Produkt: " + selectedProduct);
+                        productListViewModel.insertProduct(selectedProduct);
+                    }
+                })
+                .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        productAddDialog = builder.create();
+        productAddDialog.getWindow().getAttributes().windowAnimations = R.style.animation_fade_in_fade_out;
+    }
+
+    private void initializeViewsFromDialog(){
+        productTitleTextViewOnDialog = productAddDialogView.findViewById(R.id.textView_productTitle);
+        storageSpinerOnDialog = productAddDialogView.findViewById(R.id.spinner);
+        productBoughtDateEditTextOnDialog = productAddDialogView.findViewById(R.id.editText_boughtDate);
+        productExpiryDateEditTextInDialog = productAddDialogView.findViewById(R.id.editText_expiryDate);
+        productImageOnDialog = productAddDialogView.findViewById(R.id.imageView_product);
+        storageSpinerOnDialog.setAdapter(setUpStorageSpinner());
+
+    }
+
+    ArrayAdapter<CharSequence> setUpStorageSpinner() {
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.product_storage, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return adapter;
+    }
+
+    void setUpDatePicker(EditText datePickerEditText, DatePickerDialog.OnDateSetListener datePickerDialog) {
+        datePickerEditText.setInputType(InputType.TYPE_NULL);
+        datePickerDialog = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                setProductDateFromCurrentCalendar(datePickerEditText);
+            }
+        };
+        DatePickerDialog.OnDateSetListener finalDatePickerDialog = datePickerDialog;
+        datePickerEditText.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(getActivity(), finalDatePickerDialog, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+    }
+
+    private void setProductDateFromCurrentCalendar(EditText datePickerEditText) {
+        if(datePickerEditText.getId() == R.id.editText_boughtDate)
+            selectedProduct.setBoughtDate(myCalendar.getTime());
+        else if(datePickerEditText.getId() == R.id.editText_expiryDate)
+            selectedProduct.setExpiryDate(myCalendar.getTime());
+        productListViewModel.setSelectedProduct(selectedProduct);
     }
 
     public void setCurrentProducts(List<Product> products){
@@ -134,8 +252,17 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRecy
     }
 
     private void handleProductSaveFab() {
-        productListViewModel.insertProduct(selectedProduct);
-        Log.d(TAG, "handleProductSaveFab: Product inserted: " + selectedProduct);
+        setDialogViews();
+        productAddDialog.show();
+    }
+
+    private void setDialogViews(){
+        productTitleTextViewOnDialog.setText(selectedProduct.getProductName());
+        Glide.with(this).load(selectedProduct.getImageUrl()).centerCrop().placeholder(R.drawable.product_placeholder).into(productImageOnDialog);
+        if(!selectedProduct.getBoughtDate().toString().equals(""))
+            productBoughtDateEditTextOnDialog.setText(sdf.format(selectedProduct.getBoughtDate()));
+        if(!selectedProduct.getExpiryDate().toString().equals(""))
+            productExpiryDateEditTextInDialog.setText(sdf.format(selectedProduct.getExpiryDate()));
     }
 
     @Override
@@ -150,7 +277,7 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRecy
     @Override
     public void onProductItemClick(int position) {
         floatingActionButton.setEnabled(true);
-        selectedProduct = currentProducts.get(position);
+        productListViewModel.setSelectedProduct(currentProducts.get(position));
     }
 
     @Override
