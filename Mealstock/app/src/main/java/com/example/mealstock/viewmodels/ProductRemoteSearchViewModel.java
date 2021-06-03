@@ -13,6 +13,7 @@ import java.util.List;
 public class ProductListViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Product>> products;
+    private MutableLiveData<Product> selectedProduct;
 
     public ProductListViewModel(Application application) {
         super(application);
@@ -25,8 +26,19 @@ public class ProductListViewModel extends AndroidViewModel {
 
     }
 
+    public LiveData<Product> getSelectedProduct() {
+        if(selectedProduct == null)
+            selectedProduct = new MutableLiveData<>();
+        return selectedProduct;
+
+    }
+
     public void setProducts(List<Product> products) {
         this.products.postValue(products);
+    }
+
+    public void setSelectedProduct(Product product) {
+        this.selectedProduct.postValue(product);
     }
 
     public void insertProduct(Product product) {
