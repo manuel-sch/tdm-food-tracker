@@ -10,8 +10,7 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import com.example.mealstock.R;
-import com.example.mealstock.activities.LogInMainActivity;
-import com.example.mealstock.databinding.ActivityLoginMainBinding;
+import com.example.mealstock.activities.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -82,7 +81,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v)
             {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getActivity(),LogInMainActivity.class));
+                startActivity(new Intent(getActivity(),LoginActivity.class));
             }
         });
         return view;
