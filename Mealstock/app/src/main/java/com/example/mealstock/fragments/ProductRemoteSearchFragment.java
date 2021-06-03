@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
+import com.example.mealstock.R;
 import com.example.mealstock.adapters.ProductRecyclerViewAdapter;
 import com.example.mealstock.constants.UrlRequestConstants;
 import com.example.mealstock.databinding.FragmentSearchRemoteBinding;
@@ -25,21 +26,24 @@ import com.example.mealstock.network.JsonRequest;
 import com.example.mealstock.network.NetworkDataTransmitterSingleton;
 import com.example.mealstock.utils.RequestMethod;
 import com.example.mealstock.viewmodels.ProductListViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class ProductRemoteSearchFragment extends Fragment {
+public class ProductRemoteSearchFragment extends Fragment implements ProductRecyclerViewAdapter.ProductItemClickListener, View.OnClickListener {
 
     // Constants
     private static final String TAG = ProductRemoteSearchFragment.class.getSimpleName();
 
     // Main Variables
     private List<Product> currentProducts;
+    private Product selectedProduct;
 
     // Views
     private ProgressBar progressBar;
     private SearchView searchView;
     private RecyclerView recyclerView;
+    private FloatingActionButton floatingActionButton;
 
     // Utils
     private FragmentSearchRemoteBinding binding;
@@ -83,8 +87,10 @@ public class ProductRemoteSearchFragment extends Fragment {
         recyclerView = binding.recyclerViewRemoteProducts;
         LinearLayoutManager llm = new LinearLayoutManager(requireContext());
         recyclerView.setLayoutManager(llm);
-        recyclerViewAdapter = new ProductRecyclerViewAdapter();
+        recyclerViewAdapter = new ProductRecyclerViewAdapter(this);
         recyclerView.setAdapter(recyclerViewAdapter);
+        floatingActionButton = binding.fabProductSave;
+        floatingActionButton.setOnClickListener(this);
     }
 
     private void setUpSearchBar() {
@@ -97,7 +103,7 @@ public class ProductRemoteSearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.d(TAG, "onQueryTextSubmit: " + query);
-                combinedUrl = UrlRequestConstants.OPENFOODFACTS_SEARCH_PRODUCT_WTIH_PRODUCT_NAME + query;
+                combinedUrl = UrlRequestConstants.OPENFOODFACTS_SEARCH_PRODUCT_WTIH_PRODUCT_NAME + query.replace(" ", "+");
                 jsonRequest = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.PRODUCT_NAME, null);
                 dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonRequest, requireContext());
                 setSearchViewActivationWithBool(false);
@@ -127,11 +133,30 @@ public class ProductRemoteSearchFragment extends Fragment {
             searchView.setSubmitButtonEnabled(activateSearchView);
     }
 
+    private void handleProductSaveFab() {
+        productListViewModel.insertProduct(selectedProduct);
+        Log.d(TAG, "handleProductSaveFab: Product inserted: " + selectedProduct);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.fab_product_save:
+                handleProductSaveFab();
+                break;
+        }
+    }
+
+    @Override
+    public void onProductItemClick(int position) {
+        floatingActionButton.setEnabled(true);
+        selectedProduct = currentProducts.get(position);
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
-
 
 }

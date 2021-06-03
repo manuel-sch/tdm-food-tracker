@@ -226,6 +226,8 @@ public class JsonHandler {
         String product_name = "";
         if (jsonObject.has("product_name"))
             product_name = jsonObject.getString("product_name");
+        else
+            product_name = getGenericNameFromProductJsonObject(jsonObject);
         //Log.d(TAG, "getProductNameFromProductJsonObject: " + product_name);
         return product_name;
     }

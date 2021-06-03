@@ -11,6 +11,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="bluegreen_lighter">#abebe0</color>
     <color name="bluegreen_light">#73d9c8</color>
     <color name="bluegreen_dark">#36998c</color>
     <color name="bluegreen_darker">#1e574f</color>

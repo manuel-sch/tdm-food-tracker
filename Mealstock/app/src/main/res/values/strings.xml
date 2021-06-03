@@ -69,6 +69,8 @@
     <string name="message_no_results">Keine Ergebnisse!</string>
     <string name="placeholder_productname">Produktname</string>
     <string name="placeholder_productUnit">Maßeinheit</string>
+    <string name="hint_add">Hinzufügen</string>
+    <string name="description_add_product">Produkt hinzufügen</string>
 
 
 </resources>

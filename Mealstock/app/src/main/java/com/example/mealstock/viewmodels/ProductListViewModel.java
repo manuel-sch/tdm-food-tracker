@@ -28,4 +28,8 @@ public class ProductListViewModel extends AndroidViewModel {
     public void setProducts(List<Product> products) {
         this.products.postValue(products);
     }
+
+    public void insertProduct(Product product) {
+        // Produkt in Datenbank einfügen
+    }
 }

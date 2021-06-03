@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Mealstock" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
+        <item name="colorPrimarySurface">@color/bluegreen_lighter</item>
         <item name="colorPrimary">@color/bluegreen_light</item>
         <item name="colorPrimaryVariant">@color/bluegreen_dark</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -15,6 +16,7 @@
         <item name="android:windowAnimationStyle">@style/animation_fade_in_fade_out</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="fontFamily">@font/montserrat</item>
+        <item name="backgroundColor">@color/white</item>
 
     </style>
 

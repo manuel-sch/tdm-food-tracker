@@ -2,6 +2,7 @@ package com.example.mealstock.adapters;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.mealstock.R;
 import com.example.mealstock.models.Product;
 
@@ -22,6 +25,16 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
     private Context context;
     private List<Product> products = new ArrayList<>();
+    private final ProductItemClickListener clickListener;
+
+    private static int lastClickedPosition = -1;
+    private int selectedItem;
+
+
+    public ProductRecyclerViewAdapter(ProductItemClickListener clickListener){
+        this.clickListener = clickListener;
+        selectedItem = -1;
+    }
 
     @NonNull
     @Override
@@ -34,11 +47,19 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Glide.with(context).load(products.get(position).getImageUrl()).centerCrop().placeholder(R.drawable.product_placeholder).into(holder.imageViewProductTitle);
+        Glide.with(context).load(products.get(position).getImageUrl()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.product_placeholder).into(holder.imageViewProductTitle);
         holder.textViewProductTitle.setText(products.get(position).getProductName());
         Log.d("BLAB", "onBindViewHolder: " + products.get(position).getUnit() );
-        if(products.get(position).getUnit() != 0)
-            holder.textViewProductUnit.setText(products.get(position).getUnit());
+        if(products.get(position).getQuantity() != 0)
+            holder.textViewProductUnit.setText((int)(products.get(position).getQuantity()) + " g/ml");
+        holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+        holder.textViewProductTitle.setTextColor(context.getResources().getColor(R.color.bluegreen_dark));
+        holder.textViewProductUnit.setTextColor(context.getResources().getColor(R.color.bluegreen_light));
+        if (selectedItem == position) {
+            holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.bluegreen_lighter));
+            holder.textViewProductTitle.setTextColor(context.getResources().getColor(R.color.white));
+            holder.textViewProductUnit.setTextColor(context.getResources().getColor(R.color.white));
+        }
     }
 
     @Override
@@ -52,17 +73,37 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         notifyDataSetChanged();
     }
 
-    public class ProductViewHolder extends RecyclerView.ViewHolder {
+    public class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageView imageViewProductTitle;
+        private final ImageView imageViewProductTitle;
         private TextView textViewProductTitle;
         private TextView textViewProductUnit;
+        private CardView cardView;
+
+        private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             imageViewProductTitle = itemView.findViewById(R.id.imageView_product);
             textViewProductTitle = itemView.findViewById(R.id.textView_productTitle);
             textViewProductUnit = itemView.findViewById(R.id.textView_productUnit);
+            cardView = itemView.findViewById(R.id.cardView);
+
         }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            int previousItem = selectedItem;
+            selectedItem = position;
+            notifyItemChanged(previousItem);
+            notifyItemChanged(position);
+            clickListener.onProductItemClick(position);
+        }
+    }
+
+    public interface ProductItemClickListener {
+        void onProductItemClick(int position);
     }
 }
