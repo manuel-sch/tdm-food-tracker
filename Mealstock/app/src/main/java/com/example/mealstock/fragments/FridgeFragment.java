@@ -16,7 +16,7 @@ import com.example.mealstock.databinding.FragmentFridgeBinding;
 public class FridgeFragment extends Fragment {
 
     private ImageView gefrierFach;
-    FragmentFridgeBinding fragmentFridgeBinding;
+    private FragmentFridgeBinding fragmentFridgeBinding;
 
     private ViewPager2 viewPager;
 

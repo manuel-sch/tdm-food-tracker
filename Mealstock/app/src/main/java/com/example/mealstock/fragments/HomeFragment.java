@@ -11,8 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.mealstock.R;
 import com.example.mealstock.adapters.ScreenSlidePagerAdapter;
 import com.example.mealstock.databinding.FragmentHomeBinding;
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 public class HomeFragment extends Fragment {
 
@@ -40,12 +43,16 @@ public class HomeFragment extends Fragment {
         viewPager = fragmentHomeBinding.pager;
         pagerAdapter = new ScreenSlidePagerAdapter(requireActivity(), viewPager);
         viewPager.setAdapter(pagerAdapter);
+
+        SpringDotsIndicator dotsIndicator = fragmentHomeBinding.dotsIndicator;
+        dotsIndicator.setViewPager2(viewPager);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         fragmentHomeBinding = null;
+
     }
 
 

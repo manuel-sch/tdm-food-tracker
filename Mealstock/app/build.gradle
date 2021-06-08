@@ -9,10 +9,11 @@ android {
 
     defaultConfig {
         applicationId "com.example.mealstock"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -72,4 +73,13 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //Dots-Indicator
+    implementation 'com.tbuonomo:dotsindicator:4.2'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    //circle imageview
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 }
