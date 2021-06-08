@@ -48,7 +48,7 @@
                 tools:text="@string/placeholder_productname" />
 
             <TextView
-                android:id="@+id/textView_productUnit"
+                android:id="@+id/textView_productQuantity"
                 style="@style/text_primary_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

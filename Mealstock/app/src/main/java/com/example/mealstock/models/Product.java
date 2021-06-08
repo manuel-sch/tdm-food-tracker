@@ -89,7 +89,7 @@ public class Product implements Serializable {
         return productName;
     }
 
-    public void setProductName( String productName) {
+    public void setProductName(String productName) {
         this.productName = productName;
     }
 

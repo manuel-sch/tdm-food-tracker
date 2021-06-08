@@ -51,14 +51,14 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         holder.textViewProductTitle.setText(products.get(position).getProductName());
         Log.d("BLAB", "onBindViewHolder: " + products.get(position).getUnit() );
         if(products.get(position).getQuantity() != 0)
-            holder.textViewProductUnit.setText((int)(products.get(position).getQuantity()) + " g/ml");
+            holder.textViewProductQuantity.setText((int)(products.get(position).getQuantity()) + " g/ml");
         holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.white));
         holder.textViewProductTitle.setTextColor(context.getResources().getColor(R.color.bluegreen_dark));
-        holder.textViewProductUnit.setTextColor(context.getResources().getColor(R.color.bluegreen_light));
+        holder.textViewProductQuantity.setTextColor(context.getResources().getColor(R.color.bluegreen_light));
         if (selectedItem == position) {
             holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.bluegreen_lighter));
             holder.textViewProductTitle.setTextColor(context.getResources().getColor(R.color.white));
-            holder.textViewProductUnit.setTextColor(context.getResources().getColor(R.color.white));
+            holder.textViewProductQuantity.setTextColor(context.getResources().getColor(R.color.white));
         }
     }
 
@@ -77,7 +77,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
         private final ImageView imageViewProductTitle;
         private TextView textViewProductTitle;
-        private TextView textViewProductUnit;
+        private TextView textViewProductQuantity;
         private CardView cardView;
 
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
@@ -87,7 +87,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
             itemView.setOnClickListener(this);
             imageViewProductTitle = itemView.findViewById(R.id.imageView_product);
             textViewProductTitle = itemView.findViewById(R.id.textView_productTitle);
-            textViewProductUnit = itemView.findViewById(R.id.textView_productUnit);
+            textViewProductQuantity = itemView.findViewById(R.id.textView_productQuantity);
             cardView = itemView.findViewById(R.id.cardView);
 
         }
