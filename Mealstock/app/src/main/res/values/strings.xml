@@ -2,25 +2,6 @@
 
     <string name="app_name">Mealstock</string>
 
-    <string name="bought">gekauft:</string>
-    <string name="expires">läuft ab:</string>
-    <string name="storage">Lagerung:</string>
-    <string name="abort">Abbrechen</string>
-    <string name="text_confirm">OK</string>
-
-    <string name="hint_enter_bought_date">Einkaufsdatum</string>
-    <string name="hint_enter_expiry_date">Ablaufdatum</string>
-    <string name="hint_productSearch">Suche nach dem Produkt</string>
-    <string name="hint_product_name">Wie heißt es?</string>
-    <string name="hint_product_price">Wie teuer?</string>
-    <string name="hint_product_quanity">Wie oft?</string>
-    <string name="hint_product_ingredients">Was ist enthalten?</string>
-    <string name="hint_product_unit">In welchem Maß?</string>
-
-    <string name="contentDescription_productImage">Productimage</string>
-
-    <string name="title_product_form">Produktbearbeitung</string>
-
     <string-array name="product_storage">
         <item>Getränke</item>
         <item>Gefrierfach</item>
@@ -51,26 +32,47 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-
     <string name="field_not_filled_out">field not filled out</string>
     <string name="email_pattern_error">email pattern error</string>
     <string name="user_has_been_registered_successfully">User has been registered successfully!</string>
     <string name="user_has_been_registered_failed">User has been registered failed!</string>
     <string name="Failed_to_register_Please_try_again.">Failed to register! Please try again.</string>
     <string name="password_to_short">min password length should be 6 charters</string>
+
+    <string name="text_check_your_fridge">Check deinen Kühlschrank</string>
+
+    <string name="Button_for_kuehlfach_list">Kühlschrankbutton</string>
+    <string name="Button_for_gefrierfach_list">Gefrierfachbutton</string>
+
+    <string name="message_no_results">Keine Ergebnisse!</string>
+
+    <string name="hint_add">Hinzufügen</string>
+    <string name="hint_enter_bought_date">Einkaufsdatum</string>
+    <string name="hint_enter_expiry_date">Ablaufdatum</string>
+    <string name="hint_productSearch">Suche nach dem Produkt</string>
+    <string name="hint_product_name">Wie heißt es?</string>
+    <string name="hint_product_price">Wie teuer?</string>
+    <string name="hint_product_quanity">Wie oft?</string>
+    <string name="hint_product_ingredients">Was ist enthalten?</string>
+    <string name="hint_product_unit">In welchem Maß?</string>
+
+    <string name="description_add_product">Produkt hinzufügen</string>
+    <string name="description_productImage">Productimage</string>
+
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="check_deinen_kuehlschrank">Check deinen Kühlschrank</string>
-    <string name="Button_for_kuehlfach_list">Kühlschrankbutton</string>
-    <string name="Button_for_gefrierfach_list">Gefrierfachbutton</string>
-    <string name="message_no_results">Keine Ergebnisse!</string>
+    <string name="title_product_form">Produktbearbeitung</string>
+
     <string name="placeholder_productname">Produktname</string>
     <string name="placeholder_productUnit">Maßeinheit</string>
-    <string name="hint_add">Hinzufügen</string>
-    <string name="description_add_product">Produkt hinzufügen</string>
+
+    <string name="bought">gekauft:</string>
+    <string name="expires">läuft ab:</string>
+    <string name="storage">Lagerung:</string>
+    <string name="abort">Abbrechen</string>
+    <string name="text_confirm">OK</string>
+    <string name="description_productUnit">Anzahl</string>
 
 
 </resources>

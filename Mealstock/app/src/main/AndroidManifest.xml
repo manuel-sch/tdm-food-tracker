@@ -22,10 +22,6 @@
             android:name="com.example.mealstock.activities.ProductListActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.example.mealstock.activities.ProductDetailActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
@@ -44,13 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.mealstock.activities.ProductFormActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.example.mealstock.activities.SignInActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.example.mealstock.activities.BarcodeScanActivity"
             android:screenOrientation="portrait" />
 
         <activity

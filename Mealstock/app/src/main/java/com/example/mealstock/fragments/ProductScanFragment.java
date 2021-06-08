@@ -3,7 +3,6 @@ package com.example.mealstock.fragments;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.InputType;
@@ -18,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,9 +33,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.android.volley.Request;
 import com.bumptech.glide.Glide;
 import com.example.mealstock.R;
-import com.example.mealstock.activities.BarcodeScanActivity;
 import com.example.mealstock.activities.MainActivity;
-import com.example.mealstock.activities.ProductFormActivity;
 import com.example.mealstock.constants.UrlRequestConstants;
 import com.example.mealstock.databinding.FragmentScanBinding;
 import com.example.mealstock.models.Product;
@@ -58,7 +56,7 @@ import java.util.Locale;
 public class ProductScanFragment extends Fragment implements View.OnClickListener {
 
     // Constants
-    private static final String TAG = BarcodeScanActivity.class.getSimpleName();
+    private static final String TAG = ProductScanFragment.class.getSimpleName();
     private static final int REQUEST_CAMERA_PERMISSION = 201;
 
     // Activityviews
@@ -86,6 +84,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     private ImageView productImageOnDialog;
     private EditText productBoughtDateEditTextOnDialog, productExpiryDateEditTextInDialog;
     private Spinner storageSpinerOnDialog;
+    private NumberPicker productUnitNumberPicker;
 
     // Utils
     private NetworkDataTransmitterSingleton dataTransmitter;
@@ -173,14 +172,13 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         builder.setView(productAddDialogView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Log.d(TAG, "onClick: Gespeichertes Produkt: " + currentProduct);
                         barcodeScanViewModel.insertProduct(currentProduct);
-                        // User clicked OK button
                     }
                 })
                 .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
-                        barcodeData = null;
                         barcodeScanViewModel.setBarcode("");
                         barcodeScanViewModel.setProduct(null);
                     }
@@ -268,21 +266,17 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
                             if (barcodes.valueAt(0).email != null) {
                                 barcodeText.removeCallbacks(null);
                                 newBarcodeData = barcodes.valueAt(0).email.address;
-                                //barcodeData = barcodes.valueAt(0).email.address;
-                                //barcodeText.setText(barcodeData);
                                 barcodeScanViewModel.setBarcode(barcodeData);
 
                             } else {
                                 newBarcodeData = barcodes.valueAt(0).displayValue;
-                                //barcodeData = barcodes.valueAt(0).displayValue;
-                                //barcodeText.setText(barcodeData);
                                 barcodeScanViewModel.setBarcode(barcodeData);
                             }
                             if(!newBarcodeData.equals(barcodeData)){
                                 String barcodeSearchUrl = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
                                 String combinedUrl = barcodeSearchUrl + newBarcodeData + ".json";
                                 JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE_SEARCH, null);
-                                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, getActivity());
+                                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, requireActivity());
                                 mainActivity.setProgressBarVisibilityWithBool(true);
                             }
                             barcodeData = newBarcodeData;
@@ -335,11 +329,26 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
 
     void initializeViewsFromDialog(){
         productTitleTextViewOnDialog = productAddDialogView.findViewById(R.id.textView_productTitle);
-        storageSpinerOnDialog = productAddDialogView.findViewById(R.id.spinner);
+        storageSpinerOnDialog = productAddDialogView.findViewById(R.id.spinner_productStorage);
         productBoughtDateEditTextOnDialog = productAddDialogView.findViewById(R.id.editText_boughtDate);
         productExpiryDateEditTextInDialog = productAddDialogView.findViewById(R.id.editText_expiryDate);
         productImageOnDialog = productAddDialogView.findViewById(R.id.imageView_product);
+        productUnitNumberPicker = productAddDialogView.findViewById(R.id.numberPicker_productUnit);
+        setUpProductUnitPicker();
 
+    }
+
+    private void setUpProductUnitPicker() {
+        productUnitNumberPicker.setMinValue(1);
+        productUnitNumberPicker.setMaxValue(250);
+        productUnitNumberPicker.setWrapSelectorWheel(false);
+        productUnitNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                currentProduct.setUnit(newVal);
+                barcodeScanViewModel.setProduct(currentProduct);
+            }
+        });
     }
 
 
@@ -389,8 +398,13 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     }
 
     public void handleProductAddFormFab() {
+        parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, ProductFormFragment.class, null)
+                .commit();
+        /*
         Intent intent = new Intent(getActivity(), ProductFormActivity.class);
         startActivity(intent);
+         */
     }
 
     public void handleProductSearchFab() {

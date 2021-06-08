@@ -51,7 +51,7 @@ public class Product implements Serializable {
     private double price;
 
 
-    private int unit = 0;
+    private int unit = 1;
 
 
 /*

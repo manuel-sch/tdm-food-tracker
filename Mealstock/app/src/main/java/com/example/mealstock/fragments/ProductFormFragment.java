@@ -1,11 +1,13 @@
-package com.example.mealstock.activities;
+package com.example.mealstock.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -13,11 +15,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mealstock.R;
-import com.example.mealstock.databinding.ActivityProductFormBinding;
+import com.example.mealstock.databinding.FragmentProductFormBinding;
 import com.example.mealstock.models.Product;
 import com.example.mealstock.viewmodels.ProductViewModel;
 
@@ -26,15 +30,14 @@ import java.util.Calendar;
 import java.util.Locale;
 
 
-public class ProductFormActivity extends AppCompatActivity {
+public class ProductFormFragment extends Fragment {
 
-    private static final String TAG = ProductFormActivity.class.getSimpleName();
-    private String EXTRA_REPLY;
+    private static final String TAG = ProductFormFragment.class.getSimpleName();
     private final Calendar myCalendar = Calendar.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
 
     private ProductViewModel productViewModel;
-    private ActivityProductFormBinding activityBinding;
+    private FragmentProductFormBinding binding;
 
 
     private EditText productNameEditText;
@@ -51,28 +54,39 @@ public class ProductFormActivity extends AppCompatActivity {
 
     private ArrayAdapter<CharSequence> adapter;
 
-
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityBinding = ActivityProductFormBinding.inflate(getLayoutInflater());
-        View viewRoot = activityBinding.getRoot();
-        setContentView(viewRoot);
-        EXTRA_REPLY = this.getApplicationContext() + ".REPLY";
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentProductFormBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onCreate: " + "Test");
         initializeViews();
         setUpViews();
         setUpViewObserving();
     }
 
+
     void initializeViews() {
-        productNameEditText = activityBinding.editTextProductName;
-        productQuanityEditText = activityBinding.editTextProductQuantity;
-        productIngredientEditText = activityBinding.editTextProductIngredients;
-        productPriceEditText = activityBinding.editTextProductPrice;
-        productUnitEditText = activityBinding.editTextProductUnit;
-        productBoughtDateEditText = activityBinding.editTextBoughtDate;
-        productExpiryDateEditText = activityBinding.editTextExpiryDate;
-        productStorageSpinner = activityBinding.spinnerStorage;
+        productNameEditText = binding.editTextProductName;
+        productQuanityEditText = binding.editTextProductQuantity;
+        productIngredientEditText = binding.editTextProductIngredients;
+        productPriceEditText = binding.editTextProductPrice;
+        productUnitEditText = binding.editTextProductUnit;
+        productBoughtDateEditText = binding.editTextBoughtDate;
+        productExpiryDateEditText = binding.editTextExpiryDate;
+        productStorageSpinner = binding.spinnerStorage;
     }
 
     void setUpViews() {
@@ -84,7 +98,7 @@ public class ProductFormActivity extends AppCompatActivity {
 
     void setUpViewObserving() {
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        productViewModel.getProduct().observe(this, product -> {
+        productViewModel.getProduct().observe(requireActivity(), product -> {
             currentProduct = product;
             if(product.getProductName() != null)
                 productNameEditText.setText(product.getProductName());
@@ -106,7 +120,7 @@ public class ProductFormActivity extends AppCompatActivity {
 
     void setUpStorageSpinner() {
         // Create an ArrayAdapter using the string array and a default spinner layout
-        adapter = ArrayAdapter.createFromResource(this,
+        adapter = ArrayAdapter.createFromResource(requireActivity(),
                 R.array.product_storage, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -150,7 +164,7 @@ public class ProductFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(ProductFormActivity.this, finalDatePickerDialog, myCalendar
+                new DatePickerDialog(requireActivity(), finalDatePickerDialog, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -173,7 +187,7 @@ public class ProductFormActivity extends AppCompatActivity {
     }
 
     private void showToastMessage(String message) {
-        Context context = getApplicationContext();
+        Context context = requireActivity().getApplicationContext();
         int duration = Toast.LENGTH_LONG;
         Toast toast = Toast.makeText(context, message, duration);
         toast.show();

@@ -17,18 +17,15 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="fontFamily">@font/montserrat</item>
         <item name="backgroundColor">@color/white</item>
+        <item name="android:numberPickerStyle">@style/NumberPickerTheme</item>P
 
     </style>
 
-
-
-
-    <style name="Theme.Mealstock.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="NumberPickerTheme" parent="@android:style/Widget.Material.NumberPicker">
+        <!--
+        <item name="colorControlNormal">#33691e</item>
+        <item name="android:background">#b3e5fc</item>
+        -->
     </style>
 
-    <style name="Theme.Tdmfoodtracker.AppBarOverlay"
-        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="Theme.Tdmfoodtracker.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

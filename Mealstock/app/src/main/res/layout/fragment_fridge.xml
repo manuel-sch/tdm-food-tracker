@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:fontFamily="sans-serif-black"
-        android:text="@string/check_deinen_kuehlschrank"
+        android:text="@string/text_check_your_fridge"
         android:textColor="?attr/colorPrimary"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"

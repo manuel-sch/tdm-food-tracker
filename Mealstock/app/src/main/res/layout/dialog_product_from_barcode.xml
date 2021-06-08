@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:padding="20dp">
+    android:padding="@dimen/padding_extra_large">
 
     <TextView
         android:id="@+id/textView_productTitle"
@@ -13,100 +13,110 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Produkttitel"
+        android:text="@string/placeholder_productname"
         style="@style/title_primary_2"/>
 
     <ImageView
         android:id="@+id/imageView_product"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="150dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_productTitle"
+        app:layout_constraintTop_toBottomOf="@id/spinner_productStorage"
+        android:paddingEnd="@dimen/padding_large"
+        android:layout_marginTop="@dimen/margin_large"
         android:adjustViewBounds="true"
-        android:paddingEnd="20dp"
-        android:contentDescription="@string/contentDescription_productImage"
+        android:contentDescription="@string/description_productImage"
+
          />
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editText_boughtDate_layout"
+        style="@style/editText_primary_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="@dimen/margin_larger"
+        android:layout_marginEnd="45dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView_product"
-        app:layout_constraintTop_toBottomOf="@id/textView_productTitle"
-        android:textColor="?attr/colorPrimaryDark"
-        android:textColorHint="?attr/colorPrimary"
-        android:layout_marginTop="30dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_productTitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText_boughtDate"
+            style="@style/editText_picker_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/hint_enter_bought_date"
-            android:inputType="textAutoCorrect"
-            android:longClickable="false"
-            android:background="@color/white"
-            android:textSize="16sp"
-            />
+            android:hint="@string/hint_enter_bought_date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editText_expiry_date_layout"
+        style="@style/editText_primary_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="45dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView_product"
-        app:layout_constraintTop_toBottomOf="@id/editText_boughtDate_layout"
-        android:textColor="?attr/colorPrimaryDark"
-        android:textColorHint="?attr/colorPrimary">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editText_boughtDate_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText_expiryDate"
+            style="@style/editText_picker_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/hint_enter_expiry_date"
-            android:inputType="textAutoCorrect"
-            android:longClickable="false"
-            android:background="@color/white"
-            android:textSize="16sp"/>
+            android:hint="@string/hint_enter_expiry_date" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
-
     <TextView
-        android:id="@+id/textView_storage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@id/imageView_product"
-        app:layout_constraintTop_toBottomOf="@id/editText_expiry_date_layout"
-        android:text="@string/storage"
-        android:fontFamily="@font/montserrat"
-        style="@style/editText_primary_1"
-        />
-
-    <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/textView_storageDescription"
+        style="@style/text_primary_dark_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        app:layout_constraintEnd_toEndOf="@+id/editText_expiry_date_layout"
-        app:layout_constraintStart_toEndOf="@id/imageView_product"
-        app:layout_constraintTop_toBottomOf="@id/textView_storage"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="45dp"
+        android:text="@string/storage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editText_expiry_date_layout" />
+
+    <Spinner
+        android:id="@+id/spinner_productStorage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_tiny"
         android:dropDownWidth="match_parent"
         android:spinnerMode="dialog"
-        />
+        app:layout_constraintEnd_toEndOf="@+id/editText_expiry_date_layout"
+        app:layout_constraintStart_toStartOf="@+id/textView_storageDescription"
+        app:layout_constraintTop_toBottomOf="@id/textView_storageDescription" />
+
+    <TextView
+        android:id="@+id/textView_productUnitDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/numberPicker_productUnit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageView_product"
+        android:paddingBottom="@dimen/padding_small"
+        android:text="@string/description_productUnit"
+        android:textAlignment="center"
+        style="@style/text_primary_dark_1"/>
+
+    <NumberPicker
+        android:id="@+id/numberPicker_productUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="@id/imageView_product"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageView_product"
+        app:layout_constraintTop_toTopOf="@id/imageView_product">
+
+    </NumberPicker>
 
 
 

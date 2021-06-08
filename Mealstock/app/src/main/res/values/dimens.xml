@@ -8,11 +8,18 @@
     <!-- View Sizes -->
 
     <!-- Spacing -->
+    <dimen name="margin_tiny">5dp</dimen>
     <dimen name="margin_large">25dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="main_content_padding">10dp</dimen>
+    <dimen name="margin_larger">30dp</dimen>
+
+    <dimen name="padding_small">10dp</dimen>
+    <dimen name="padding_normal">10dp</dimen>
+    <dimen name="padding_large">20dp</dimen>
+    <dimen name="padding_extra_large">25dp</dimen>
+
     <dimen name="margin_normal">10dp</dimen>
     <dimen name="margin_product_item_title">12dp</dimen>
+    <dimen name="margin_fab">16dp</dimen>
 
 
 </resources>
