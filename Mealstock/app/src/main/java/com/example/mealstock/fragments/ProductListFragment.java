@@ -1,10 +1,13 @@
 package com.example.mealstock.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,12 +15,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealstock.R;
 import com.example.mealstock.adapters.ProductListAdapter;
+import com.example.mealstock.database.FirebaseAdapter;
 import com.example.mealstock.models.DataModel;
+import com.example.mealstock.models.Product;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class ProductListFragment extends Fragment implements ProductListAdapter.ItemClickListener {
-    private ArrayList<DataModel> list = new ArrayList<>();
+    private ArrayList<Product> list = new ArrayList<>();
     public ProductListFragment() {
         // Required empty public constructor
     }
@@ -61,17 +72,30 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
     }
 
     private void buildListData() {
-        list.add(new DataModel("Apfel"));
-        list.add(new DataModel("Milch"));
-        list.add(new DataModel("Yoghurt"));
-        list.add(new DataModel("Fleisch"));
-        list.add(new DataModel("Eier"));
-        list.add(new DataModel("Karotte"));
+
+        Product nya = new Product();
+        nya.setGenericName("nya");
+        Product nyadelete = new Product();
+        nyadelete.setGenericName("nyadelete");
+
+        list.add(nya);
+        /*list.add(nyadelete);
+        FirebaseAdapter firebaseAdapter = new FirebaseAdapter();
+        firebaseAdapter.insertProduct(nya);
+        firebaseAdapter.insertProduct(nyadelete);
+
+         */
+
+        FirebaseAdapter fire = new FirebaseAdapter();
+        DatabaseReference productReference = fire.getProductReference();
+        list = fire.getProductListFromDatabase();
+
+
     }
 
     @Override
-    public void onItemClick(DataModel dataModel) {
-        Fragment fragment = ProductDetailFragment.newInstance(dataModel.getTitle());
+    public void onItemClick(Product dataModel) {
+        Fragment fragment = ProductDetailFragment.newInstance(dataModel.getGenericName());
 
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

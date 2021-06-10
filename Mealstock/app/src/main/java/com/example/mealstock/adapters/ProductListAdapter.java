@@ -10,15 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealstock.models.DataModel;
 import com.example.mealstock.R;
+import com.example.mealstock.models.Product;
 
 import java.util.List;
 
 public class ProductListAdapter  extends RecyclerView.Adapter<ProductListAdapter.MyViewHolder> {
-    private List<DataModel> list;
+    private List<Product> list;
     private ItemClickListener clickListener;
 
 
-    public ProductListAdapter(List<DataModel> list, ItemClickListener clickListener) {
+    public ProductListAdapter(List<Product> list, ItemClickListener clickListener) {
         this.list = list;
         this.clickListener  = clickListener;
 
@@ -33,7 +34,7 @@ public class ProductListAdapter  extends RecyclerView.Adapter<ProductListAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ProductListAdapter.MyViewHolder holder, int position) {
-        holder.titleTextView.setText(list.get(position).getTitle());
+        holder.titleTextView.setText(list.get(position).getGenericName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +61,6 @@ public class ProductListAdapter  extends RecyclerView.Adapter<ProductListAdapter
 
     public interface ItemClickListener {
 
-        public void onItemClick(DataModel dataModel);
+        public void onItemClick(Product dataModel);
     }
 }
