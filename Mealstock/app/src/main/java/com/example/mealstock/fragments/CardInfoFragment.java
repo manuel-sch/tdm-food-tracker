@@ -1,6 +1,5 @@
 package com.example.mealstock.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +8,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.mealstock.R;
-import com.example.mealstock.activities.ProductListActivity;
 import com.example.mealstock.databinding.CardInfoBinding;
-import com.example.mealstock.databinding.FragmentFridgeBinding;
-import com.example.mealstock.databinding.FragmentHomeBinding;
 
 public class CardInfoFragment extends Fragment {
 
