@@ -6,19 +6,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealstock.R;
 import com.example.mealstock.adapters.ProductListAdapter;
-import com.example.mealstock.models.DataModel;
+import com.example.mealstock.database.FirebaseAdapter;
+import com.example.mealstock.models.Product;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class ProductListFragment extends Fragment implements ProductListAdapter.ItemClickListener {
-    private ArrayList<DataModel> list = new ArrayList<>();
+    private ArrayList<Product> list = new ArrayList<>();
     public ProductListFragment() {
         // Required empty public constructor
     }
@@ -47,6 +53,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         // Inflate the layout for this fragment
         View view=  inflater.inflate(R.layout.fragment_product_list, container, false);
 
+
         Spinner spinner = (Spinner) view.findViewById(R.id.filter_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),
                 R.array.product_storage, android.R.layout.simple_spinner_item);
@@ -54,6 +61,34 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         spinner.setAdapter(adapter);
 
         buildListData();
+
+        FirebaseAdapter fire = new FirebaseAdapter();
+
+        fire.getProductReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // this method is call to get the realtime
+                // updates in the data.
+                // this method is called when the data is
+                // changed in our Firebase console.
+                // below line is for getting the data from
+                // snapshot of our database.
+                //list.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    list.add(dataSnapshot.getValue(Product.class));
+                }
+                initRecyclerView(view);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // calling on cancelled method when we receive
+                // any error or we are not able to get the data.
+                Toast.makeText(null, "Fail to get data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         initRecyclerView(view);
 
         return view;
@@ -69,18 +104,14 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
     }
 
     private void buildListData() {
-        list.add(new DataModel("Apfel"));
-        list.add(new DataModel("Milch"));
-        list.add(new DataModel("Yoghurt"));
-        list.add(new DataModel("Fleisch"));
-        list.add(new DataModel("Eier"));
-        list.add(new DataModel("Karotte"));
+        
+
     }
 
     @Override
-    public void onItemClick(DataModel dataModel) {
-        Fragment fragment = ProductDetailFragment.newInstance(dataModel.getTitle());
+    public void onItemClick(Product dataModel) {
+        Fragment fragment = ProductDetailFragment.newInstance(dataModel.getGenericName());
 
-        getParentFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment, null).commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment, null).addToBackStack("ProductDetail").commit();
     }
 }

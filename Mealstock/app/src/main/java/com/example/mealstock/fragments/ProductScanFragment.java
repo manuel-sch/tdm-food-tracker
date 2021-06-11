@@ -400,7 +400,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     public void handleProductAddFormFab() {
         parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainerView, ProductFormFragment.class, null)
-                .commit();
+                .addToBackStack("Freezer").commit();
         /*
         Intent intent = new Intent(getActivity(), ProductFormActivity.class);
         startActivity(intent);
@@ -410,7 +410,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     public void handleProductSearchFab() {
         parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainerView, ProductRemoteSearchFragment.class, null)
-                .commit();
+                .addToBackStack("Freezer").commit();
     }
 
     @Override

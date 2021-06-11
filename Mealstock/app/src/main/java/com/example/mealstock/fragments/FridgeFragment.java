@@ -43,7 +43,9 @@ public class FridgeFragment extends Fragment {
 
         gefrierFach.setOnClickListener(v -> {
 
-            getParentFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, ProductListFragment.class, null).commit();
+            getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
+                    .replace(R.id.fragmentContainerView, ProductListFragment.class, null)
+                            .addToBackStack("Freezer").commit();
         });
 
     }
