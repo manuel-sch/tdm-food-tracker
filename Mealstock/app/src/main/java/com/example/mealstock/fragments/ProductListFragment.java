@@ -69,12 +69,10 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
                 // below line is for getting the data from
                 // snapshot of our database.
                 //list.clear();
-                Product value = snapshot.getValue(Product.class);
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     list.add(dataSnapshot.getValue(Product.class));
                 }
                 initRecyclerView(view);
-
             }
 
             @Override
@@ -85,7 +83,6 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
             }
         });
 
-        //buildListData();
         initRecyclerView(view);
         return view;
     }

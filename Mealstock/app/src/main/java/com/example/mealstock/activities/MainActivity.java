@@ -13,6 +13,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.mealstock.R;
+import com.example.mealstock.constants.AppInfoConstants;
+import com.example.mealstock.constants.UrlRequestConstants;
 import com.example.mealstock.database.FirebaseAdapter;
 import com.example.mealstock.fragments.ShelfFragment;
 import com.example.mealstock.models.Product;
@@ -40,9 +42,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         NavigationUI.setupWithNavController(bottomNav, navController);
+/*
+        Product p = new Product();
+        p.setGenericName(UrlRequestConstants.FREEZER);
+        FirebaseAdapter fire = new FirebaseAdapter();
+        fire.getProductReferenceFridge("fach").push().setValue(p);
 
-
-
+ */
 
     }
 

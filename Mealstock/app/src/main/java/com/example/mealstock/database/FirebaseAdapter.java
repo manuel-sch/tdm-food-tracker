@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.mealstock.activities.MainActivity;
+import com.example.mealstock.constants.UrlRequestConstants;
 import com.example.mealstock.models.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +33,7 @@ public class FirebaseAdapter {
     private DatabaseReference userReference;
     private DatabaseReference productReference;
     private DatabaseReference userIDReference;
+
     private String TAG = "FirebaseAdapter";
 
 
@@ -44,6 +46,8 @@ public class FirebaseAdapter {
         userReference = FirebaseDatabase.getInstance().getReference("Users");
         userIDReference = userReference.child(uID);
         productReference = userIDReference.child("Products");
+
+
 
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
@@ -109,52 +113,16 @@ public class FirebaseAdapter {
         productReference.push().setValue(product);
     }
 
-    public FirebaseUser getUser() {
-        return user;
+    public void insertProductInFreezer(Product product){
+        productReference.child(UrlRequestConstants.FREEZER).push().setValue(product);
     }
 
-    public ArrayList<Product> getProductListFromDatabase(){
+    public void insertProductWithReference(DatabaseReference pReference, Product product){
+        pReference.push().setValue(product);
+    }
 
-         ArrayList<Product> list = new ArrayList<>();
-
-        productReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // this method is call to get the realtime
-                // updates in the data.
-                // this method is called when the data is
-                // changed in our Firebase console.
-                // below line is for getting the data from
-                // snapshot of our database.
-                //list.clear();
-                Product value = snapshot.getValue(Product.class);
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    list.add(dataSnapshot.getValue(Product.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // calling on cancelled method when we receive
-                // any error or we are not able to get the data.
-                Toast.makeText(null, "Fail to get data.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        productReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                }
-            }
-        });
-
-        return list;
-
+    public FirebaseUser getUser() {
+        return user;
     }
 
 
@@ -165,4 +133,10 @@ public class FirebaseAdapter {
     public DatabaseReference getProductReference() {
         return productReference;
     }
+
+    public DatabaseReference getProductReferenceFridge(String producktfach) {
+        DatabaseReference pReference = productReference.child(producktfach);
+        return pReference;
+    }
+
 }
