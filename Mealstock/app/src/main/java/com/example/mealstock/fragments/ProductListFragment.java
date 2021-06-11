@@ -57,7 +57,35 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         // Inflate the layout for this fragment
         View view=  inflater.inflate(R.layout.fragment_product_list, container, false);
 
-        buildListData();
+        FirebaseAdapter fire = new FirebaseAdapter();
+
+        fire.getProductReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // this method is call to get the realtime
+                // updates in the data.
+                // this method is called when the data is
+                // changed in our Firebase console.
+                // below line is for getting the data from
+                // snapshot of our database.
+                //list.clear();
+                Product value = snapshot.getValue(Product.class);
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    list.add(dataSnapshot.getValue(Product.class));
+                }
+                initRecyclerView(view);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // calling on cancelled method when we receive
+                // any error or we are not able to get the data.
+                Toast.makeText(null, "Fail to get data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //buildListData();
         initRecyclerView(view);
         return view;
     }
@@ -72,24 +100,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
     }
 
     private void buildListData() {
-
-        Product nya = new Product();
-        nya.setGenericName("nya");
-        Product nyadelete = new Product();
-        nyadelete.setGenericName("nyadelete");
-
-        list.add(nya);
-        /*list.add(nyadelete);
-        FirebaseAdapter firebaseAdapter = new FirebaseAdapter();
-        firebaseAdapter.insertProduct(nya);
-        firebaseAdapter.insertProduct(nyadelete);
-
-         */
-
-        FirebaseAdapter fire = new FirebaseAdapter();
-        DatabaseReference productReference = fire.getProductReference();
-        list = fire.getProductListFromDatabase();
-
+        
 
     }
 
