@@ -4,9 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,8 +47,15 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         // Inflate the layout for this fragment
         View view=  inflater.inflate(R.layout.fragment_product_list, container, false);
 
+        Spinner spinner = (Spinner) view.findViewById(R.id.filter_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),
+                R.array.product_storage, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
         buildListData();
         initRecyclerView(view);
+
         return view;
     }
 
@@ -73,13 +81,6 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
     public void onItemClick(DataModel dataModel) {
         Fragment fragment = ProductDetailFragment.newInstance(dataModel.getTitle());
 
-
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        // transaction.replace(R.id.frame_container, fragment, "detail_fragment");
-
-        transaction.hide(getActivity().getSupportFragmentManager().findFragmentByTag("ProductCardView_fragment"));
-        transaction.add(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment, null).commit();
     }
 }

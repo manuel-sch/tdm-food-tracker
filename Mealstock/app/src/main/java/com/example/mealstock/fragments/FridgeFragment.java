@@ -1,6 +1,5 @@
 package com.example.mealstock.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +9,13 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.mealstock.activities.ProductListActivity;
+import com.example.mealstock.R;
 import com.example.mealstock.databinding.FragmentFridgeBinding;
 
 public class FridgeFragment extends Fragment {
 
     private ImageView gefrierFach;
-    FragmentFridgeBinding fragmentFridgeBinding;
+    private FragmentFridgeBinding fragmentFridgeBinding;
 
     private ViewPager2 viewPager;
 
@@ -42,8 +41,10 @@ public class FridgeFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         gefrierFach = fragmentFridgeBinding.gefrierfach;
 
-        gefrierFach.setOnClickListener(v ->
-                startActivity(new Intent(requireActivity(), ProductListActivity.class)));
+        gefrierFach.setOnClickListener(v -> {
+
+            getParentFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, ProductListFragment.class, null).commit();
+        });
 
     }
 

@@ -18,10 +18,6 @@
         android:supportsRtl="true"
 
         android:theme="@style/Theme.Mealstock">
-        <activity
-            android:name="com.example.mealstock.activities.ProductListActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"

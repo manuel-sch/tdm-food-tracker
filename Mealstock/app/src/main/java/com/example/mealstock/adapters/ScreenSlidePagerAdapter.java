@@ -2,11 +2,15 @@ package com.example.mealstock.adapters;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+
+import com.example.mealstock.R;
 import com.example.mealstock.fragments.FridgeFragment;
 import com.example.mealstock.fragments.ShelfFragment;
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 public class ScreenSlidePagerAdapter extends FragmentStateAdapter {
 
@@ -16,6 +20,9 @@ public class ScreenSlidePagerAdapter extends FragmentStateAdapter {
         super(fa);
         this.viewPager = viewPager;
     }
+
+
+
     @Override
     public Fragment createFragment(int position) {
         switch(position){

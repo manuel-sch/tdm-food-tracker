@@ -16,4 +16,6 @@
     <color name="bluegreen_dark">#36998c</color>
     <color name="bluegreen_darker">#1e574f</color>
 
+    <color name ="background_white">#F0F0F0</color>
+
 </resources>
