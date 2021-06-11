@@ -13,6 +13,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -129,6 +130,8 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         mainActivity = (MainActivity) requireActivity();
         setUpViewModelObserving();
         setUpProductAddDialog();
+        initializeViewsFromDialog();
+        setUpStorageSpinner();
         initializeViewsOfActivity();
         setUpFloatingActionButtons();
         initialiseBarcodeDetectorsAndSources();
@@ -173,6 +176,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.d(TAG, "onClick: Gespeichertes Produkt: " + currentProduct);
+                        currentProduct.setStorage(storageSpinerOnDialog.getSelectedItem().toString());
                         barcodeScanViewModel.insertProduct(currentProduct);
                     }
                 })
@@ -185,8 +189,6 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
                 });
         productAddDialog = builder.create();
         productAddDialog.getWindow().getAttributes().windowAnimations = R.style.animation_fade_in_fade_out;
-        initializeViewsFromDialog();
-        storageSpinerOnDialog.setAdapter(setUpStorageSpinner());
 
     }
 
@@ -351,14 +353,37 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         });
     }
 
+    void setUpStorageSpinner(){
+        storageSpinerOnDialog.setAdapter(setUpStorageSpinnerAdapter());
+        setUpStorageSpinnerClickListener();
+    }
 
-    ArrayAdapter<CharSequence> setUpStorageSpinner() {
+
+    ArrayAdapter<CharSequence> setUpStorageSpinnerAdapter() {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.product_storage, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        setUpStorageSpinnerClickListener();
         return adapter;
+    }
+
+    void setUpStorageSpinnerClickListener(){
+        storageSpinerOnDialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedStorage = parent.getItemAtPosition(position).toString();
+                currentProduct.setStorage(selectedStorage);
+                barcodeScanViewModel.setProduct(currentProduct);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+        });
     }
 
 

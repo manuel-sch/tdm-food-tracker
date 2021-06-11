@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.mealstock.database.FireBaseRepository;
 import com.example.mealstock.models.Product;
 
 import java.util.List;
@@ -14,9 +15,11 @@ public class ProductRemoteSearchViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Product>> products;
     private MutableLiveData<Product> selectedProduct;
+    private FireBaseRepository fireBaseRepository;
 
     public ProductRemoteSearchViewModel(Application application) {
         super(application);
+        fireBaseRepository = new FireBaseRepository();
     }
 
     public LiveData<List<Product>> getProducts() {
@@ -43,5 +46,6 @@ public class ProductRemoteSearchViewModel extends AndroidViewModel {
 
     public void insertProduct(Product product) {
         // Produkt in Datenbank einfügen
+        fireBaseRepository.insertProduct(product);
     }
 }

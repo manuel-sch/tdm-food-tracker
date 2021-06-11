@@ -8,7 +8,7 @@ public class UrlRequestConstants {
     public static final String OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE= "https://de-en.openfoodfacts.org/api/v0/product/";
     public static final String OPENFOODFACTS_SEARCH_PRODUCT_WTIH_PRODUCT_NAME = "https://de-en.openfoodfacts.org/cgi/search.pl?action=process&json=true&sort_by=unique_scans_n&page_size=15&search_terms=";
 
-    public static final String FREEZER = "Freezer";
+
 
 
 }

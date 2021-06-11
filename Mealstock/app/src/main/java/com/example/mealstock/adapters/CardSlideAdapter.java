@@ -1,6 +1,5 @@
 package com.example.mealstock.adapters;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -9,8 +8,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.mealstock.fragments.CardInfoFragment;
 import com.example.mealstock.fragments.CardNaehrwerteFragment;
 import com.example.mealstock.fragments.CardRecipesFragment;
-import com.example.mealstock.fragments.FridgeFragment;
-import com.example.mealstock.fragments.ShelfFragment;
 
 public class CardSlideAdapter extends FragmentStateAdapter {
     private ViewPager2 viewPager;

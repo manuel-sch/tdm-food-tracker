@@ -39,7 +39,7 @@ public class SignInActivity extends AppCompatActivity {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        imageView = (ImageView) findViewById(R.id.imageView);
+        imageView = (ImageView) findViewById(R.id.imageView_shelf);
         name = (TextView) findViewById(R.id.signInName);
         email = (TextView) findViewById(R.id.signInEmail);
         id = (TextView) findViewById(R.id.signInID);

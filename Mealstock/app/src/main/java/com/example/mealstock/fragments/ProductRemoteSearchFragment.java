@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -30,7 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.bumptech.glide.Glide;
 import com.example.mealstock.R;
-import com.example.mealstock.adapters.ProductRecyclerViewAdapter;
+import com.example.mealstock.adapters.ProductRemoteSearchRecyclerViewAdapter;
 import com.example.mealstock.constants.UrlRequestConstants;
 import com.example.mealstock.databinding.FragmentSearchRemoteBinding;
 import com.example.mealstock.models.Product;
@@ -45,7 +46,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class ProductRemoteSearchFragment extends Fragment implements ProductRecyclerViewAdapter.ProductItemClickListener, View.OnClickListener {
+public class ProductRemoteSearchFragment extends Fragment implements ProductRemoteSearchRecyclerViewAdapter.ProductItemClickListener, View.OnClickListener {
 
     // Constants
     private static final String TAG = ProductRemoteSearchFragment.class.getSimpleName();
@@ -80,7 +81,7 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRecy
     private NetworkDataTransmitterSingleton dataTransmitter;
     private FragmentManager parentFragmentManager;
     private ProductRemoteSearchViewModel productListViewModel;
-    private ProductRecyclerViewAdapter recyclerViewAdapter;
+    private ProductRemoteSearchRecyclerViewAdapter recyclerViewAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,10 +105,13 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRecy
         initializeViews();
         setUpProductAddDialog();
         initializeViewsFromDialog();
+        setUpStorageSpinner();
+        setUpProductUnitPicker();
         setUpSearchBar();
         setUpViewObserving();
         setUpDatePicker(productBoughtDateEditTextOnDialog, boughtDatePickerDialog);
         setUpDatePicker(productExpiryDateEditTextInDialog, expiryDatePickerDialog);
+        setUpStorageSpinnerAdapter();
     }
 
     private void initializeUtils() {
@@ -121,7 +125,7 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRecy
         recyclerView = binding.recyclerViewRemoteProducts;
         LinearLayoutManager llm = new LinearLayoutManager(requireContext());
         recyclerView.setLayoutManager(llm);
-        recyclerViewAdapter = new ProductRecyclerViewAdapter(this);
+        recyclerViewAdapter = new ProductRemoteSearchRecyclerViewAdapter(this);
         recyclerView.setAdapter(recyclerViewAdapter);
         floatingActionButton = binding.fabProductSave;
         floatingActionButton.setOnClickListener(this);
@@ -180,6 +184,7 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRecy
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.d(TAG, "onClick: Gespeichertes Produkt: " + selectedProduct);
+                        selectedProduct.setStorage(storageSpinerOnDialog.getSelectedItem().toString());
                         productListViewModel.insertProduct(selectedProduct);
                     }
                 })
@@ -197,10 +202,13 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRecy
         productBoughtDateEditTextOnDialog = productAddDialogView.findViewById(R.id.editText_boughtDate);
         productExpiryDateEditTextInDialog = productAddDialogView.findViewById(R.id.editText_expiryDate);
         productImageOnDialog = productAddDialogView.findViewById(R.id.imageView_product);
-        storageSpinerOnDialog.setAdapter(setUpStorageSpinner());
         productUnitNumberPicker = productAddDialogView.findViewById(R.id.numberPicker_productUnit);
-        setUpProductUnitPicker();
 
+    }
+
+    void setUpStorageSpinner(){
+        storageSpinerOnDialog.setAdapter(setUpStorageSpinnerAdapter());
+        setUpStorageSpinnerClickListener();
     }
 
     private void setUpProductUnitPicker() {
@@ -216,13 +224,31 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRecy
         });
     }
 
-    ArrayAdapter<CharSequence> setUpStorageSpinner() {
+    ArrayAdapter<CharSequence> setUpStorageSpinnerAdapter() {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.product_storage, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        setUpStorageSpinnerClickListener();
         return adapter;
+    }
+
+    void setUpStorageSpinnerClickListener(){
+        storageSpinerOnDialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedStorage = parent.getItemAtPosition(position).toString();
+                selectedProduct.setStorage(selectedStorage);
+                productListViewModel.setSelectedProduct(selectedProduct);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+        });
     }
 
     void setUpDatePicker(EditText datePickerEditText, DatePickerDialog.OnDateSetListener datePickerDialog) {

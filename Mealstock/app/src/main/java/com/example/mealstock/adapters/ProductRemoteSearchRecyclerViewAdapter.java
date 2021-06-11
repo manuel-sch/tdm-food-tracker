@@ -21,7 +21,7 @@ import com.example.mealstock.models.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductViewHolder> {
+public class ProductRemoteSearchRecyclerViewAdapter extends RecyclerView.Adapter<ProductRemoteSearchRecyclerViewAdapter.ProductViewHolder> {
 
     private Context context;
     private List<Product> products = new ArrayList<>();
@@ -31,7 +31,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     private int selectedItem;
 
 
-    public ProductRecyclerViewAdapter(ProductItemClickListener clickListener){
+    public ProductRemoteSearchRecyclerViewAdapter(ProductItemClickListener clickListener){
         this.clickListener = clickListener;
         selectedItem = -1;
     }

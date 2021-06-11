@@ -23,7 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.mealstock.R;
 import com.example.mealstock.databinding.FragmentProductFormBinding;
 import com.example.mealstock.models.Product;
-import com.example.mealstock.viewmodels.ProductViewModel;
+import com.example.mealstock.viewmodels.ProductFormViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,7 +36,7 @@ public class ProductFormFragment extends Fragment {
     private final Calendar myCalendar = Calendar.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
 
-    private ProductViewModel productViewModel;
+    private ProductFormViewModel productViewModel;
     private FragmentProductFormBinding binding;
 
 
@@ -97,7 +97,7 @@ public class ProductFormFragment extends Fragment {
 
 
     void setUpViewObserving() {
-        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        productViewModel = new ViewModelProvider(this).get(ProductFormViewModel.class);
         productViewModel.getProduct().observe(requireActivity(), product -> {
             currentProduct = product;
             if(product.getProductName() != null)

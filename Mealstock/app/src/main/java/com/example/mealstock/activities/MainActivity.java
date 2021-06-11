@@ -12,8 +12,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.mealstock.R;
-import com.example.mealstock.database.FirebaseAdapter;
-import com.example.mealstock.models.Product;
 import com.example.mealstock.network.NetworkDataTransmitterSingleton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -38,14 +36,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         NavigationUI.setupWithNavController(bottomNav, navController);
-
-        Product p = new Product();
-        p.setGenericName("Blackblack");
-        FirebaseAdapter fire = new FirebaseAdapter();
-        fire.getProductReference().push().setValue(p);
-        //fire.getProductReferenceFridge("fach").push().setValue(p);
-
-
 
     }
 
