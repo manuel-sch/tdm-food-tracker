@@ -73,7 +73,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
 
     private void setUpSpinner() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.product_storage, android.R.layout.simple_spinner_item);
+                R.array.product_filter, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         storageSpinner.setAdapter(adapter);
     }

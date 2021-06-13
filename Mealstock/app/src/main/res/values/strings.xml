@@ -8,6 +8,14 @@
         <item>Kühlfach</item>
         <item>Regal</item>
     </string-array>
+
+    <string-array name="product_filter">
+        <item>Milchprodukte</item>
+        <item>Fleisch</item>
+        <item>Gemüse</item>
+        <item>Obst</item>
+    </string-array>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
