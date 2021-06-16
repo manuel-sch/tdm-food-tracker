@@ -16,17 +16,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.mealstock.R;
+import com.example.mealstock.fragments.ProductListFragment;
 import com.example.mealstock.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductListForStorageRecyclerViewAdapter extends RecyclerView.Adapter<ProductListForStorageRecyclerViewAdapter.ProductItemViewHolder> {
+public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adapter<ProductListForStorageRecyclerViewAdapter.ProductItemViewHolder> {
 
     private Context context;
     private List<Product> products = new ArrayList<>();
+    private final ProductItemClickListener clickListener;
 
     private int selectedItem;
+
+    public ProductListForStorageRecyclerViewAdapter(ProductItemClickListener clickListener) {
+        this.clickListener = clickListener;
+        selectedItem = -1;
+    }
 
     @NonNull
     @Override
@@ -57,7 +64,7 @@ public class ProductListForStorageRecyclerViewAdapter extends RecyclerView.Adapt
         notifyDataSetChanged();
     }
 
-    public class ProductItemViewHolder extends RecyclerView.ViewHolder {
+    public class ProductItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private final ImageView imageViewProductTitle;
         private TextView textViewProductTitle;
@@ -68,11 +75,25 @@ public class ProductListForStorageRecyclerViewAdapter extends RecyclerView.Adapt
 
         public ProductItemViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             imageViewProductTitle = itemView.findViewById(R.id.imageView_product);
             textViewProductTitle = itemView.findViewById(R.id.textView_productTitle);
             textViewProductQuantity = itemView.findViewById(R.id.textView_productQuantity);
             cardView = itemView.findViewById(R.id.cardView);
 
         }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            int previousItem = selectedItem;
+            selectedItem = position;
+            notifyItemChanged(previousItem);
+            notifyItemChanged(position);
+            clickListener.onProductItemClick(position);
+        }
+    }
+    public interface ProductItemClickListener {
+        void onProductItemClick(int position);
     }
 }
