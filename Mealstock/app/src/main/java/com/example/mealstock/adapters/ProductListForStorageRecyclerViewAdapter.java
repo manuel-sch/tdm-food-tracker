@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.mealstock.R;
-import com.example.mealstock.fragments.ProductListFragment;
 import com.example.mealstock.models.Product;
 
 import java.util.ArrayList;
@@ -27,12 +26,16 @@ public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adap
     private Context context;
     private List<Product> products = new ArrayList<>();
     private final ProductItemClickListener clickListener;
+    private final ProductItemLongClickListener longClinkListener;
+
 
     private int selectedItem;
 
-    public ProductListForStorageRecyclerViewAdapter(ProductItemClickListener clickListener) {
+    public ProductListForStorageRecyclerViewAdapter(ProductItemClickListener clickListener, ProductItemLongClickListener swipeListener) {
         this.clickListener = clickListener;
+        this.longClinkListener = swipeListener;
         selectedItem = -1;
+
     }
 
     @NonNull
@@ -64,7 +67,7 @@ public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adap
         notifyDataSetChanged();
     }
 
-    public class ProductItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ProductItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
         private final ImageView imageViewProductTitle;
         private TextView textViewProductTitle;
@@ -76,6 +79,7 @@ public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adap
         public ProductItemViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             imageViewProductTitle = itemView.findViewById(R.id.imageView_product);
             textViewProductTitle = itemView.findViewById(R.id.textView_productTitle);
             textViewProductQuantity = itemView.findViewById(R.id.textView_productQuantity);
@@ -91,9 +95,28 @@ public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adap
             notifyItemChanged(previousItem);
             notifyItemChanged(position);
             clickListener.onProductItemClick(position);
+
+        }
+
+
+        @Override
+        public boolean onLongClick(View v) {
+            int position = getAdapterPosition();
+            int previousItem = selectedItem;
+            selectedItem = position;
+            notifyItemChanged(previousItem);
+            notifyItemChanged(position);
+            longClinkListener.onProductItemLongClick(position);
+            return true;
         }
     }
     public interface ProductItemClickListener {
         void onProductItemClick(int position);
+
+    }
+
+    public interface ProductItemLongClickListener {
+        void onProductItemLongClick(int position);
+
     }
 }

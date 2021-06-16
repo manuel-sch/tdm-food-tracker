@@ -12,6 +12,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class FireBaseRepository {
 
@@ -22,6 +26,11 @@ public class FireBaseRepository {
     private final DatabaseReference userReference;
     private final DatabaseReference productReference;
     private final DatabaseReference userIDReference;
+    private final DatabaseReference productFreezerReference;
+    private final DatabaseReference productFridgeReference;
+    private final DatabaseReference productDrinksReference;
+    private final DatabaseReference productShelfReference;
+
 
     private final String TAG = FireBaseRepository.class.getSimpleName();
 
@@ -35,6 +44,10 @@ public class FireBaseRepository {
         userReference = FirebaseDatabase.getInstance().getReference("Users");
         userIDReference = userReference.child(uID);
         productReference = userIDReference.child("Products");
+        productFreezerReference = productReference.child(ProductConstants.FREEZER);
+        productDrinksReference = productReference.child(ProductConstants.DRINKS);
+        productFridgeReference = productReference.child(ProductConstants.FRIDGE);
+        productShelfReference = productReference.child(ProductConstants.SHELF);
 
 
 
@@ -134,6 +147,25 @@ public class FireBaseRepository {
 
     public DatabaseReference getProductReferenceForStorage(String productStorage) {
         return productReference.child(productStorage);
+    }
+
+    public void deleteProduct (String productName, String storageReference){
+
+        Query query = productReference.child(storageReference).orderByChild("productName").equalTo(productName);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot toDeletedSnapshot: dataSnapshot.getChildren()) {
+                    toDeletedSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled", databaseError.toException());
+            }
+        });
     }
 
 }
