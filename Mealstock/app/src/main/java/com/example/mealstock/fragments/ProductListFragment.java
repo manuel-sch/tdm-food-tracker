@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mealstock.R;
 import com.example.mealstock.adapters.ProductListAdapter;
 import com.example.mealstock.adapters.ProductListForStorageRecyclerViewAdapter;
+import com.example.mealstock.adapters.ProductRemoteSearchRecyclerViewAdapter;
 import com.example.mealstock.database.FireBaseRepository;
 import com.example.mealstock.databinding.FragmentProductListBinding;
 import com.example.mealstock.models.Product;
@@ -27,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ProductListFragment extends Fragment implements ProductListAdapter.ItemClickListener {
+public class ProductListFragment extends Fragment implements ProductListForStorageRecyclerViewAdapter.ProductItemClickListener {
     private final String TAG = ProductListFragment.class.getSimpleName();
     private ArrayList<Product> currentProducts;
     private FragmentProductListBinding binding;
@@ -56,7 +57,8 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         currentProducts = new ArrayList<>();
         storageOfProducts = requireArguments().getString("storage");
         fireBaseRepository = new FireBaseRepository();
-        recyclerViewAdapter = new ProductListForStorageRecyclerViewAdapter();
+        recyclerViewAdapter = new ProductListForStorageRecyclerViewAdapter(this);
+
 
         Log.d(TAG, "onViewCreated: " + storageOfProducts);
 
@@ -69,6 +71,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
     private void initializeViews() {
         storageSpinner = binding.filterSpinner;
         recyclerView = binding.recyclerView;
+
     }
 
     private void setUpSpinner() {
@@ -105,11 +108,9 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         });
     }
 
-
     @Override
-    public void onItemClick(Product dataModel) {
-        Fragment fragment = ProductDetailFragment.newInstance(dataModel.getGenericName());
-        getParentFragmentManager().beginTransaction().replace(R.id.fragmentContainerView,
-                fragment, null).addToBackStack("ProductDetail").commit();
+    public void onProductItemClick(int position) {
+        Log.d(TAG, "Position: " + position);
+
     }
 }
