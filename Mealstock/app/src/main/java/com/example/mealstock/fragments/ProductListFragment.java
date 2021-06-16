@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealstock.R;
-import com.example.mealstock.adapters.ProductListAdapter;
 import com.example.mealstock.adapters.ProductListForStorageRecyclerViewAdapter;
-import com.example.mealstock.adapters.ProductRemoteSearchRecyclerViewAdapter;
 import com.example.mealstock.database.FireBaseRepository;
 import com.example.mealstock.databinding.FragmentProductListBinding;
 import com.example.mealstock.models.Product;
@@ -28,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ProductListFragment extends Fragment implements ProductListForStorageRecyclerViewAdapter.ProductItemClickListener {
+public class ProductListFragment extends Fragment implements ProductListForStorageRecyclerViewAdapter.ProductItemClickListener, ProductListForStorageRecyclerViewAdapter.ProductItemLongClickListener {
     private final String TAG = ProductListFragment.class.getSimpleName();
     private ArrayList<Product> currentProducts;
     private FragmentProductListBinding binding;
@@ -57,7 +55,7 @@ public class ProductListFragment extends Fragment implements ProductListForStora
         currentProducts = new ArrayList<>();
         storageOfProducts = requireArguments().getString("storage");
         fireBaseRepository = new FireBaseRepository();
-        recyclerViewAdapter = new ProductListForStorageRecyclerViewAdapter(this);
+        recyclerViewAdapter = new ProductListForStorageRecyclerViewAdapter(this,this);
 
 
         Log.d(TAG, "onViewCreated: " + storageOfProducts);
@@ -66,6 +64,8 @@ public class ProductListFragment extends Fragment implements ProductListForStora
         setUpSpinner();
         initRecyclerView();
         setUpFireBase();
+
+
     }
 
     private void initializeViews() {
@@ -112,5 +112,13 @@ public class ProductListFragment extends Fragment implements ProductListForStora
     public void onProductItemClick(int position) {
         Log.d(TAG, "Position: " + position);
 
+
+    }
+
+    @Override
+    public void onProductItemLongClick(int position) {
+        Log.d(TAG, "Position LongClick: " + position);
+        fireBaseRepository.deleteProduct(currentProducts.get(position).getProductName(),storageOfProducts);
+        recyclerViewAdapter.updateProducts(currentProducts);
     }
 }
