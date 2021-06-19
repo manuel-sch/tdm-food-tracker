@@ -6,6 +6,8 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +23,7 @@ import com.example.mealstock.models.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adapter<ProductListForStorageRecyclerViewAdapter.ProductItemViewHolder> {
+public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adapter<ProductListForStorageRecyclerViewAdapter.ProductItemViewHolder> implements Filterable {
 
     private Context context;
     private List<Product> products = new ArrayList<>();
@@ -66,6 +68,36 @@ public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adap
         this.products.addAll(products);
         notifyDataSetChanged();
     }
+
+    @Override
+    public Filter getFilter() {
+        return Searched_Filter;
+    }
+    private Filter Searched_Filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<Product> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(products);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (Product item : products) {
+                    if (item.getProductName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            products.clear();
+            products.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public class ProductItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 

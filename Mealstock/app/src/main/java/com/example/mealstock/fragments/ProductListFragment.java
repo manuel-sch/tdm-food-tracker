@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class ProductListFragment extends Fragment implements ProductListForStora
     private RecyclerView recyclerView;
     private Spinner storageSpinner;
     private String storageOfProducts;
+    private SearchView searchView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class ProductListFragment extends Fragment implements ProductListForStora
         setUpSpinner();
         initRecyclerView();
         setUpFireBase();
+        setUpSearchBar();
 
 
     }
@@ -73,7 +76,24 @@ public class ProductListFragment extends Fragment implements ProductListForStora
     private void initializeViews() {
         storageSpinner = binding.filterSpinner;
         recyclerView = binding.recyclerView;
+        searchView = binding.SearchViewProductList;
 
+    }
+
+    private void setUpSearchBar() {
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                recyclerViewAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
     }
 
     private void setUpSpinner() {
