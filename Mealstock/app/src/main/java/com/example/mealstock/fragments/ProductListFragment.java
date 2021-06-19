@@ -1,5 +1,7 @@
 package com.example.mealstock.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -118,7 +120,24 @@ public class ProductListFragment extends Fragment implements ProductListForStora
     @Override
     public void onProductItemLongClick(int position) {
         Log.d(TAG, "Position LongClick: " + position);
-        fireBaseRepository.deleteProduct(currentProducts.get(position).getProductName(),storageOfProducts);
-        recyclerViewAdapter.updateProducts(currentProducts);
+        AlertDialog.Builder dialog=new AlertDialog.Builder(this.getContext());
+        dialog.setMessage("Wollen Sie das Prdodukt wirklich löschen?");
+        dialog.setTitle("Löschen");
+        dialog.setPositiveButton("Ja",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        fireBaseRepository.deleteProduct(currentProducts.get(position).getProductName(),storageOfProducts);
+                        recyclerViewAdapter.updateProducts(currentProducts);
+                    }
+                });
+        dialog.setNegativeButton("Nein",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
     }
+
 }
