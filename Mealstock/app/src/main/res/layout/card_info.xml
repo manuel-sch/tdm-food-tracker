@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_margin="10dp"
-        app:cardCornerRadius="22dp">
+        app:cardCornerRadius="22dp"
+        android:background="?attr/colorOnPrimary">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,23 +25,25 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:background="?attr/colorPrimaryVariant"
                 android:padding="8dp"
                 android:text="Produktinfos"
-                android:background="#60C5B8"
-                />
+                android:textColor="?attr/colorOnPrimary"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:text="Daten"
+                android:background="?attr/colorOnPrimary"
                 android:padding="8dp"
                  />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Impressum"
+                android:textColor="?attr/colorOnPrimary"
                 android:padding="8dp"
-                android:background="#60C5B8"/>
+                android:background="?attr/colorPrimaryVariant"/>
 
         </LinearLayout>
 

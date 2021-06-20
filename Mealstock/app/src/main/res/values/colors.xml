@@ -11,8 +11,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="bluegreen_light">#73d9c8</color>
-    <color name="bluegreen_dark">#36998c</color>
-    <color name="bluegreen_darker">#1e574f</color>
+    <color name="bluegreen_light">#5CD6CE</color>
+    <color name="bluegreen_dark">#60C5B8</color>
+    <color name="bluegreen_darker">#25B39E</color>
+
+    <color name="red_expire">#D84040</color>
 
 </resources>

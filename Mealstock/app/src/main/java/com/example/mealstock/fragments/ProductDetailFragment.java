@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,7 +29,6 @@ public class ProductDetailFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-
     private ViewPager2 vpDetail;
     private FragmentProductDetailViewBinding fragmentProductDetailViewBinding;
     private FragmentStateAdapter pAdaptCard;
@@ -60,6 +60,7 @@ public class ProductDetailFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
+
     }
 
     @Override
@@ -96,4 +97,6 @@ public class ProductDetailFragment extends Fragment {
         fragmentProductDetailViewBinding = null;
 
     }
+
+
 }

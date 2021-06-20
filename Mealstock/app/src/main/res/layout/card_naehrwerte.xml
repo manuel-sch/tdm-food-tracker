@@ -26,9 +26,9 @@
                 android:padding="8dp"
                 android:gravity="bottom"
                 android:text="Produktinfos"
-                android:background="#60C5B8"
+                android:background="?attr/colorPrimaryVariant"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:textColor="?attr/colorOnPrimary"
                 />
 
             <TextView
@@ -36,29 +36,32 @@
                 android:layout_height="40dp"
                 android:text="Brennwerte"
                 android:padding="8dp"
+                android:background="?attr/colorOnPrimary"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fett"
                 android:padding="8dp"
-                android:textColor="#FFFFFF"
-                android:background="#60C5B8"/>
+                android:textColor="?attr/colorOnPrimary"
+                android:background="?attr/colorPrimaryVariant"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="davon gesättigte Fettsäuren"
+                android:background="?attr/colorOnPrimary"
                 android:padding="8dp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Kohlenhydrate"
                 android:padding="8dp"
-                android:background="#60C5B8"
-                android:textColor="#FFFFFF"/>
+                android:background="?attr/colorPrimaryVariant"
+                android:textColor="?attr/colorOnPrimary"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?attr/colorOnPrimary"
                 android:text="davon Zucker"
                 android:padding="8dp" />
             <TextView
@@ -66,18 +69,20 @@
                 android:layout_height="wrap_content"
                 android:text="Eiweiß"
                 android:padding="8dp"
-                android:background="#60C5B8"
-                android:textColor="#FFFFFF"/>
+                android:background="?attr/colorPrimaryVariant"
+                android:textColor="?attr/colorOnPrimary"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?attr/colorOnPrimary"
                 android:text="Salz"
                 android:padding="8dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:background="#60C5B8"
-                android:textColor="#FFFFFF"/>
+                android:background="?attr/colorPrimaryVariant"
+                android:textColor="?attr/colorOnPrimary" />
 
         </LinearLayout>
 

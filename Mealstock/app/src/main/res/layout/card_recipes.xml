@@ -33,7 +33,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#60C5B8"
+                android:background="?attr/colorPrimaryVariant"
                 android:paddingHorizontal="25dp">
 
                 <ImageView
