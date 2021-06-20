@@ -17,4 +17,6 @@
 
     <color name="red_expire">#D84040</color>
 
+    <color name ="background_white">#F0F0F0</color>
+
 </resources>

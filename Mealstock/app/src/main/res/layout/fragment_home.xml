@@ -24,7 +24,7 @@
         android:id="@+id/dots_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="100dp"
+        android:layout_marginBottom="20dp"
         app:dotsColor="?attr/colorPrimary"
         app:dotsCornerRadius="8dp"
         app:dotsSize="16dp"
@@ -34,7 +34,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:progressMode="true"
-        app:selectedDotColor="?attr/colorPrimaryDark" />
+        app:selectedDotColor="?attr/colorPrimaryDark"
+        tools:ignore="MissingClass" />
 
 
 
