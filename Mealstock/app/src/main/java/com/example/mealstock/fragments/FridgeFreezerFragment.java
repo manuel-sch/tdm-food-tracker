@@ -47,7 +47,7 @@ public class FridgeFreezerFragment extends Fragment {
             bundle.putString("storage", ProductConstants.FREEZER);
 
             getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
-                    .replace(R.id.fragmentContainerView, ProductListFragment.class, bundle)
+                    .add(R.id.fragmentContainerView, ProductListFragment.class, bundle)
                             .addToBackStack("Freezer").commit();
         });
 
@@ -56,7 +56,7 @@ public class FridgeFreezerFragment extends Fragment {
             bundle.putString("storage", ProductConstants.FRIDGE);
 
             getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
-                    .replace(R.id.fragmentContainerView, ProductListFragment.class, bundle)
+                    .add(R.id.fragmentContainerView, ProductListFragment.class, bundle)
                     .addToBackStack("Fridge").commit();
         });
 
