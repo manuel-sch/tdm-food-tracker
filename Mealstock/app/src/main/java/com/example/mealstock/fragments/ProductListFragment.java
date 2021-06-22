@@ -90,7 +90,11 @@ public class ProductListFragment extends Fragment implements ProductListForStora
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                recyclerViewAdapter.getFilter().filter(newText);
+                if(!newText.equals("")||newText.equals(null)) {
+                    recyclerViewAdapter.getFilter().filter(newText);
+                }else{
+                    setUpFireBase();
+                }
                 return false;
             }
         });
