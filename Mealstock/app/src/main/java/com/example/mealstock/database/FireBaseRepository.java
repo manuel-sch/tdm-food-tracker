@@ -1,6 +1,5 @@
 package com.example.mealstock.database;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.mealstock.constants.ProductConstants;
@@ -15,17 +14,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FireBaseRepository {
 
+    private final String TAG = FireBaseRepository.class.getSimpleName();
 
-    private FirebaseUser user;
-    private String uID;
+    private final FirebaseUser user;
+    private final String uID;
+
     private final DatabaseReference databaseReference;
     private final DatabaseReference userReference;
     private final DatabaseReference productReference;
     private final DatabaseReference userIDReference;
-
-    private final String TAG = FireBaseRepository.class.getSimpleName();
-
-
 
     public FireBaseRepository() {
 
@@ -39,56 +36,37 @@ public class FireBaseRepository {
 
 
         ChildEventListener childEventListener = new ChildEventListener() {
+
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
-
-                // A new comment has been added, add it to the displayed list
+                //Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
                 Product product = dataSnapshot.getValue(Product.class);
-
-                // ...
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so displayed the changed comment.
+                //Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
                 Product newProduct = dataSnapshot.getValue(Product.class);
                 String productKey = dataSnapshot.getKey();
-
-                // ...
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so remove it.
+                //Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
                 String commentKey = dataSnapshot.getKey();
-
-                // ...
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-
-                // A comment has changed position, use the key to determine if we are
-                // displaying this comment and if so move it.
+                //Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
                 Product movedComment = dataSnapshot.getValue(Product.class);
                 String commentKey = dataSnapshot.getKey();
-
-                // ...
             }
 
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-
+                //Log.w(TAG, "postComments:onCancelled", databaseError.toException());
                 Toast.makeText(null, "Failed to load comments.",
                         Toast.LENGTH_SHORT).show();
             }

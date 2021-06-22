@@ -170,7 +170,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     void setUpProductAddDialog(){
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getLayoutInflater();
-        productAddDialogView = inflater.inflate(R.layout.dialog_product_from_barcode, null);
+        productAddDialogView = inflater.inflate(R.layout.dialog_product_add, null);
 
         builder.setView(productAddDialogView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

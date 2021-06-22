@@ -11,12 +11,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.mealstock.R;
 import com.example.mealstock.constants.ProductConstants;
-import com.example.mealstock.databinding.FragmentShelfBinding;
+import com.example.mealstock.databinding.FragmentHomePageShelfBinding;
 
 public class ShelfFragment extends Fragment {
 
     private final ViewPager2 viewPager;
-    private FragmentShelfBinding binding;
+    private FragmentHomePageShelfBinding binding;
     private ImageView shelfImageView;
 
 
@@ -26,7 +26,7 @@ public class ShelfFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentShelfBinding.inflate(inflater, container, false);
+        binding = FragmentHomePageShelfBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         return view;
     }

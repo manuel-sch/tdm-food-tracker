@@ -1,6 +1,7 @@
 package com.example.mealstock.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,91 +10,103 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.mealstock.R;
-import com.example.mealstock.adapters.CardSlideAdapter;
-import com.example.mealstock.adapters.ScreenSlidePagerAdapter;
-import com.example.mealstock.databinding.CardInfoBinding;
-import com.example.mealstock.databinding.FragmentHomeBinding;
-import com.example.mealstock.databinding.FragmentProductDetailViewBinding;
+import com.example.mealstock.adapters.ProductDetailSlideAdapter;
+import com.example.mealstock.databinding.FragmentProductDetailBinding;
+import com.example.mealstock.models.Product;
+import com.example.mealstock.viewmodels.ProductDetailViewModel;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProductDetailFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private final static String TAG = ProductDetailFragment.class.getSimpleName();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
+    private FragmentProductDetailBinding fragmentProductDetailBinding;
+    private ProductDetailViewModel viewModel;
 
-    private ViewPager2 vpDetail;
-    private FragmentProductDetailViewBinding fragmentProductDetailViewBinding;
-    private FragmentStateAdapter pAdaptCard;
+    private FragmentStateAdapter productDetailSlideAdapter;
 
+    private Product currentProduct;
+    private ViewPager2 detailViewPager;
 
-    public ProductDetailFragment() {
-        // Required empty public constructor
-    }
+    private TextView productNameTextView;
+    private TextView productExpiryDateTextView;
+    private CircleImageView circleImageView;
+    private SpringDotsIndicator dotsIndicator;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @return A new instance of fragment DetailFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProductDetailFragment newInstance(String param1) {
-        ProductDetailFragment fragment = new ProductDetailFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-        }
+        currentProduct = (Product) requireArguments().get("Product");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        fragmentProductDetailViewBinding = FragmentProductDetailViewBinding.inflate(inflater, container, false);
-        View view = fragmentProductDetailViewBinding.getRoot();
-
-        TextView titleTV = view.findViewById(R.id.titleProduct);
-        titleTV.setText(mParam1);
-
-
-
+        fragmentProductDetailBinding = FragmentProductDetailBinding.inflate(inflater, container, false);
+        View view = fragmentProductDetailBinding.getRoot();
+        initializeViews();
         return view;
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        vpDetail = fragmentProductDetailViewBinding.cardViewpager;
-        pAdaptCard = new CardSlideAdapter(requireActivity(), vpDetail);
-        vpDetail.setAdapter(pAdaptCard);
+        Log.d(TAG, "onViewCreated: Derzeitiges Produkt - " + currentProduct);
+        setUpViewPager();
+        setUpDotsIndicator();
+        setUpViewModelObserving();
+    }
 
-        SpringDotsIndicator dotsIndicator = fragmentProductDetailViewBinding.dotsIndicatorCard;
-        dotsIndicator.setViewPager2(vpDetail);
+    private void initializeViews() {
+        productNameTextView = fragmentProductDetailBinding.titleProduct;
+        productExpiryDateTextView = fragmentProductDetailBinding.expireDate;
+        detailViewPager = fragmentProductDetailBinding.cardViewpager;
+        circleImageView = fragmentProductDetailBinding.productImage;
+        dotsIndicator = fragmentProductDetailBinding.dotsIndicatorCard;
+    }
 
+    private void setUpViewPager() {
+        productDetailSlideAdapter = new ProductDetailSlideAdapter(requireActivity());
+        detailViewPager.setAdapter(productDetailSlideAdapter);
+    }
+
+    private void setUpDotsIndicator() {
+        dotsIndicator.setViewPager2(detailViewPager);
+    }
+
+    private void setUpViewModelObserving() {
+        viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
+        viewModel.setProduct(currentProduct);
+        viewModel.getProduct().observe(requireActivity(), product -> {
+            productNameTextView.setText(currentProduct.getProductName());
+            productExpiryDateTextView.setText(sdf.format(product.getBoughtDate()));
+            Glide.with(this).load(currentProduct.getImageUrl()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.product_placeholder).into(circleImageView);
+        });
+
+    }
+
+    public Product getCurrentProduct(){
+        return currentProduct;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        fragmentProductDetailViewBinding = null;
+        fragmentProductDetailBinding = null;
 
     }
 }

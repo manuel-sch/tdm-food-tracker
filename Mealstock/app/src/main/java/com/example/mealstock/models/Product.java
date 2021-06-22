@@ -1,7 +1,10 @@
 package com.example.mealstock.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class Product implements Serializable {
 
@@ -14,7 +17,7 @@ public class Product implements Serializable {
     private String genericName = "";
 
 
-    private String brand = "";
+    private String brands = "";
 
 
     private String imageUrl = "";
@@ -25,12 +28,14 @@ public class Product implements Serializable {
 
     private String categories = "";
 
+    private String nutritionFacts = "";
 
     private String ingredients;
 
     private Date boughtDate = new Date();
 
     private Date expiryDate = new Date();
+
 
 
     private String storage = "Gefrierfach";
@@ -101,12 +106,12 @@ public class Product implements Serializable {
         this.genericName = genericName;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getBrands() {
+        return brands;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setBrands(String brands) {
+        this.brands = brands;
     }
 
     public String getImageUrl() {
@@ -213,16 +218,36 @@ public class Product implements Serializable {
         this.storage = storage;
     }
 
+
+    public String getNutritionFacts() {
+        return nutritionFacts;
+    }
+
+    public void setNutritionFacts(String nutritionFacts) {
+        this.nutritionFacts = nutritionFacts;
+    }
+
+    public List<String> getAllergensAsList(){
+        String[] allergenTokens = allergens.split(", ");
+        return new ArrayList<String>(Arrays.asList(allergenTokens));
+    }
+
+    public List<String> getIngredientsAsList(){
+        String[] ingredientsTokens = ingredients.split(", ");
+        return new ArrayList<String>(Arrays.asList(ingredientsTokens));
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "barcode='" + barcode + '\'' +
                 ", productName='" + productName + '\'' +
                 ", genericName='" + genericName + '\'' +
-                ", brand='" + brand + '\'' +
+                ", brands='" + brands + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", allergens='" + allergens + '\'' +
                 ", categories='" + categories + '\'' +
+                ", nutritionFacts='" + nutritionFacts + '\'' +
                 ", ingredients='" + ingredients + '\'' +
                 ", boughtDate=" + boughtDate +
                 ", expiryDate=" + expiryDate +

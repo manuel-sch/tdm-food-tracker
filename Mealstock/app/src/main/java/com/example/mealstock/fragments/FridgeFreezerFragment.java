@@ -11,12 +11,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.mealstock.R;
 import com.example.mealstock.constants.ProductConstants;
-import com.example.mealstock.databinding.FragmentFridgeFreezerBinding;
+import com.example.mealstock.databinding.FragmentHomePageFridgeFreezerBinding;
 
 public class FridgeFreezerFragment extends Fragment {
 
     private ImageView freezer, fridge;
-    private FragmentFridgeFreezerBinding fragmentFridgeFreezerBinding;
+    private FragmentHomePageFridgeFreezerBinding viewBinding;
 
     private ViewPager2 viewPager;
 
@@ -32,16 +32,16 @@ public class FridgeFreezerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentFridgeFreezerBinding = FragmentFridgeFreezerBinding.inflate(inflater, container, false);
-        View view = fragmentFridgeFreezerBinding.getRoot();
+        viewBinding = FragmentHomePageFridgeFreezerBinding.inflate(inflater, container, false);
+        View view = viewBinding.getRoot();
         return view;
     }
 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        freezer = fragmentFridgeFreezerBinding.gefrierfach;
-        fridge = fragmentFridgeFreezerBinding.kuehl;
+        freezer = viewBinding.gefrierfach;
+        fridge = viewBinding.kuehl;
         freezer.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("storage", ProductConstants.FREEZER);
@@ -65,7 +65,7 @@ public class FridgeFreezerFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        fragmentFridgeFreezerBinding = null;
+        viewBinding = null;
     }
 
     public ViewPager2 getAdapter() {

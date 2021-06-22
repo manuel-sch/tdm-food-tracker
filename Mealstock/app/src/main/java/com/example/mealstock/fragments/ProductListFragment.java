@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealstock.R;
-import com.example.mealstock.adapters.ProductListAdapter;
 import com.example.mealstock.adapters.ProductListForStorageRecyclerViewAdapter;
 import com.example.mealstock.database.FireBaseRepository;
 import com.example.mealstock.databinding.FragmentProductListBinding;
@@ -27,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ProductListFragment extends Fragment implements ProductListAdapter.ItemClickListener {
+public class ProductListFragment extends Fragment implements ProductListForStorageRecyclerViewAdapter.ProductItemClickListener {
     private final String TAG = ProductListFragment.class.getSimpleName();
     private ArrayList<Product> currentProducts;
     private FragmentProductListBinding binding;
@@ -56,7 +55,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         currentProducts = new ArrayList<>();
         storageOfProducts = requireArguments().getString("storage");
         fireBaseRepository = new FireBaseRepository();
-        recyclerViewAdapter = new ProductListForStorageRecyclerViewAdapter();
+        recyclerViewAdapter = new ProductListForStorageRecyclerViewAdapter(this);
 
         Log.d(TAG, "onViewCreated: " + storageOfProducts);
 
@@ -91,8 +90,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 currentProducts.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Log.d(TAG, "onDataChange: " + dataSnapshot.getValue(Product.class));
-
+                    //Log.d(TAG, "onDataChange: " + dataSnapshot.getValue(Product.class));
                     currentProducts.add(dataSnapshot.getValue(Product.class));
                 }
                 recyclerViewAdapter.updateProducts(currentProducts);
@@ -107,9 +105,10 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
 
 
     @Override
-    public void onItemClick(Product dataModel) {
-        Fragment fragment = ProductDetailFragment.newInstance(dataModel.getGenericName());
-        getParentFragmentManager().beginTransaction().replace(R.id.fragmentContainerView,
-                fragment, null).addToBackStack("ProductDetail").commit();
+    public void onProductItemClick(Product clickedProduct) {
+        Bundle productDetailBundle = new Bundle();
+        productDetailBundle.putSerializable("Product", clickedProduct);
+        requireActivity().getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.fragmentContainerView,
+                ProductDetailFragment.class, productDetailBundle, "ProductDetail").addToBackStack("ProductDetail").commit();
     }
 }

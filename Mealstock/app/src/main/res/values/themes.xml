@@ -17,7 +17,7 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="fontFamily">@font/montserrat</item>
         <item name="backgroundColor">@color/white</item>
-        <item name="android:numberPickerStyle">@style/NumberPickerTheme</item>P
+        <item name="android:numberPickerStyle">@style/NumberPickerTheme</item>
 
     </style>
 

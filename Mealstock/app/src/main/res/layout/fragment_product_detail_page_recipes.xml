@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    tools:context=".fragments.CardRecipesFragment">
+    tools:context=".fragments.ProductDetailRecipesPageFragment">
 
     <TextView
         android:layout_width="match_parent"

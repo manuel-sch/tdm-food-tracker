@@ -85,7 +85,7 @@ public class JsonHandler {
         product.setBarcode(getBarcodeFromResponseJsonObject(productJsonObject));
         product.setProductName(getProductNameFromProductJsonObject(productJsonObject));
         product.setGenericName(getGenericNameFromProductJsonObject(productJsonObject));
-        product.setBrand(getBrandFromResponseJsonObject(productJsonObject));
+        product.setBrands(getBrandFromResponseJsonObject(productJsonObject));
         product.setImageUrl(getImageUrlFromResponseJsonObject(productJsonObject));
         product.setAllergens(getAllergensFromResponseJsonObject(productJsonObject));
         product.setCategories(getCategoriesFromResponseJsonObject(productJsonObject));
@@ -115,6 +115,7 @@ public class JsonHandler {
 
         return nutriScore;
     }
+
 
     public  static String getNovaGroupFromResponseJsonObject(JSONObject jsonObject) throws JSONException {
         JSONObject nutriments = jsonObject.getJSONObject("nutriments");
@@ -193,7 +194,7 @@ public class JsonHandler {
         String brand = "";
         if(jsonObject.has("brands")){
             brand = jsonObject.getString("brands");
-            //Log.d(TAG, "getBrandFromResponseJsonObject: " + brand);
+            Log.d(TAG, "getBrandFromResponseJsonObject: " + brand);
         }
 
         return brand;

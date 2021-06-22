@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/font-v26/monsterrat.xml" value="0.42407407407407405" />
         <entry key="app/src/main/res/font/monsterrat.xml" value="0.42407407407407405" />
         <entry key="app/src/main/res/font/montserrat.xml" value="0.2609375" />
+        <entry key="app/src/main/res/font/roboto.xml" value="0.41574074074074074" />
         <entry key="app/src/main/res/layout/activity_barcode_scan.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_dialog_alert.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_formular_edit.xml" value="0.4036458333333333" />
@@ -28,6 +29,7 @@
         <entry key="app/src/main/res/layout/activity_productlist.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/activity_screen_slide.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/card_info.xml" value="0.28177083333333336" />
         <entry key="app/src/main/res/layout/dialog_product_from_barcode.xml" value="0.375" />
         <entry key="app/src/main/res/layout/formular_edit.xml" value="0.3532608695652174" />
         <entry key="app/src/main/res/layout/fragment_calender.xml" value="0.4036458333333333" />
@@ -36,6 +38,9 @@
         <entry key="app/src/main/res/layout/fragment_kuehlschrank.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_product_cardviews.xml" value="0.23072916666666668" />
+        <entry key="app/src/main/res/layout/fragment_product_detail.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/fragment_product_detail_page_info.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_product_detail_view.xml" value="0.28177083333333336" />
         <entry key="app/src/main/res/layout/fragment_product_form.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_product_list.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/fragment_scan.xml" value="0.23020833333333332" />

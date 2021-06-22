@@ -5,37 +5,51 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ProductDetailFragment"
+    android:paddingHorizontal="@dimen/padding_large"
+    android:paddingTop="@dimen/padding_large"
     >
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/titleProduct"
-        android:layout_width="227dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="37dp"
-        android:text="@string/hello_blank_fragment"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#5CD6CE"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="@dimen/margin_l"
+        android:layout_marginEnd="100dp"
+        android:text="@string/hello_blank_fragment"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textColor="#5CD6CE"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
 
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="55dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/roundedbutton"
-        android:src="@drawable/ic_backarrow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/laueft_ab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_l"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="läuft ab:"
+        style="@style/text_primary_small"/>
+
+    <TextView
+        android:id="@+id/expireDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Datum"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/laueft_ab"
+        style="@style/text_red_small"/>
+
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/product_image"
         android:layout_width="204dp"
         android:layout_height="214dp"
         android:layout_marginTop="24dp"
@@ -46,30 +60,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleProduct" />
 
-    <TextView
-        android:id="@+id/laueft_ab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:textColor="#60C5B8"
-        android:textSize="11dp"
-        android:text="läuft ab:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/expireDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:textSize="11dp"
-        android:text="Datum"
-        android:textColor="#D84040"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/laueft_ab" />
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/card_viewpager"
         android:layout_width="match_parent"
@@ -78,7 +68,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+        app:layout_constraintTop_toBottomOf="@+id/product_image" />
 
     <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
         android:id="@+id/dots_indicatorCard"
