@@ -39,7 +39,7 @@ public class ShelfFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putString("storage", ProductConstants.SHELF);
             getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
-                    .replace(R.id.fragmentContainerView, ProductListFragment.class, bundle)
+                    .add(R.id.fragmentContainerView, ProductListFragment.class, bundle)
                     .addToBackStack("Shelf").commit();
         });
 
@@ -47,6 +47,12 @@ public class ShelfFragment extends Fragment {
 
     public ViewPager2 getAdapter() {
         return viewPager;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     public boolean handleBackPressWithHandledBoolean() {

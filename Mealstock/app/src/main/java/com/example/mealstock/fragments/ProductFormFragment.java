@@ -183,7 +183,6 @@ public class ProductFormFragment extends Fragment {
 
     public void handleSaveForm(View v) {
         productViewModel.insertProduct(currentProduct);
-
     }
 
     private void showToastMessage(String message) {
