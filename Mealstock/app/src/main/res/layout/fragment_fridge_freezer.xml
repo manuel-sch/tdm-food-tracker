@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_white"
     tools:context=".fragments.FridgeFreezerFragment">
 
     <TextView
         android:id="@+id/Startseite_CheckKuehlschrank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/text_check_your_fridge"
         android:textColor="?attr/colorPrimary"

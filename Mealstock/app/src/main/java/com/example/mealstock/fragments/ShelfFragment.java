@@ -18,6 +18,7 @@ public class ShelfFragment extends Fragment {
     private final ViewPager2 viewPager;
     private FragmentShelfBinding binding;
     private ImageView shelfImageView;
+    private ImageView drinksImageView;
 
 
     public ShelfFragment(ViewPager2 viewPager) {
@@ -34,6 +35,7 @@ public class ShelfFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         shelfImageView = binding.imageViewShelf;
+        drinksImageView = binding.imageViewDrinks;
 
         shelfImageView.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
@@ -41,6 +43,15 @@ public class ShelfFragment extends Fragment {
             getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
                     .replace(R.id.fragmentContainerView, ProductListFragment.class, bundle)
                     .addToBackStack("Shelf").commit();
+        });
+
+        drinksImageView.setOnClickListener(e -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("storage", ProductConstants.DRINKS);
+
+            getParentFragmentManager().beginTransaction().setReorderingAllowed(true)
+                    .replace(R.id.fragmentContainerView, ProductListFragment.class, bundle)
+                    .addToBackStack("Drinks").commit();
         });
 
     }

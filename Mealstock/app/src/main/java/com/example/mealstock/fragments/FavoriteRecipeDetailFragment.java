@@ -12,10 +12,10 @@ import com.example.mealstock.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FavoriteRecipeFragment#newInstance} factory method to
+ * Use the {@link FavoriteRecipeDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FavoriteRecipeFragment extends Fragment {
+public class FavoriteRecipeDetailFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class FavoriteRecipeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FavoriteRecipeFragment() {
+    public FavoriteRecipeDetailFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class FavoriteRecipeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FavoriteRecipeFragment.
+     * @return A new instance of fragment FavoriteRecipeDetailFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FavoriteRecipeFragment newInstance(String param1, String param2) {
-        FavoriteRecipeFragment fragment = new FavoriteRecipeFragment();
+    public static FavoriteRecipeDetailFragment newInstance(String param1, String param2) {
+        FavoriteRecipeDetailFragment fragment = new FavoriteRecipeDetailFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class FavoriteRecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_recipe, container, false);
+        return inflater.inflate(R.layout.fragment_favorite_recipe_detail, container, false);
     }
 }
