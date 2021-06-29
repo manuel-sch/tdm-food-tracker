@@ -183,7 +183,7 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRemo
         builder.setView(productAddDialogView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.d(TAG, "onClick: Gespeichertes Produkt: " + selectedProduct);
+                        //Log.d(TAG, "onClick: Gespeichertes Produkt: " + selectedProduct);
                         selectedProduct.setStorage(storageSpinerOnDialog.getSelectedItem().toString());
                         productListViewModel.insertProduct(selectedProduct);
                     }

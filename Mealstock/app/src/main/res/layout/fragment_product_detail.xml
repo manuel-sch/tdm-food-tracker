@@ -7,6 +7,7 @@
     tools:context=".fragments.ProductDetailFragment"
     android:paddingHorizontal="@dimen/padding_large"
     android:paddingTop="@dimen/padding_large"
+    android:paddingBottom="@dimen/padding_l"
     >
 
     <!-- TODO: Update blank fragment layout -->
@@ -63,12 +64,12 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/card_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_image" />
+        app:layout_constraintBottom_toTopOf="@id/dots_indicatorCard"
+        app:layout_constraintTop_toBottomOf="@+id/product_image"
+        android:layout_marginVertical="@dimen/margin_l" />
 
     <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
         android:id="@+id/dots_indicatorCard"
@@ -79,7 +80,7 @@
         app:dotsSize="16dp"
         app:dotsSpacing="4dp"
         app:dotsWidthFactor="2.5"
-        app:layout_constraintBottom_toBottomOf="@+id/card_viewpager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:progressMode="true"

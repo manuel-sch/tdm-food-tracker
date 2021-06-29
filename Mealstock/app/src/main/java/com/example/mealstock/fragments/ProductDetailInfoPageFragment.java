@@ -1,7 +1,6 @@
 package com.example.mealstock.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +60,6 @@ public class ProductDetailInfoPageFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
         ProductDetailFragment detailFragment = (ProductDetailFragment) getParentFragmentManager().findFragmentByTag("ProductDetail");
         setCurrentViewsForProduct(Objects.requireNonNull(detailFragment).getCurrentProduct());
-        Log.d(TAG, "setUpViewModelObserving: " + "Blub");
         viewModel.getProduct().observe(requireActivity(), product -> {
             setCurrentViewsForProduct(product);
         });
@@ -71,14 +69,14 @@ public class ProductDetailInfoPageFragment extends Fragment {
         List<String> allergens = product.getAllergensAsList();
         List<String> ingredients = product.getIngredientsAsList();
         String brands = product.getBrands();
-        Log.d(TAG, "setUpViewModelObserving: " + allergens);
+        //Log.d(TAG, "setUpViewModelObserving: " + allergens);
         if(!product.getAllergens().isEmpty()){
             allergensDataTextView.setText(allergens.get(0));;
             for(int i = 1; i < allergens.size(); i++){
                 allergensDataTextView.setText(String.format("%s\n%s", allergensDataTextView.getText(), allergens.get(i)));
             }
         }
-        Log.d(TAG, "setUpViewModelObserving: " + ingredients);
+        //Log.d(TAG, "setUpViewModelObserving: " + ingredients);
         if(!product.getIngredients().isEmpty()){
             ingredientsDataTextView.setText(ingredients.get(0));;
             for(int i = 1; i < ingredients.size(); i++){

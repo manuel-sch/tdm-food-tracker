@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.mealstock.fragments.ProductDetailInfoPageFragment;
-import com.example.mealstock.fragments.ProductDetailIngredientsPageFragment;
+import com.example.mealstock.fragments.ProductDetailNutritionFactsPageFragment;
 import com.example.mealstock.fragments.ProductDetailRecipesPageFragment;
 
 public class ProductDetailSlideAdapter extends FragmentStateAdapter {
@@ -20,7 +20,7 @@ public class ProductDetailSlideAdapter extends FragmentStateAdapter {
             case 0:
                 return new ProductDetailInfoPageFragment();
             case 1:
-                return new ProductDetailIngredientsPageFragment();
+                return new ProductDetailNutritionFactsPageFragment();
             case 2:
                 return new ProductDetailRecipesPageFragment();
         }

@@ -1,5 +1,6 @@
 package com.example.mealstock.database;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.mealstock.constants.ProductConstants;
@@ -94,6 +95,7 @@ public class FireBaseRepository {
             default:
                 return;
         }
+        Log.d(TAG, "insertProduct: " + product);
         productReference.child(convertedStorage).push().setValue(product);
     }
 
