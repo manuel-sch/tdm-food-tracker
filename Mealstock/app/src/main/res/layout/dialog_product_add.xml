@@ -16,6 +16,24 @@
         android:text="@string/placeholder_productname"
         style="@style/title_primary_2"/>
 
+    <!--
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView_product"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner_productStorage"
+        android:layout_marginTop="@dimen/margin_large"
+        android:src="@drawable/product_placeholder"
+        app:civ_border_color="#60C5B8"
+        app:civ_border_width="5dp"
+        android:paddingEnd="@dimen/padding_large"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/description_productImage"/>
+
+        -->
+
+    <!---->
     <ImageView
         android:id="@+id/imageView_product"
         android:layout_width="wrap_content"
@@ -28,6 +46,8 @@
         android:contentDescription="@string/description_productImage"
 
          />
+    <!---->
+
 
 
     <com.google.android.material.textfield.TextInputLayout

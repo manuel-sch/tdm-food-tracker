@@ -2,7 +2,6 @@ package com.example.mealstock.adapters;
 
 import android.content.Context;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ public class ProductRemoteSearchRecyclerViewAdapter extends RecyclerView.Adapter
     private List<Product> products = new ArrayList<>();
     private final ProductItemClickListener clickListener;
 
-    private static int lastClickedPosition = -1;
     private int selectedItem;
 
 
@@ -41,8 +39,7 @@ public class ProductRemoteSearchRecyclerViewAdapter extends RecyclerView.Adapter
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         View v = LayoutInflater.from(context).inflate(R.layout.item_product_simple, parent, false);
-        ProductViewHolder productViewHolder = new ProductViewHolder(v);
-        return productViewHolder;
+        return new ProductViewHolder(v);
     }
 
     @Override
@@ -76,11 +73,9 @@ public class ProductRemoteSearchRecyclerViewAdapter extends RecyclerView.Adapter
     public class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView imageViewProductTitle;
-        private TextView textViewProductTitle;
-        private TextView textViewProductQuantity;
-        private CardView cardView;
-
-        private SparseBooleanArray selectedItems = new SparseBooleanArray();
+        private final TextView textViewProductTitle;
+        private final TextView textViewProductQuantity;
+        private final CardView cardView;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);

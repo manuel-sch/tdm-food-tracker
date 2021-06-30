@@ -49,7 +49,7 @@
 
             <TextView
                 android:id="@+id/textView_productQuantity"
-                style="@style/text_primary_1"
+                style="@style/text_primary_normal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"

@@ -170,7 +170,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     void setUpProductAddDialog(){
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getLayoutInflater();
-        productAddDialogView = inflater.inflate(R.layout.dialog_product_from_barcode, null);
+        productAddDialogView = inflater.inflate(R.layout.dialog_product_add, null);
 
         builder.setView(productAddDialogView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -424,8 +424,8 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
 
     public void handleProductAddFormFab() {
         parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, ProductFormFragment.class, null)
-                .addToBackStack("Freezer").commit();
+                .setReorderingAllowed(true).replace(R.id.navHostFragment, ProductFormFragment.class, null, "ProductForm")
+                .addToBackStack("ProductForm").commit();
         /*
         Intent intent = new Intent(getActivity(), ProductFormActivity.class);
         startActivity(intent);
@@ -434,8 +434,8 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
 
     public void handleProductSearchFab() {
         parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, ProductRemoteSearchFragment.class, null)
-                .addToBackStack("Freezer").commit();
+                .setReorderingAllowed(true).replace(R.id.navHostFragment, ProductRemoteSearchFragment.class, null, "ProductRemoteSearch")
+                .addToBackStack("ProductRemoteSearch").commit();
     }
 
     @Override

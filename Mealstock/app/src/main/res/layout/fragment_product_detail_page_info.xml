@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipToPadding="false"
+    android:paddingBottom="16dp"
+    tools:context=".fragments.ProductDetailInfoPageFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="22dp">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#60C5B8"
+                >
+
+                <TextView
+                    android:id="@+id/textView_allergens"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="24dp"
+                    android:padding="8dp"
+                    android:text="Allergene"
+                    android:textColor="@color/black"
+                    android:background="@color/white"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_allergens_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="55dp"
+                    android:text="Derzeit keine Daten bekannt."
+                    android:textColor="@color/white"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_ingredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Zutatenliste"
+                    android:textColor="@color/black"
+                    android:background="@color/white"/>
+
+                <TextView
+                    android:id="@+id/textView_ingredients_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="55dp"
+                    android:text="Derzeit keine Daten bekannt."
+                    android:textColor="@color/white"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_brands"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Hersteller/Lieferant"
+                    android:textColor="@color/black"
+                    android:background="@color/white"/>
+
+                <TextView
+                    android:id="@+id/textView_brands_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="55dp"
+                    android:text="Derzeit keine Daten bekannt."
+                    android:textColor="@color/white"
+                    android:padding="8dp"
+                    />
+
+            </LinearLayout>
+
+
+
+
+
+    </androidx.cardview.widget.CardView>
+    </ScrollView>

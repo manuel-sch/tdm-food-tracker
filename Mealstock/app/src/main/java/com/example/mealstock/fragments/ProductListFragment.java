@@ -59,8 +59,8 @@ public class ProductListFragment extends Fragment implements ProductListForStora
         currentProducts = new ArrayList<>();
         storageOfProducts = requireArguments().getString("storage");
         fireBaseRepository = new FireBaseRepository();
-        recyclerViewAdapter = new ProductListForStorageRecyclerViewAdapter(this,this);
 
+        recyclerViewAdapter = new ProductListForStorageRecyclerViewAdapter(this, this);
 
         Log.d(TAG, "onViewCreated: " + storageOfProducts);
 
@@ -90,9 +90,9 @@ public class ProductListFragment extends Fragment implements ProductListForStora
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(!newText.equals("")||newText.equals(null)) {
+                if (!newText.equals("") || newText.equals(null)) {
                     recyclerViewAdapter.getFilter().filter(newText);
-                }else{
+                } else {
                     setUpFireBase();
                 }
                 return false;
@@ -119,9 +119,8 @@ public class ProductListFragment extends Fragment implements ProductListForStora
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 currentProducts.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Log.d(TAG, "onDataChange: " + dataSnapshot.getValue(Product.class));
-
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    //Log.d(TAG, "onDataChange: " + dataSnapshot.getValue(Product.class));
                     currentProducts.add(dataSnapshot.getValue(Product.class));
                 }
                 recyclerViewAdapter.updateProducts(currentProducts);
@@ -134,34 +133,37 @@ public class ProductListFragment extends Fragment implements ProductListForStora
         });
     }
 
-    @Override
-    public void onProductItemClick(int position) {
-        Log.d(TAG, "Position: " + position);
-
-
-    }
 
     @Override
     public void onProductItemLongClick(int position) {
         Log.d(TAG, "Position LongClick: " + position);
-        AlertDialog.Builder dialog=new AlertDialog.Builder(this.getContext());
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this.getContext());
         dialog.setMessage("Wollen Sie das Prdodukt wirklich löschen?");
         dialog.setTitle("Löschen");
         dialog.setPositiveButton("Ja",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int which) {
-                        fireBaseRepository.deleteProduct(currentProducts.get(position).getProductName(),storageOfProducts);
+                        fireBaseRepository.deleteProduct(currentProducts.get(position).getProductName(), storageOfProducts);
                         recyclerViewAdapter.updateProducts(currentProducts);
                     }
                 });
-        dialog.setNegativeButton("Nein",new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
             }
         });
-        AlertDialog alertDialog=dialog.create();
+        AlertDialog alertDialog = dialog.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void onProductItemClick(Product clickedProduct) {
+        Bundle productDetailBundle = new Bundle();
+        productDetailBundle.putSerializable("Product", clickedProduct);
+        requireActivity().getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.navHostFragment,
+                ProductDetailFragment.class, productDetailBundle, "ProductDetail").addToBackStack("ProductDetail").commit();
     }
 
 }
