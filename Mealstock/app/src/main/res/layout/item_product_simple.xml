@@ -8,123 +8,56 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_marginBottom="@dimen/margin_normal"
+    android:background="@drawable/product_item_selector"
+    android:foreground="?selectableItemBackground"
     >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardBackgroundColor="?attr/colorPrimary"
-        card_view:cardCornerRadius="10dp"
-        >
+        card_view:cardBackgroundColor="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="25dp"
-            android:padding="@dimen/padding_normal">
+            android:paddingHorizontal="25dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:id="@+id/imageView_product"
                 android:layout_width="wrap_content"
                 android:layout_height="75dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/product_placeholder"
-                app:civ_border_color="?attr/colorOnPrimary"
-                app:civ_border_width="5dp"
+                android:contentDescription="@string/description_productImage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView_productTitle"
+                style="@style/title_primary_3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLength="30"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/margin_product_item_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView_product"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="@dimen/margin_product_item_title"
-                android:textAlignment="center"
-                android:ellipsize="end"
-                android:maxLength="30"
-                android:textColor="?attr/colorOnPrimary"
-                tools:text="@string/placeholder_productname"
-                style="@style/title_primary_big"/>
+                tools:text="@string/placeholder_productname" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/row_1"
+            <TextView
+                android:id="@+id/textView_productQuantity"
+                style="@style/text_primary_normal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView_product"
                 app:layout_constraintTop_toBottomOf="@id/textView_productTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                >
-
-                <TextView
-                    android:id="@+id/textView_productBoughDate"
-                    style="@style/text_on_primary_normal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:textAlignment="textEnd"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/textView_productBoughDate_value"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/bought" />
-
-                <TextView
-                    android:id="@+id/textView_productBoughDate_value"
-                    style="@style/text_on_primary_normal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:textAlignment="center"
-                    app:layout_constraintStart_tStartOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/textView_productBoughDate"
-                    app:layout_constraintTop_toTopOf="parent"
-
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    tools:text="@string/text_no_date" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/row_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/imageView_product"
-                app:layout_constraintTop_toBottomOf="@id/row_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                >
-
-                <TextView
-                    android:id="@+id/textView_productExpiryDate"
-                    style="@style/text_on_primary_normal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:textAlignment="textEnd"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/textView_productExpiryDate_value"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/expires"  />
-
-                <TextView
-                    android:id="@+id/textView_productExpiryDate_value"
-                    style="@style/text_on_primary_normal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:textAlignment="center"
-                    app:layout_constraintStart_tStartOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/textView_productExpiryDate"
-                    app:layout_constraintTop_toTopOf="parent"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    tools:text="@string/text_no_date" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                tools:text="@string/placeholder_productUnit" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

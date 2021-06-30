@@ -5,7 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/background_white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.ProductListFragment">
+    tools:context=".fragments.ProductListFragment"
+    android:paddingHorizontal="@dimen/padding_large"
+    android:paddingTop="@dimen/padding_large"
+    android:paddingBottom="@dimen/padding_l">
 
     <LinearLayout android:id="@+id/frame_container"
         android:layout_width="match_parent"
@@ -17,33 +20,36 @@
         android:orientation="vertical"
         />
 
-    <SearchView
-        android:id="@+id/Search_View_Product_List"
-        android:layout_width="280dp"
-        android:layout_height="35dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="50dp"
-        android:background="@color/white"
-        android:queryHint="Produkt eingeben"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Spinner
-        android:id="@+id/filter_spinner"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="325dp"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <SearchView
+            android:id="@+id/Search_View_Product_List"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:background="@color/white"
+            android:queryHint="Produkt eingeben"
+            app:layout_constraintEnd_toStartOf="@+id/filter_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- TODO: Update blank fragment layout -->
+        <Spinner
+            android:id="@+id/filter_spinner"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="?attr/colorPrimary"
+            app:layout_constraintStart_toEndOf="@+id/Search_View_Product_List"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="70dp"
         />
 </FrameLayout>

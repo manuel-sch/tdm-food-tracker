@@ -18,8 +18,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.mealstock.R;
 import com.example.mealstock.models.Product;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adapter<ProductListForStorageRecyclerViewAdapter.ProductItemViewHolder> implements Filterable {
 
@@ -27,6 +29,7 @@ public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adap
     private final ProductItemLongClickListener longClinkListener;
     private List<Product> products;
     private final ProductItemClickListener clickListener;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
 
     public ProductListForStorageRecyclerViewAdapter(ProductItemClickListener clickListener, ProductItemLongClickListener swipeListener) {
         products = new ArrayList<>();
@@ -38,16 +41,16 @@ public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adap
     @Override
     public ProductItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View v = LayoutInflater.from(context).inflate(R.layout.item_product_simple, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.item_product_list, parent, false);
         return new ProductItemViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductItemViewHolder holder, int position) {
         Glide.with(context).load(products.get(position).getImageUrl()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.product_placeholder).into(holder.imageViewProductTitle);
-        holder.textViewProductTitle.setText(products.get(position).getProductName());
-        if(products.get(position).getQuantity() != 0)
-            holder.textViewProductQuantity.setText((int)(products.get(position).getQuantity()) + " g/ml");
+        holder.textViewProductName.setText(products.get(position).getProductName());
+        holder.textViewProductBoughtDate.setText(sdf.format(products.get(position).getBoughtDate()));
+        holder.textViewProductExpiryDate.setText(sdf.format(products.get(position).getExpiryDate()));
     }
 
     @Override
@@ -94,8 +97,9 @@ public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adap
     public class ProductItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
         private final ImageView imageViewProductTitle;
-        private final TextView textViewProductTitle;
-        private final TextView textViewProductQuantity;
+        private final TextView textViewProductName;
+        private final TextView textViewProductBoughtDate;
+        private final TextView textViewProductExpiryDate;
         private final CardView cardView;
 
 
@@ -104,8 +108,9 @@ public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adap
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
             imageViewProductTitle = itemView.findViewById(R.id.imageView_product);
-            textViewProductTitle = itemView.findViewById(R.id.textView_productTitle);
-            textViewProductQuantity = itemView.findViewById(R.id.textView_productQuantity);
+            textViewProductName = itemView.findViewById(R.id.textView_productTitle);
+            textViewProductBoughtDate = itemView.findViewById(R.id.textView_productBoughDate_value);
+            textViewProductExpiryDate = itemView.findViewById(R.id.textView_productExpiryDate_value);
             cardView = itemView.findViewById(R.id.cardView);
 
         }

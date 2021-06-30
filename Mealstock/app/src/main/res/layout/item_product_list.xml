@@ -15,26 +15,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardBackgroundColor="?attr/colorPrimary"
-        card_view:cardCornerRadius="10dp"
+        card_view:cardCornerRadius="25dp"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="25dp"
-            android:padding="@dimen/padding_normal">
+            android:padding="@dimen/padding_l">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageView_product"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:adjustViewBounds="true"
                 android:src="@drawable/product_placeholder"
                 app:civ_border_color="?attr/colorOnPrimary"
                 app:civ_border_width="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/textView_productTitle"
@@ -47,9 +45,8 @@
                 android:textAlignment="center"
                 android:ellipsize="end"
                 android:maxLength="30"
-                android:textColor="?attr/colorOnPrimary"
                 tools:text="@string/placeholder_productname"
-                style="@style/title_primary_big"/>
+                style="@style/title_on_primary_big"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/row_1"
@@ -66,8 +63,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:textAlignment="textEnd"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textAlignment="center"
                     app:layout_constraintEnd_toStartOf="@id/textView_productBoughDate_value"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -80,7 +76,6 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:textAlignment="center"
-                    app:layout_constraintStart_tStartOf="parent"
                     app:layout_constraintStart_toEndOf="@id/textView_productBoughDate"
                     app:layout_constraintTop_toTopOf="parent"
 
@@ -104,8 +99,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:textAlignment="textEnd"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textAlignment="center"
                     app:layout_constraintEnd_toStartOf="@id/textView_productExpiryDate_value"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -118,7 +112,6 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:textAlignment="center"
-                    app:layout_constraintStart_tStartOf="parent"
                     app:layout_constraintStart_toEndOf="@id/textView_productExpiryDate"
                     app:layout_constraintTop_toTopOf="parent"
                     card_view:layout_constraintEnd_toEndOf="parent"
