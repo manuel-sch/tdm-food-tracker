@@ -84,6 +84,7 @@
     <string name="text_sodium">Natrium</string>
     <string name="text_nutrition_score">Nutrition Score</string>
     <string name="text_nutrient_values">Nährwerte per 100g</string>
+    <string name="text_no_date">Kein Datum</string>
 
 
 </resources>
