@@ -4,22 +4,13 @@ public class Recipe {
 
     private String recipeName = "";
 
-    private String time = "";
+    private String cookingTime = "";
 
     private String ingredients;
 
     private String cookingDirections;
 
     private String imageUrl = "";
-
-
-    public Recipe (String recipeName, String time, String ingredients, String cookingDirections, String imageUrl){
-        this.recipeName = recipeName;
-        this.time = time;
-        this.ingredients = ingredients;
-        this.cookingDirections = cookingDirections;
-        this.imageUrl = imageUrl;
-    }
 
 
     public String getRecipeName() {
@@ -30,12 +21,12 @@ public class Recipe {
         this.recipeName = recipeName;
     }
 
-    public String getTime(){
-        return time;
+    public String getCookingTime(){
+        return cookingTime;
     }
 
-    public void setTime(String time){
-        this.time = time;
+    public void setCookingTime(String cookingTime){
+        this.cookingTime = cookingTime;
     }
 
     public String getIngredients(){

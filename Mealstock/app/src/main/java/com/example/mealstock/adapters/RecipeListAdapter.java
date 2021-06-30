@@ -8,60 +8,63 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.mealstock.R;
 import com.example.mealstock.models.Recipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeItemViewHolder> {
 
-    private Context context;
-    private List<Recipe> recipes = new ArrayList<>();
-    private String[] test;
+    private final Context context;
+    private final List<Recipe> recipes;
 
-    public class RecipeItemViewHolder extends RecyclerView.ViewHolder {
-
-        private ImageView imageViewRecipe;
-        private TextView textViewRecipeTitle;
-        private TextView textViewRecipeTime;
-        private CardView cardView;
-
-        public RecipeItemViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageViewRecipe = itemView.findViewById(R.id.imageView_recipe);
-            textViewRecipeTitle = itemView.findViewById(R.id.recipeTitle);
-            textViewRecipeTime = itemView.findViewById(R.id.recipeTime);
-            cardView = itemView.findViewById(R.id.cardView_recipe);
-        }
+    public RecipeListAdapter(Context context, List<Recipe> recipes){
+        this.context = context;
+        this.recipes = recipes;
     }
 
+    @NonNull
+    @Override
     public RecipeItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recipe_cardview,parent, false);
         RecipeItemViewHolder recipeItemViewHolder = new RecipeItemViewHolder(v);
         return recipeItemViewHolder;
     }
 
+    @Override
     public void onBindViewHolder(@NonNull RecipeItemViewHolder holder, int position) {
-        //holder.textViewRecipeTitle.setText(recipes.get(position).getRecipeName());
-        holder.textViewRecipeTitle.setText(test[position]);
+        Glide.with(context).load(recipes.get(position).getImageUrl()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.product_placeholder).into(holder.imageViewRecipe);
+        holder.textViewRecipeTitle.setText(recipes.get(position).getRecipeName());
+        holder.textViewCookingTime.setText(recipes.get(position).getCookingTime());
     }
 
+    @Override
     public int getItemCount() {
-        //return recipes.size();
-        return test.length;
+        return recipes.size();
     }
 
-/*    public RecipeListAdapter(List<Recipe> recipes){
-        this.recipes = recipes;
+
+    public class RecipeItemViewHolder extends RecyclerView.ViewHolder {
+
+        private final ImageView imageViewRecipe;
+        private final TextView textViewRecipeTitle;
+        private final TextView textViewCookingTime;
+
+        public RecipeItemViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageViewRecipe = itemView.findViewById(R.id.imageView_recipe);
+            textViewRecipeTitle = itemView.findViewById(R.id.recipeTitle);
+            textViewCookingTime = itemView.findViewById(R.id.recipeTime);
+        }
     }
-*/
-    public RecipeListAdapter(String[] test){
-        this.test = test;
-    }
+
+
+
+
 
 
 }
