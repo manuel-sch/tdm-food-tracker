@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        style="@style/text_on_primary_small"
+        style="@style/text_primary_small"
         tools:text="@string/hint_enter_expiry_date" />
 
 </LinearLayout>

@@ -93,7 +93,7 @@ public class ProductDetailFragment extends Fragment {
         viewModel.setProduct(currentProduct);
         viewModel.getProduct().observe(requireActivity(), product -> {
             productNameTextView.setText(currentProduct.getProductName());
-            productExpiryDateTextView.setText(sdf.format(product.getBoughtDate()));
+            productExpiryDateTextView.setText(sdf.format(product.getExpiryDate()));
             Glide.with(this).load(currentProduct.getImageUrl()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.product_placeholder).into(circleImageView);
         });
 
