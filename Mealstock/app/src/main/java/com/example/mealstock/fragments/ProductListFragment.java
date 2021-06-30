@@ -166,4 +166,9 @@ public class ProductListFragment extends Fragment implements ProductListForStora
                 ProductDetailFragment.class, productDetailBundle, "ProductDetail").addToBackStack("ProductDetail").commit();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

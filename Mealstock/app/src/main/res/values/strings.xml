@@ -85,6 +85,7 @@
     <string name="text_nutrition_score">Nutrition Score</string>
     <string name="text_nutrient_values">Nährwerte per 100g</string>
     <string name="text_no_date">Kein Datum</string>
+    <string name="text_expiring_soon">läuft bald ab:</string>
 
 
 </resources>

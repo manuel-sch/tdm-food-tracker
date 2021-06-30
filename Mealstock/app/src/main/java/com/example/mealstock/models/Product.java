@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class Product implements Serializable {
+public class Product implements Serializable, Comparable<Product> {
 
     private String barcode = "";
 
@@ -226,5 +226,10 @@ public class Product implements Serializable {
                 ", price=" + price +
                 ", unit=" + unit +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Product p) {
+        return getExpiryDate().compareTo(p.getExpiryDate());
     }
 }

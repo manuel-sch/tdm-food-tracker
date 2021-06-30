@@ -15,8 +15,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
 public class FireBaseRepository {
 
     private final String TAG = FireBaseRepository.class.getSimpleName();
@@ -25,13 +23,15 @@ public class FireBaseRepository {
     private final String uID;
 
     private final DatabaseReference databaseReference;
+
     private final DatabaseReference userReference;
-    private final DatabaseReference productReference;
     private final DatabaseReference userIDReference;
-    private final DatabaseReference productFreezerReference;
-    private final DatabaseReference productFridgeReference;
-    private final DatabaseReference productDrinksReference;
-    private final DatabaseReference productShelfReference;
+    private final DatabaseReference productReference;
+
+    private final DatabaseReference freezerProductsReference;
+    private final DatabaseReference fridgeProductsReference;
+    private final DatabaseReference drinksProductsReference;
+    private final DatabaseReference shelfProductsReference;
 
 
     public FireBaseRepository() {
@@ -42,10 +42,10 @@ public class FireBaseRepository {
         userReference = FirebaseDatabase.getInstance().getReference("Users");
         userIDReference = userReference.child(uID);
         productReference = userIDReference.child("Products");
-        productFreezerReference = productReference.child(ProductConstants.FREEZER);
-        productDrinksReference = productReference.child(ProductConstants.DRINKS);
-        productFridgeReference = productReference.child(ProductConstants.FRIDGE);
-        productShelfReference = productReference.child(ProductConstants.SHELF);
+        freezerProductsReference = productReference.child(ProductConstants.FREEZER);
+        drinksProductsReference = productReference.child(ProductConstants.DRINKS);
+        fridgeProductsReference = productReference.child(ProductConstants.FRIDGE);
+        shelfProductsReference = productReference.child(ProductConstants.SHELF);
 
 
 
@@ -112,23 +112,6 @@ public class FireBaseRepository {
         productReference.child(convertedStorage).push().setValue(product);
     }
 
-    public FirebaseUser getUser() {
-        return user;
-    }
-
-
-    public String getuID() {
-        return uID;
-    }
-
-    public DatabaseReference getProductReference() {
-        return productReference;
-    }
-
-    public DatabaseReference getProductReferenceForStorage(String productStorage) {
-        return productReference.child(productStorage);
-    }
-
     public void deleteProduct (String productName, String storageReference){
 
         Query query = productReference.child(storageReference).orderByChild("productName").equalTo(productName);
@@ -147,5 +130,22 @@ public class FireBaseRepository {
             }
         });
     }
+
+    public FirebaseUser getUser() {
+        return user;
+    }
+
+    public String getuID() {
+        return uID;
+    }
+
+    public DatabaseReference getProductReference() {
+        return productReference;
+    }
+
+    public DatabaseReference getProductReferenceForStorage(String productStorage) {
+        return productReference.child(productStorage);
+    }
+
 
 }

@@ -7,7 +7,7 @@
     android:padding="@dimen/padding_extra_large">
 
     <TextView
-        android:id="@+id/textView_productTitle"
+        android:id="@+id/textView_product_expiry_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +60,7 @@
         android:layout_marginEnd="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_productTitle">
+        app:layout_constraintTop_toBottomOf="@id/textView_product_expiry_date">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText_boughtDate"
@@ -93,7 +93,7 @@
 
     <TextView
         android:id="@+id/textView_storageDescription"
-        style="@style/text_primary_dark_1"
+        style="@style/text_primary_dark"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
@@ -125,7 +125,7 @@
         android:paddingBottom="@dimen/padding_small"
         android:text="@string/description_productUnit"
         android:textAlignment="center"
-        style="@style/text_primary_dark_1"/>
+        style="@style/text_primary_dark"/>
 
     <NumberPicker
         android:id="@+id/numberPicker_productUnit"
