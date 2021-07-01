@@ -33,8 +33,12 @@ public class FireBaseRepository {
     private final DatabaseReference drinksProductsReference;
     private final DatabaseReference shelfProductsReference;
 
+    private final FirebaseDatabase firebaseInstance;
+
 
     public FireBaseRepository() {
+
+        firebaseInstance = FirebaseDatabase.getInstance();
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
