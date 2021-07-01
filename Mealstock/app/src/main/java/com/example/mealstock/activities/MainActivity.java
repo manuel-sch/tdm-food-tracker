@@ -3,6 +3,7 @@ package com.example.mealstock.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = MainActivity.class.getSimpleName();
     private ProgressBar progressBar;
     private NetworkDataTransmitterSingleton dataTransmitter;
+    private long mBackPressed;
+    private static final int TIME_INTERVAL = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +58,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
-        boolean handled = false;
-        /*
-        for(Fragment f : fragmentList) {
-            Log.d(TAG, "onBackPressed: " + f.toString());
-            if(f instanceof ShelfFragment) {
-                ShelfFragment shelfFragment = (ShelfFragment) f;
-                handled = shelfFragment.handleBackPressWithHandledBoolean();
-            }
-            if(handled) {
-                break;
-            }
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+            moveTaskToBack(true);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+            return;
+        } else {
+            Toast.makeText(getBaseContext(), "Click two times to close the App",    Toast.LENGTH_SHORT).show();
         }
-        */
-        if(!handled) {
-            super.onBackPressed();
-        }
+        mBackPressed = System.currentTimeMillis();
     }
 
 
