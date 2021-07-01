@@ -176,14 +176,14 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRemo
     }
 
     private void setUpProductAddDialog(){
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireActivity());
         LayoutInflater inflater = getLayoutInflater();
-        productAddDialogView = inflater.inflate(R.layout.dialog_product_from_barcode, null);
+        productAddDialogView = inflater.inflate(R.layout.dialog_product_add, null);
 
         builder.setView(productAddDialogView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.d(TAG, "onClick: Gespeichertes Produkt: " + selectedProduct);
+                        //Log.d(TAG, "onClick: Gespeichertes Produkt: " + selectedProduct);
                         selectedProduct.setStorage(storageSpinerOnDialog.getSelectedItem().toString());
                         productListViewModel.insertProduct(selectedProduct);
                     }
@@ -197,7 +197,7 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRemo
     }
 
     private void initializeViewsFromDialog(){
-        productTitleTextViewOnDialog = productAddDialogView.findViewById(R.id.textView_productTitle);
+        productTitleTextViewOnDialog = productAddDialogView.findViewById(R.id.textView_product_expiry_date);
         storageSpinerOnDialog = productAddDialogView.findViewById(R.id.spinner_productStorage);
         productBoughtDateEditTextOnDialog = productAddDialogView.findViewById(R.id.editText_boughtDate);
         productExpiryDateEditTextInDialog = productAddDialogView.findViewById(R.id.editText_expiryDate);

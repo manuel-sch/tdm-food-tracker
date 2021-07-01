@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/padding_normal"
+    android:paddingVertical="@dimen/padding_extra_large"
     tools:context=".fragments.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,32 +13,55 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/dots_indicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginHorizontal="@dimen/margin_l"/>
 
 
     <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
         android:id="@+id/dots_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginVertical="@dimen/margin_normal"
         app:dotsColor="?attr/colorPrimary"
         app:dotsCornerRadius="8dp"
         app:dotsSize="16dp"
         app:dotsSpacing="4dp"
         app:dotsWidthFactor="2.5"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView_expiring_soon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pager"
         app:progressMode="true"
         app:selectedDotColor="?attr/colorPrimaryDark"
         tools:ignore="MissingClass" />
 
+    <TextView
+        android:id="@+id/textView_expiring_soon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_expiring_soon"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView_soon_expiring_products"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/text_primary_normal"
+        />
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_soon_expiring_products"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="@dimen/padding_normal"
+        android:background="#20000000"
+        tools:itemCount="3"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

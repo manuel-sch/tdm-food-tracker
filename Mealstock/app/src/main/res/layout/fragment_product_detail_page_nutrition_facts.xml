@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingBottom="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.ProductDetailNutritionFactsPageFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="22dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/row_0"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="#60C5B8"
+                android:gravity="bottom"
+                android:padding="8dp"
+                android:text="@string/text_nutrient_values"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/row_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_energy_kj"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:text="Energie (kJ)"
+                    app:layout_constraintEnd_toStartOf="@+id/textView_energy_kj_value"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_energy_kj_value"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:text="@string/text_no_data"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView_energy_kj"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#60C5B8"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_energy_kcal"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView_energy_kcal_value"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="@string/text_energy_kcal"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_energy_kcal_value"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView_energy_kcal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textAlignment="center"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="@string/text_no_data"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_fat"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView_fat_value"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    android:text="@string/text_fat"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_fat_value"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView_fat"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textAlignment="center"
+                    android:text="@string/text_no_data"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#60C5B8"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_saturated_fat"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView_saturated_fat_value"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="@string/text_saturated_fat"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_saturated_fat_value"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView_saturated_fat"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textAlignment="center"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="@string/text_no_data"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_carbohydrates"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView_carbohydrates_value"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    android:text="@string/text_carbohydrates"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_carbohydrates_value"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView_carbohydrates"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textAlignment="center"
+                    android:text="@string/text_no_data"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#60C5B8"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_sugar"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView_sugar_value"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="@string/text_sugar"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_sugar_value"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView_sugar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textAlignment="center"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="@string/text_no_data"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_protein"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView_protein_value"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    android:text="@string/text_protein"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_protein_value"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView_protein"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textAlignment="center"
+                    android:text="@string/text_no_data"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#60C5B8"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_salt"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView_salt_value"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="@string/text_salt"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_salt_value"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView_salt"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textAlignment="center"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="@string/text_no_data"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_sodium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView_sodium_value"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    android:text="@string/text_sodium"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_sodium_value"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView_sodium"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textAlignment="center"
+                    android:text="@string/text_no_data"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#60C5B8"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_nutrition_score"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView_nutrition_score_value"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="@string/text_nutrition_score"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_nutrition_score_value"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView_nutrition_score"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textAlignment="center"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="@string/text_no_data"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    </ScrollView>
+

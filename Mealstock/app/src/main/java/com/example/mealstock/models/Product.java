@@ -1,30 +1,29 @@
 package com.example.mealstock.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
-public class Product implements Serializable {
+public class Product implements Serializable, Comparable<Product> {
 
     private String barcode = "";
 
-
     private String productName;
-
 
     private String genericName = "";
 
-
-    private String brand = "";
-
+    private String brands = "";
 
     private String imageUrl = "";
 
-
     private String allergens = "";
-
 
     private String categories = "";
 
+    private HashMap<String, String> nutritionFacts = new HashMap<>();
 
     private String ingredients;
 
@@ -32,48 +31,19 @@ public class Product implements Serializable {
 
     private Date expiryDate = new Date();
 
-
     private String storage = "Gefrierfach";
 
-
-    private String nutrientLevel = "";
-
+    private String nutrientLevel = "Keine Daten.";
 
     private String novaGroup = "";
 
-
     private String ecoScore = "";
-
 
     private double quantity = 0;
 
-
     private double price;
 
-
     private int unit = 1;
-
-
-/*
-    public ProductEntity(String barcode, @NonNull String productName, String genericName,
-                         String brand, String imageUrl, String allergens, String categories,
-                         String ingredients, String nutrientLevel, String novaGroup, String ecoScore,
-                         String quantity, double price) {
-        this.barcode = barcode;
-        this.productName = productName;
-        this.genericName = genericName;
-        this.brand = brand;
-        this.imageUrl = imageUrl;
-        this.allergens = allergens;
-        this.categories = categories;
-        this.ingredients = ingredients;
-        this.nutrientLevel = nutrientLevel;
-        this.novaGroup = novaGroup;
-        this.ecoScore = ecoScore;
-        this.quantity = quantity;
-        this.price = price;
-    }
-    */
 
 
     public String getBarcode() {
@@ -83,7 +53,6 @@ public class Product implements Serializable {
     public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
-
 
     public String getProductName() {
         return productName;
@@ -97,16 +66,20 @@ public class Product implements Serializable {
         return genericName;
     }
 
+    public void setNutritionFacts(HashMap<String, String> nutritionFacts) {
+        this.nutritionFacts = nutritionFacts;
+    }
+
     public void setGenericName(String genericName) {
         this.genericName = genericName;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getBrands() {
+        return brands;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setBrands(String brands) {
+        this.brands = brands;
     }
 
     public String getImageUrl() {
@@ -213,16 +186,35 @@ public class Product implements Serializable {
         this.storage = storage;
     }
 
+    public List<String> getAllergensAsList(){
+        String[] allergenTokens = allergens.split(", ");
+        if(allergenTokens.length == 1)
+            allergenTokens = allergens.split(",");
+        return new ArrayList<String>(Arrays.asList(allergenTokens));
+    }
+
+    public List<String> getIngredientsAsList(){
+        String[] ingredientsTokens = ingredients.split(", ");
+        if(ingredientsTokens.length == 1)
+            ingredientsTokens = allergens.split(",");
+        return new ArrayList<String>(Arrays.asList(ingredientsTokens));
+    }
+
+    public HashMap<String, String> getNutritionFacts() {
+        return nutritionFacts;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "barcode='" + barcode + '\'' +
                 ", productName='" + productName + '\'' +
                 ", genericName='" + genericName + '\'' +
-                ", brand='" + brand + '\'' +
+                ", brands='" + brands + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", allergens='" + allergens + '\'' +
                 ", categories='" + categories + '\'' +
+                ", nutritionFacts=" + nutritionFacts +
                 ", ingredients='" + ingredients + '\'' +
                 ", boughtDate=" + boughtDate +
                 ", expiryDate=" + expiryDate +
@@ -234,5 +226,10 @@ public class Product implements Serializable {
                 ", price=" + price +
                 ", unit=" + unit +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Product p) {
+        return getExpiryDate().compareTo(p.getExpiryDate());
     }
 }

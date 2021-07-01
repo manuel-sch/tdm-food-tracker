@@ -7,7 +7,7 @@
     android:padding="@dimen/padding_extra_large">
 
     <TextView
-        android:id="@+id/textView_productTitle"
+        android:id="@+id/textView_product_expiry_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,6 +16,24 @@
         android:text="@string/placeholder_productname"
         style="@style/title_primary_2"/>
 
+    <!--
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView_product"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner_productStorage"
+        android:layout_marginTop="@dimen/margin_large"
+        android:src="@drawable/product_placeholder"
+        app:civ_border_color="#60C5B8"
+        app:civ_border_width="5dp"
+        android:paddingEnd="@dimen/padding_large"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/description_productImage"/>
+
+        -->
+
+    <!---->
     <ImageView
         android:id="@+id/imageView_product"
         android:layout_width="wrap_content"
@@ -28,6 +46,8 @@
         android:contentDescription="@string/description_productImage"
 
          />
+    <!---->
+
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -40,7 +60,7 @@
         android:layout_marginEnd="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_productTitle">
+        app:layout_constraintTop_toBottomOf="@id/textView_product_expiry_date">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText_boughtDate"
@@ -73,7 +93,7 @@
 
     <TextView
         android:id="@+id/textView_storageDescription"
-        style="@style/text_primary_dark_1"
+        style="@style/text_primary_dark"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
@@ -105,7 +125,7 @@
         android:paddingBottom="@dimen/padding_small"
         android:text="@string/description_productUnit"
         android:textAlignment="center"
-        style="@style/text_primary_dark_1"/>
+        style="@style/text_primary_dark"/>
 
     <NumberPicker
         android:id="@+id/numberPicker_productUnit"

@@ -16,6 +16,12 @@
     <color name="bluegreen_dark">#36998c</color>
     <color name="bluegreen_darker">#1e574f</color>
 
+    <color name="yellow">#CDDC39</color>
+
+    <color name="orange">#FF9800</color>
+
+    <color name="red_dark">#D84040</color>
+
     <color name ="background_white">#F0F0F0</color>
 
 </resources>

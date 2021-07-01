@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(this.getApplicationContext());
         progressBar = findViewById(R.id.progressBar);
         FragmentManager supportFragmentManager = getSupportFragmentManager();
-        NavHostFragment navHostFragment = (NavHostFragment) supportFragmentManager.findFragmentById(R.id.fragmentContainerView);
+        NavHostFragment navHostFragment = (NavHostFragment) supportFragmentManager.findFragmentById(R.id.navHostFragment);
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         NavigationUI.setupWithNavController(bottomNav, navController);

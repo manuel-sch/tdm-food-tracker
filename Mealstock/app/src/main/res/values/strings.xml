@@ -73,6 +73,19 @@
     <string name="abort">Abbrechen</string>
     <string name="text_confirm">OK</string>
     <string name="description_productUnit">Anzahl</string>
+    <string name="text_no_data">Keine Daten.</string>
+    <string name="text_energy_kcal">Energie (kcal)</string>
+    <string name="text_saturated_fat">Gesättigte Fettsäuren</string>
+    <string name="text_fat">Fett</string>
+    <string name="text_carbohydrates">Kohlenhydrate</string>
+    <string name="text_sugar">davon Zucker</string>
+    <string name="text_protein">Eiweiß</string>
+    <string name="text_salt">Salz</string>
+    <string name="text_sodium">Natrium</string>
+    <string name="text_nutrition_score">Nutrition Score</string>
+    <string name="text_nutrient_values">Nährwerte per 100g</string>
+    <string name="text_no_date">Kein Datum</string>
+    <string name="text_expiring_soon">läuft bald ab:</string>
 
 
 </resources>

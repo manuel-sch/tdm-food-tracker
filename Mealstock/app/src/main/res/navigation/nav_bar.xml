@@ -18,6 +18,7 @@
         android:id="@+id/scanFrag"
         android:name="com.example.mealstock.fragments.ProductScanFragment"
         android:label="fragment_scan"
+        android:tag="ProductScanFragment"
         tools:layout="@layout/fragment_scan" />
     <fragment
         android:id="@+id/settingFrag"

@@ -15,25 +15,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
 public class FireBaseRepository {
-
-
-    private FirebaseUser user;
-    private String uID;
-    private final DatabaseReference databaseReference;
-    private final DatabaseReference userReference;
-    private final DatabaseReference productReference;
-    private final DatabaseReference userIDReference;
-    private final DatabaseReference productFreezerReference;
-    private final DatabaseReference productFridgeReference;
-    private final DatabaseReference productDrinksReference;
-    private final DatabaseReference productShelfReference;
-
 
     private final String TAG = FireBaseRepository.class.getSimpleName();
 
+    private final FirebaseUser user;
+    private final String uID;
+
+    private final DatabaseReference databaseReference;
+
+    private final DatabaseReference userReference;
+    private final DatabaseReference userIDReference;
+    private final DatabaseReference productReference;
+
+    private final DatabaseReference freezerProductsReference;
+    private final DatabaseReference fridgeProductsReference;
+    private final DatabaseReference drinksProductsReference;
+    private final DatabaseReference shelfProductsReference;
 
 
     public FireBaseRepository() {
@@ -44,66 +42,46 @@ public class FireBaseRepository {
         userReference = FirebaseDatabase.getInstance().getReference("Users");
         userIDReference = userReference.child(uID);
         productReference = userIDReference.child("Products");
-        productFreezerReference = productReference.child(ProductConstants.FREEZER);
-        productDrinksReference = productReference.child(ProductConstants.DRINKS);
-        productFridgeReference = productReference.child(ProductConstants.FRIDGE);
-        productShelfReference = productReference.child(ProductConstants.SHELF);
+        freezerProductsReference = productReference.child(ProductConstants.FREEZER);
+        drinksProductsReference = productReference.child(ProductConstants.DRINKS);
+        fridgeProductsReference = productReference.child(ProductConstants.FRIDGE);
+        shelfProductsReference = productReference.child(ProductConstants.SHELF);
 
 
 
         ChildEventListener childEventListener = new ChildEventListener() {
+
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
-
-                // A new comment has been added, add it to the displayed list
+                //Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
                 Product product = dataSnapshot.getValue(Product.class);
-
-                // ...
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so displayed the changed comment.
+                //Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
                 Product newProduct = dataSnapshot.getValue(Product.class);
                 String productKey = dataSnapshot.getKey();
-
-                // ...
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so remove it.
+                //Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
                 String commentKey = dataSnapshot.getKey();
-
-                // ...
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-
-                // A comment has changed position, use the key to determine if we are
-                // displaying this comment and if so move it.
+                //Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
                 Product movedComment = dataSnapshot.getValue(Product.class);
                 String commentKey = dataSnapshot.getKey();
-
-                // ...
             }
 
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
+                //Log.w(TAG, "postComments:onCancelled", databaseError.toException());
 
-                Toast.makeText(null, "Failed to load comments.",
-                        Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -129,24 +107,8 @@ public class FireBaseRepository {
             default:
                 return;
         }
+        Log.d(TAG, "insertProduct: " + product);
         productReference.child(convertedStorage).push().setValue(product);
-    }
-
-    public FirebaseUser getUser() {
-        return user;
-    }
-
-
-    public String getuID() {
-        return uID;
-    }
-
-    public DatabaseReference getProductReference() {
-        return productReference;
-    }
-
-    public DatabaseReference getProductReferenceForStorage(String productStorage) {
-        return productReference.child(productStorage);
     }
 
     public void deleteProduct (String productName, String storageReference){
@@ -167,5 +129,22 @@ public class FireBaseRepository {
             }
         });
     }
+
+    public FirebaseUser getUser() {
+        return user;
+    }
+
+    public String getuID() {
+        return uID;
+    }
+
+    public DatabaseReference getProductReference() {
+        return productReference;
+    }
+
+    public DatabaseReference getProductReferenceForStorage(String productStorage) {
+        return productReference.child(productStorage);
+    }
+
 
 }

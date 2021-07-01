@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/bluegreen_light</item>
         <item name="colorPrimaryVariant">@color/bluegreen_dark</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/bluegreen_dark</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
@@ -17,7 +18,7 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="fontFamily">@font/montserrat</item>
         <item name="backgroundColor">@color/white</item>
-        <item name="android:numberPickerStyle">@style/NumberPickerTheme</item>P
+        <item name="android:numberPickerStyle">@style/NumberPickerTheme</item>
 
     </style>
 
