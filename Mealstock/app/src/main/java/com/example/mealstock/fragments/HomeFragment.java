@@ -104,7 +104,7 @@ public class HomeFragment extends Fragment implements ProductListForSoonExpiring
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(null, "Fail to get data.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(null, "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
         });
     }

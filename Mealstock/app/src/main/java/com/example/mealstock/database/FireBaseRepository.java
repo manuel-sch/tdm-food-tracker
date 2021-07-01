@@ -81,8 +81,7 @@ public class FireBaseRepository {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-                Toast.makeText(null, "Failed to load comments.",
-                        Toast.LENGTH_SHORT).show();
+
             }
         };
 

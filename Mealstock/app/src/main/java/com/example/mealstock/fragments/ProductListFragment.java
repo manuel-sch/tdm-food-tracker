@@ -128,7 +128,7 @@ public class ProductListFragment extends Fragment implements ProductListForStora
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(null, "Fail to get data.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(null, "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
         });
     }

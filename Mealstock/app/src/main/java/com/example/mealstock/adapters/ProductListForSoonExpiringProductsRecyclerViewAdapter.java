@@ -46,6 +46,7 @@ public class ProductListForSoonExpiringProductsRecyclerViewAdapter extends Recyc
 
     @Override
     public void onBindViewHolder(@NonNull ProductItemViewHolder holder, int position) {
+
         Product currentProduct = products.get(position);
         Glide.with(context).load(currentProduct.getImageUrl()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.product_placeholder).into(holder.productImageView);
         holder.expiryDateTextView.setText(sdf.format(currentProduct.getExpiryDate()));
