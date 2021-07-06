@@ -38,19 +38,6 @@
         app:layout_constraintTop_toBottomOf="@+id/favoriten"
         tools:layout_editor_absoluteX="78dp" />
 
-    <Button
-        android:id="@+id/recipeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="400dp"
-        android:text="Favorit Rezepte"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

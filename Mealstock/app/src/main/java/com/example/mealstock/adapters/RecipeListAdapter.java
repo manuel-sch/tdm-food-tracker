@@ -21,10 +21,13 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     private final Context context;
     private final List<Recipe> recipes;
+    private onRecipeListener clickListener;
 
-    public RecipeListAdapter(Context context, List<Recipe> recipes){
+
+    public RecipeListAdapter(Context context, List<Recipe> recipes, onRecipeListener clickListener){
         this.context = context;
         this.recipes = recipes;
+        this.clickListener  = clickListener;
     }
 
     @NonNull
@@ -40,6 +43,13 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         Glide.with(context).load(recipes.get(position).getImageUrl()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.product_placeholder).into(holder.imageViewRecipe);
         holder.textViewRecipeTitle.setText(recipes.get(position).getRecipeName());
         holder.textViewCookingTime.setText(recipes.get(position).getCookingTime());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onRecipeClick(recipes.get(position));
+            }
+        });
     }
 
     @Override
@@ -62,11 +72,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         }
     }
 
-
-
-
-
-
+    public interface onRecipeListener{
+        void onRecipeClick(Recipe dataModel);
+    }
 }
 
 
