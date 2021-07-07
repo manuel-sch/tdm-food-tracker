@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private NetworkDataTransmitterSingleton dataTransmitter;
     private long mBackPressed;
     private static final int TIME_INTERVAL = 2000;
+    private FragmentManager supportFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(this.getApplicationContext());
         progressBar = findViewById(R.id.progressBar);
-        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        supportFragmentManager = getSupportFragmentManager();
         NavHostFragment navHostFragment = (NavHostFragment) supportFragmentManager.findFragmentById(R.id.navHostFragment);
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
@@ -58,16 +59,32 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
-            moveTaskToBack(true);
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
-            return;
+        
+        if (supportFragmentManager.getBackStackEntryCount() > 0){
+            super.onBackPressed();
+
         } else {
-            Toast.makeText(getBaseContext(), "Click two times to close the App",    Toast.LENGTH_SHORT).show();
+            if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+                return;
+            } else {
+                Toast.makeText(getBaseContext(), "Click two times to close the App",    Toast.LENGTH_SHORT).show();
+            }
+            mBackPressed = System.currentTimeMillis();
+
         }
-        mBackPressed = System.currentTimeMillis();
+
+
+
+
+
+
     }
+
+
+
 
 
 }
