@@ -58,7 +58,6 @@ public class ProductDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentProductDetailBinding = FragmentProductDetailBinding.inflate(inflater, container, false);
         View view = fragmentProductDetailBinding.getRoot();
-        initializeViews();
         return view;
     }
 
@@ -66,6 +65,7 @@ public class ProductDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated: Derzeitiges Produkt - " + currentProduct);
+        initializeViews();
         setUpViewPager();
         setUpDotsIndicator();
         setUpViewModelObserving();
