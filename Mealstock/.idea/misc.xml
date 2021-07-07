@@ -61,6 +61,7 @@
         <entry key="app/src/main/res/layout/item_product_list.xml" value="0.28854166666666664" />
         <entry key="app/src/main/res/layout/item_product_simple.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/item_recipe_cardview.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/item_recipe_list.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/item_soon_expiring_product.xml" value="0.25364583333333335" />
         <entry key="app/src/main/res/layout/new_dialog_product_from_barcode.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/recycler_row.xml" value="0.23072916666666668" />

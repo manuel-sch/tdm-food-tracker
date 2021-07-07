@@ -1,7 +1,6 @@
 package com.example.mealstock.database;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.mealstock.constants.ProductConstants;
 import com.example.mealstock.models.Product;
@@ -54,27 +53,27 @@ public class FireBaseRepository {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 //Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
-                Product product = dataSnapshot.getValue(Product.class);
+                //Product product = dataSnapshot.getValue(Product.class);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
                 //Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
-                Product newProduct = dataSnapshot.getValue(Product.class);
-                String productKey = dataSnapshot.getKey();
+                //Product newProduct = dataSnapshot.getValue(Product.class);
+                //String productKey = dataSnapshot.getKey();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 //Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-                String commentKey = dataSnapshot.getKey();
+                //String commentKey = dataSnapshot.getKey();
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
                 //Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-                Product movedComment = dataSnapshot.getValue(Product.class);
-                String commentKey = dataSnapshot.getKey();
+               // Product movedComment = dataSnapshot.getValue(Product.class);
+                //String commentKey = dataSnapshot.getKey();
             }
 
 

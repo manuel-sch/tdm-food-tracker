@@ -27,7 +27,7 @@
                 android:id="@+id/imageView_recipe"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:src="@drawable/product_placeholder"
+                android:src="@drawable/recipe_placeholder"
                 app:civ_border_color="?attr/colorOnPrimary"
                 app:civ_border_width="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -41,33 +41,30 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView_recipe"
                 app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="@dimen/margin_large"
                 android:layout_marginTop="@dimen/margin_product_item_title"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:ellipsize="end"
                 android:maxLength="30"
-                tools:text="@string/placeholder_productname"
+                tools:text="@string/placeholder_recipe_name"
                 style="@style/title_on_primary_big"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/row_1"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/imageView_recipe"
-                app:layout_constraintTop_toBottomOf="@id/textView_recipe_name"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_recipe_name"
                 >
 
-                <TextView
-                    android:id="@+id/textView_productBoughDate"
-                    style="@style/text_on_primary_normal"
-                    android:layout_width="0dp"
+                <ImageView
+                    android:id="@+id/timer"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:textAlignment="center"
-                    app:layout_constraintEnd_toStartOf="@id/textView_recipe_total_time"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView_recipe_total_time"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/bought" />
+                    app:srcCompat="@drawable/ic_timer" />
+
 
                 <TextView
                     android:id="@+id/textView_recipe_total_time"
@@ -76,46 +73,10 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:textAlignment="center"
-                    app:layout_constraintStart_toEndOf="@id/textView_productBoughDate"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
 
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    tools:text="@string/text_no_date" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/row_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/imageView_recipe"
-                app:layout_constraintTop_toBottomOf="@id/row_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                >
-
-                <TextView
-                    android:id="@+id/textView_productExpiryDate"
-                    style="@style/text_on_primary_normal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:textAlignment="center"
-                    app:layout_constraintEnd_toStartOf="@id/textView_productExpiryDate_value"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/expires"  />
-
-                <TextView
-                    android:id="@+id/textView_productExpiryDate_value"
-                    style="@style/text_on_primary_normal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:textAlignment="center"
-                    app:layout_constraintStart_toEndOf="@id/textView_productExpiryDate"
-                    app:layout_constraintTop_toTopOf="parent"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    tools:text="@string/text_no_date" />
+                    tools:text="@string/placeholder_total_time" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

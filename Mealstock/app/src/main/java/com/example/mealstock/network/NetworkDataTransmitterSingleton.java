@@ -18,9 +18,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.mealstock.R;
 import com.example.mealstock.activities.MainActivity;
 import com.example.mealstock.constants.AppInfoConstants;
+import com.example.mealstock.fragments.ProductDetailFragment;
 import com.example.mealstock.fragments.ProductRemoteSearchFragment;
 import com.example.mealstock.fragments.ProductScanFragment;
 import com.example.mealstock.models.Product;
+import com.example.mealstock.models.Recipe;
 import com.example.mealstock.utils.JsonHandler;
 import com.example.mealstock.utils.RequestMethod;
 
@@ -35,6 +37,7 @@ import java.util.Map;
 public class NetworkDataTransmitterSingleton {
 
     private static NetworkDataTransmitterSingleton instance = null;
+    private static boolean alreadySearchedForRecipe = false;
     private final Context queueContext;
     private final ImageLoader imageLoader;
     private RequestQueue queue;
@@ -88,6 +91,11 @@ public class NetworkDataTransmitterSingleton {
                     } else if (jsonReq.getRequestMethod() == RequestMethod.PRODUCT_NAME) {
                         Log.d(TAG, "onResponse: " + response.getJSONArray("products").getJSONObject(0).toString(1));
                         handleProductNameSearchResponse(context, response);
+
+                    } else if (jsonReq.getRequestMethod() == RequestMethod.RECIPE_SEARCH) {
+                        //Log.d(TAG, "onResponse: " + response.toString(1));
+                        handleRecipeSearchResponse(context, response);
+
                     } else {
                         String errorMessage = "Angegebene Requestmethode ist ungültig!";
                         Log.e(TAG, "onResponse: " + errorMessage);
@@ -164,7 +172,7 @@ public class NetworkDataTransmitterSingleton {
                 Fragment navHostFragment = mainActivity.getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
                 Log.d(TAG, "handleBarcodeSearchResponse: " + navHostFragment.getChildFragmentManager().getFragments());
                 ProductScanFragment scanFragment = (ProductScanFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
-                if(scanFragment != null){
+                if (scanFragment != null) {
                     Product newProduct = JsonHandler.parseJsonObjectWithSingleProductToProduct(context, response);
                     scanFragment.setBarcodeProduct(newProduct);
                     scanFragment.showProductAddDialog();
@@ -185,10 +193,10 @@ public class NetworkDataTransmitterSingleton {
         final String TAG = context.getClass().getSimpleName();
         MainActivity mainActivity = (MainActivity) context;
         try {
-            if (response.getJSONArray("products").length() != 0){
+            if (response.getJSONArray("products").length() != 0) {
                 Fragment navHostFragment = mainActivity.getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
                 ProductRemoteSearchFragment searchFragment = (ProductRemoteSearchFragment) navHostFragment.getChildFragmentManager().findFragmentByTag("ProductRemoteSearch");
-                if(searchFragment != null){
+                if (searchFragment != null) {
                     List<Product> foundProducts = JsonHandler.parseJsonArrayWithMultipleProductsToProductList(context, response);
                     searchFragment.setCurrentProducts(foundProducts);
                 }
@@ -200,6 +208,36 @@ public class NetworkDataTransmitterSingleton {
                 mainActivity.setProgressBarVisibilityWithBool(false);
             }
 
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void handleRecipeSearchResponse(Context context, JSONObject response) {
+        final String TAG = context.getClass().getSimpleName();
+        MainActivity mainActivity = (MainActivity) context;
+        try {
+            Fragment navHostFragment = mainActivity.getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
+            Log.d(TAG, "handleRecipeSearchResponse: " + navHostFragment.getParentFragmentManager().findFragmentByTag("ProductDetail"));
+            ProductDetailFragment detailFragment = (ProductDetailFragment) navHostFragment.getParentFragmentManager().findFragmentByTag("ProductDetail");
+            if (detailFragment != null) {
+                if (response.getJSONArray("hits").length() != 0) {
+                    alreadySearchedForRecipe = false;
+                    Log.d(TAG, "onResponse: " + response.getJSONArray("hits").getJSONObject(0).toString(1));
+                    List<Recipe> foundRecipes = JsonHandler.parseJsonArrayWithMultipleRecipesToRecipeList(context, response);
+                    Log.d(TAG, "handleRecipeSearchResponse: " + foundRecipes);
+                    detailFragment.setRecipes(foundRecipes);
+                } else if (!alreadySearchedForRecipe) {
+                    NetworkDataTransmitterSingleton instance = getInstance(context.getApplicationContext());
+                    alreadySearchedForRecipe = true;
+                    detailFragment.setProductInformationToSearchForInRecipesWithProductName();
+                    String errorMessage = "Keine Rezepte zum Produkt gefunden!";
+                    Log.e(TAG, "handleBarcodeSearchResponse: " + errorMessage);
+                }
+                mainActivity.setProgressBarVisibilityWithBool(false);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

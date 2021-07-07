@@ -46,6 +46,20 @@ public class Product implements Serializable, Comparable<Product> {
     private int unit = 1;
 
 
+    public List<String> getAllergensAsList(){
+        String[] allergenTokens = allergens.split(", ");
+        if(allergenTokens.length == 1)
+            allergenTokens = allergens.split(",");
+        return new ArrayList<String>(Arrays.asList(allergenTokens));
+    }
+
+    public List<String> getIngredientsAsList(){
+        String[] ingredientsTokens = ingredients.split(", ");
+        if(ingredientsTokens.length == 1)
+            ingredientsTokens = allergens.split(",");
+        return new ArrayList<String>(Arrays.asList(ingredientsTokens));
+    }
+
     public String getBarcode() {
         return barcode;
     }
@@ -64,10 +78,6 @@ public class Product implements Serializable, Comparable<Product> {
 
     public String getGenericName() {
         return genericName;
-    }
-
-    public void setNutritionFacts(HashMap<String, String> nutritionFacts) {
-        this.nutritionFacts = nutritionFacts;
     }
 
     public void setGenericName(String genericName) {
@@ -106,12 +116,44 @@ public class Product implements Serializable, Comparable<Product> {
         this.categories = categories;
     }
 
+    public HashMap<String, String> getNutritionFacts() {
+        return nutritionFacts;
+    }
+
+    public void setNutritionFacts(HashMap<String, String> nutritionFacts) {
+        this.nutritionFacts = nutritionFacts;
+    }
+
     public String getIngredients() {
         return ingredients;
     }
 
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public Date getBoughtDate() {
+        return boughtDate;
+    }
+
+    public void setBoughtDate(Date boughtDate) {
+        this.boughtDate = boughtDate;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public String getStorage() {
+        return storage;
+    }
+
+    public void setStorage(String storage) {
+        this.storage = storage;
     }
 
     public String getNutrientLevel() {
@@ -154,54 +196,12 @@ public class Product implements Serializable, Comparable<Product> {
         this.price = price;
     }
 
-    public Date getBoughtDate() {
-        return boughtDate;
-    }
-
-    public void setBoughtDate(Date boughtDate) {
-        this.boughtDate = boughtDate;
-    }
-
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
     public int getUnit() {
         return unit;
     }
 
     public void setUnit(int unit) {
         this.unit = unit;
-    }
-
-    public String getStorage() {
-        return storage;
-    }
-
-    public void setStorage(String storage) {
-        this.storage = storage;
-    }
-
-    public List<String> getAllergensAsList(){
-        String[] allergenTokens = allergens.split(", ");
-        if(allergenTokens.length == 1)
-            allergenTokens = allergens.split(",");
-        return new ArrayList<String>(Arrays.asList(allergenTokens));
-    }
-
-    public List<String> getIngredientsAsList(){
-        String[] ingredientsTokens = ingredients.split(", ");
-        if(ingredientsTokens.length == 1)
-            ingredientsTokens = allergens.split(",");
-        return new ArrayList<String>(Arrays.asList(ingredientsTokens));
-    }
-
-    public HashMap<String, String> getNutritionFacts() {
-        return nutritionFacts;
     }
 
     @Override

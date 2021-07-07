@@ -197,11 +197,11 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRemo
     }
 
     private void initializeViewsFromDialog(){
-        productTitleTextViewOnDialog = productAddDialogView.findViewById(R.id.textView_product_expiry_date);
+        productTitleTextViewOnDialog = productAddDialogView.findViewById(R.id.textView_recipe_name);
         storageSpinerOnDialog = productAddDialogView.findViewById(R.id.spinner_productStorage);
         productBoughtDateEditTextOnDialog = productAddDialogView.findViewById(R.id.editText_boughtDate);
         productExpiryDateEditTextInDialog = productAddDialogView.findViewById(R.id.editText_expiryDate);
-        productImageOnDialog = productAddDialogView.findViewById(R.id.imageView_product);
+        productImageOnDialog = productAddDialogView.findViewById(R.id.imageView_recipe);
         productUnitNumberPicker = productAddDialogView.findViewById(R.id.numberPicker_productUnit);
 
     }
