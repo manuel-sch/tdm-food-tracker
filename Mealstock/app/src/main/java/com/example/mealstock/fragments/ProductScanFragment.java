@@ -101,12 +101,31 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         super(R.layout.fragment_scan);
     }
 
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public static ProductScanFragment newInstance(String param1, String param2) {
+        ProductScanFragment fragment = new ProductScanFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     // This event fires 2nd, before views are created for the fragment
     // The onCreate method is called when the Fragment instance is being created, or re-created.
     // Use onCreate for any standard setup that does not require the activity to be fully created
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
