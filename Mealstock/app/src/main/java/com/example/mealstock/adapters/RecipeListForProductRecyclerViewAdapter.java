@@ -25,7 +25,7 @@ public class RecipeListForProductRecyclerViewAdapter extends RecyclerView.Adapte
     private final RecipeItemClickListener clickListener;
 
     public RecipeListForProductRecyclerViewAdapter(RecipeItemClickListener clickListener) {
-        recipes = new ArrayList<Recipe>();
+        recipes = new ArrayList<>();
         this.clickListener = clickListener;
     }
 
@@ -41,7 +41,7 @@ public class RecipeListForProductRecyclerViewAdapter extends RecyclerView.Adapte
     public void onBindViewHolder(@NonNull RecipeItemViewHolder holder, int position) {
         Glide.with(context).load(recipes.get(position).getImage()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.product_placeholder).into(holder.imageViewProductTitle);
         holder.recipeNameTextView.setText(recipes.get(position).getName());
-        holder.recipeTotalTimeTextView.setText(recipes.get(position).getTotalTimeInMinutes());
+        holder.recipeTotalTimeTextView.setText(String.valueOf(recipes.get(position).getTotalTimeInMinutes()));
     }
 
     @Override

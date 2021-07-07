@@ -1,7 +1,7 @@
 package com.example.mealstock.viewmodels;
 
 import android.app.Application;
-import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,22 +22,22 @@ import java.util.List;
 
 public class ProductDetailViewModel extends AndroidViewModel {
 
+    private final String TAG = ProductDetailViewModel.class.getSimpleName();
+
     private final FireBaseRepository fireBaseRepository;
     private final NetworkDataTransmitterSingleton networkDataTransmitterSingleton;
 
     private ToEnglishTranslator toEnglishTranslator;
 
-    private final Context context;
-
     private MutableLiveData<Product> currentDetailProduct;
     private MutableLiveData<List<Recipe>> recipesForCurrentDetailProduct;
 
-    public ProductDetailViewModel(@NonNull Application application, Context context) {
+    public ProductDetailViewModel(@NonNull Application application) {
         super(application);
-        this.context = context;
         currentDetailProduct = new MutableLiveData<>();
         fireBaseRepository = new FireBaseRepository();
-        networkDataTransmitterSingleton = NetworkDataTransmitterSingleton.getInstance(application.getApplicationContext());
+        recipesForCurrentDetailProduct = new MutableLiveData<>();
+        networkDataTransmitterSingleton = NetworkDataTransmitterSingleton.getInstance(application);
     }
 
 
@@ -45,6 +45,10 @@ public class ProductDetailViewModel extends AndroidViewModel {
         if(currentDetailProduct == null)
             currentDetailProduct = new MutableLiveData<>();
         return currentDetailProduct;
+    }
+
+    public Product getCurrentProduct() {
+        return currentDetailProduct.getValue();
     }
 
     public List<Recipe> getCurrentRecipes() {
@@ -65,6 +69,7 @@ public class ProductDetailViewModel extends AndroidViewModel {
 
     public void setProduct(Product product) {
         this.currentDetailProduct.postValue(product);
+        Log.d(TAG, "setProduct: " + product);
         setUpTranslatorAndSetProductInformationForRecipeSearch(product);
     }
 
@@ -82,17 +87,19 @@ public class ProductDetailViewModel extends AndroidViewModel {
     }
 
     private void setRecipesByFetchingFromServer(String information){
-        MutableLiveData<List<Recipe>> fetchedRecipes = new MutableLiveData<>();
-        String combinedUrl = UrlRequestConstants.EDAMAM_RECIPE_SEARCH + "nutella" + UrlRequestConstants.EDAMAM_RECIPE_APP_ID_APP_KEY;
+        //MutableLiveData<List<Recipe>> fetchedRecipes = new MutableLiveData<>();
+        String combinedUrl = UrlRequestConstants.EDAMAM_RECIPE_SEARCH + information + UrlRequestConstants.EDAMAM_RECIPE_APP_ID_APP_KEY;
+        Log.d(TAG, "setRecipesByFetchingFromServer: " + combinedUrl);
         //String combinedUrl = UrlRequestConstants.EDAMAM_RECIPE_SEARCH + productInformationToSearchForInRecipe + UrlRequestConstants.EDAMAM_RECIPE_APP_ID_APP_KEY;
         JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.RECIPE_SEARCH, null);
-        networkDataTransmitterSingleton.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, context);
-        recipesForCurrentDetailProduct = fetchedRecipes;
+        networkDataTransmitterSingleton.requestJsonObjectResponseForJsonRequestWithContext(jsonReq);
+        //recipesForCurrentDetailProduct = fetchedRecipes;
     }
 
     @Override
     protected void onCleared() {
         super.onCleared();
-        toEnglishTranslator.close();
+        if(toEnglishTranslator != null)
+            toEnglishTranslator.close();
     }
 }

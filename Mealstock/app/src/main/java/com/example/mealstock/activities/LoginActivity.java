@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mealstock.R;
 import com.example.mealstock.constants.AppInfoConstants;
-import com.example.mealstock.utils.RequestTester;
 import com.example.mealstock.viewmodels.ProductRemoteSearchViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -36,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
 
     //Google signIn
     private GoogleSignInClient mGoogleSignInClient;
-    private RequestTester reqTester;
 
     private ProductRemoteSearchViewModel productViewModel;
 
@@ -58,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         AppInfoConstants utilConstants = new AppInfoConstants(this);
-        reqTester = new RequestTester(this);
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.

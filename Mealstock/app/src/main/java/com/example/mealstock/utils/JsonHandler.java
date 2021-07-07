@@ -1,6 +1,5 @@
 package com.example.mealstock.utils;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.example.mealstock.models.Product;
@@ -17,23 +16,21 @@ import java.util.List;
 
 public class JsonHandler {
 
-    public static String TAG;
+    private static final String TAG = JsonHandler.class.getSimpleName();
 
-    public static Product parseJsonObjectWithSingleProductToProduct(Context context, JSONObject jsonObject) throws JSONException {
-        TAG = context.getClass().getSimpleName();
+    public static Product parseJsonObjectWithSingleProductToProduct(JSONObject jsonObject) throws JSONException {
         JSONObject productJsonObject = jsonObject.getJSONObject("product");
         Product product = setUpProductEntityAndGetItForProductJsonObject(productJsonObject);
         //Log.d(TAG, "parseJsonObjectToProduct: product " + product);
         return product;
     }
 
-    public static List<Recipe> parseJsonArrayWithMultipleRecipesToRecipeList(Context context, JSONObject jsonObject) throws JSONException {
+    public static List<Recipe> parseJsonArrayWithMultipleRecipesToRecipeList(JSONObject jsonObject) throws JSONException {
         Log.d(TAG, "parseJsonArrayWithMultipleRecipesToRecipeList: " + "durchlaufen");
-        TAG = context.getClass().getSimpleName();
         List<Recipe> recipes = new ArrayList<>();
         if (jsonObject.has("hits") && jsonObject.getJSONArray("hits").length() > 0) {
             JSONArray recipesJsonArrays = jsonObject.getJSONArray("hits");
-            for (int i = 0; i < recipesJsonArrays.length() || i < 6; i++) {
+            for (int i = 0; i < recipesJsonArrays.length() && i < 6; i++) {
                 recipes.add(setUpRecipeEntityAndGetItForRecipeJsonObject(recipesJsonArrays.getJSONObject(i).getJSONObject("recipe")));
             }
         }
@@ -243,8 +240,7 @@ public class JsonHandler {
         }
     }
 
-    public static List<Product> parseJsonArrayWithMultipleProductsToProductList(Context context, JSONObject jsonObject) throws JSONException {
-        TAG = context.getClass().getSimpleName();
+    public static List<Product> parseJsonArrayWithMultipleProductsToProductList(JSONObject jsonObject) throws JSONException {
         List<Product> products = new ArrayList<>();
         if (jsonObject.has("products")) {
             JSONArray productsJsonArray = jsonObject.getJSONArray("products");

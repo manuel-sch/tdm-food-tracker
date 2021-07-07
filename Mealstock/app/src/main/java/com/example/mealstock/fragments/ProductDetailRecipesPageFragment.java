@@ -17,7 +17,6 @@ import com.example.mealstock.adapters.RecipeListForProductRecyclerViewAdapter;
 import com.example.mealstock.databinding.FragmentProductDetailPageRecipesBinding;
 import com.example.mealstock.models.Recipe;
 import com.example.mealstock.viewmodels.ProductDetailViewModel;
-import com.example.mealstock.viewmodels.ProductDetailViewModelFactory;
 
 import java.util.List;
 import java.util.Objects;
@@ -62,14 +61,25 @@ public class ProductDetailRecipesPageFragment extends Fragment implements Recipe
     }
 
     private void setUpViewModelObserving() {
-        viewModel = new ViewModelProvider(this, new ProductDetailViewModelFactory(requireActivity().getApplication(), requireActivity())).get(ProductDetailViewModel.class);
-
+        viewModel = new ViewModelProvider(requireActivity()).get(ProductDetailViewModel.class);
         Log.d(TAG, "setUpViewModelObserving: " + getParentFragmentManager().getFragments());
         ProductDetailFragment detailFragment = (ProductDetailFragment) getParentFragmentManager().findFragmentByTag("ProductDetail");
         Log.d(TAG, "setUpViewModelObserving: " + Objects.requireNonNull(detailFragment).currentRecipes);
 
 
-        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> {
+        /*
+        currentRecipes = Objects.requireNonNull(detailFragment).currentRecipes;
+        if (currentRecipes != null && !currentRecipes.isEmpty())
+            recyclerViewAdapter.updateRecipes(currentRecipes);
+         */
+
+        currentRecipes = viewModel.getCurrentRecipes();
+        if (currentRecipes != null && !currentRecipes.isEmpty())
+            recyclerViewAdapter.updateRecipes(currentRecipes);
+
+
+
+        viewModel.getRecipes().observe(requireActivity(), recipes -> {
             currentRecipes.clear();
             currentRecipes = recipes;
             recyclerViewAdapter.updateRecipes(recipes);

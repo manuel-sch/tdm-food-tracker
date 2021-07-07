@@ -125,7 +125,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(requireActivity().getApplicationContext());
+        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(requireActivity());
         parentFragmentManager = getParentFragmentManager();
         mainActivity = (MainActivity) requireActivity();
         setUpViewModelObserving();
@@ -278,7 +278,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
                                 String barcodeSearchUrl = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
                                 String combinedUrl = barcodeSearchUrl + newBarcodeData + ".json";
                                 JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE_SEARCH, null);
-                                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, requireActivity());
+                                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq);
                                 mainActivity.setProgressBarVisibilityWithBool(true);
                             }
                             barcodeData = newBarcodeData;

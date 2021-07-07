@@ -115,7 +115,7 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRemo
     }
 
     private void initializeUtils() {
-        dataTransmitter = NetworkDataTransmitterSingleton.getInstance(requireActivity().getApplicationContext());
+        dataTransmitter = NetworkDataTransmitterSingleton.getInstance(requireActivity());
         parentFragmentManager = getParentFragmentManager();
     }
 
@@ -143,7 +143,7 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRemo
                 Log.d(TAG, "onQueryTextSubmit: " + query);
                 combinedUrl = UrlRequestConstants.OPENFOODFACTS_SEARCH_PRODUCT_WTIH_PRODUCT_NAME + query.replace(" ", "+");
                 jsonRequest = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.PRODUCT_NAME, null);
-                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonRequest, requireContext());
+                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonRequest);
                 setSearchViewActivationWithBool(false);
                 return false;
             }

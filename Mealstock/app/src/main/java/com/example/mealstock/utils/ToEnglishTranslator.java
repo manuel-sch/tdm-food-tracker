@@ -31,7 +31,7 @@ public class ToEnglishTranslator {
 
     public ToEnglishTranslator(AndroidViewModel viewModel, Product currentProduct){
         this.viewModel = viewModel;
-        TAG = viewModel.getClass().getSimpleName();
+        TAG = ToEnglishTranslator.class.getSimpleName();
         this.currentProduct = currentProduct;
     }
 
@@ -56,9 +56,9 @@ public class ToEnglishTranslator {
                                 public void onSuccess(@Nullable String languageCode) {
                                     // undetermined
                                     if (languageCode.equals("und")) {
-                                        Log.i(TAG, "Can't identify language.");
+                                        Log.d(TAG, "Can't identify language.");
                                     } else {
-                                        Log.i(TAG, "Languagecode: " + languageCode);
+                                        Log.d(TAG, "Languagecode: " + languageCode);
                                         translateGenericNameBasedOnLanguageTag(languageCode);
                                     }
                                 }
@@ -95,7 +95,7 @@ public class ToEnglishTranslator {
                         new OnSuccessListener() {
                             @Override
                             public void onSuccess(Object o) {
-
+                                Log.d(TAG, "onSuccess: " + "Languagemodel downloaded.");
                             }
                         })
                 .addOnFailureListener(
@@ -110,13 +110,14 @@ public class ToEnglishTranslator {
     }
 
     private void translate(){
+        Log.d(TAG, "translate: Derzeitiger Generic Name des Produktes: " + currentProduct.getGenericName());
         toEnglishTranslator.translate(currentProduct.getGenericName())
                 .addOnSuccessListener(
                         new OnSuccessListener() {
                             @Override
                             public void onSuccess(Object o) {
                                 String translatedGenericName = (String) o;
-                                Log.d(TAG, "onSuccess: " + translatedGenericName);
+                                Log.d(TAG, "onSuccess: Übersetzter Generic Name des Produktes: " + translatedGenericName);
                                 if(viewModel instanceof ProductDetailViewModel){
                                     ProductDetailViewModel productDetailViewModel = (ProductDetailViewModel) viewModel;
                                     productDetailViewModel.setProductInformationToSearchForInRecipe(translatedGenericName);

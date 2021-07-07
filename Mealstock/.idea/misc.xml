@@ -5,10 +5,14 @@
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="../../../../Library/Android/sdk/platforms/android-30/data/res/layout/simple_spinner_item.xml" value="0.25833333333333336" />
+        <entry key="app/src/main/res/drawable-v24/product_foreground.xml" value="0.2703125" />
         <entry key="app/src/main/res/drawable/background.xml" value="0.2828125" />
         <entry key="app/src/main/res/drawable/ic_calendar.xml" value="0.246875" />
         <entry key="app/src/main/res/drawable/ic_form.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/drawable/ic_input.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/drawable/ic_ueberschrift.xml" value="0.2703125" />
+        <entry key="app/src/main/res/drawable/non_active_dot.xml" value="0.2703125" />
+        <entry key="app/src/main/res/drawable/page_indicator_unselected.xml" value="0.2703125" />
         <entry key="app/src/main/res/drawable/product_item_selector.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/font-v26/monsterrat.xml" value="0.42407407407407405" />
         <entry key="app/src/main/res/font/monsterrat.xml" value="0.42407407407407405" />

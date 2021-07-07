@@ -22,7 +22,6 @@ import com.example.mealstock.databinding.FragmentProductDetailBinding;
 import com.example.mealstock.models.Product;
 import com.example.mealstock.models.Recipe;
 import com.example.mealstock.viewmodels.ProductDetailViewModel;
-import com.example.mealstock.viewmodels.ProductDetailViewModelFactory;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import java.text.SimpleDateFormat;
@@ -94,9 +93,9 @@ public class ProductDetailFragment extends Fragment {
     }
 
     private void setUpViewModelObserving() {
-        viewModel = new ViewModelProvider(this, new ProductDetailViewModelFactory(requireActivity().getApplication(), requireContext())).get(ProductDetailViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
         viewModel.setProduct(currentProduct);
-        viewModel.getProduct().observe(getViewLifecycleOwner(), product -> {
+        viewModel.getProduct().observe(requireActivity(), product -> {
             productNameTextView.setText(currentProduct.getProductName());
             productExpiryDateTextView.setText(sdf.format(product.getExpiryDate()));
             Glide.with(this).load(currentProduct.getImageUrl()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.product_placeholder).into(circleImageView);

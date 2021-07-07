@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(this.getApplicationContext());
+        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(MainActivity.this);
         progressBar = findViewById(R.id.progressBar);
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         NavHostFragment navHostFragment = (NavHostFragment) supportFragmentManager.findFragmentById(R.id.navHostFragment);

@@ -14,7 +14,7 @@ public class RequestTester {
 
     public RequestTester(Context context){
         this.context = context;
-        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(context.getApplicationContext());
+        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(context);
     }
 
     public void testBarcodeSearchQueueOpenFoodFacts(){
@@ -24,7 +24,7 @@ public class RequestTester {
         String combinedUrl = testUrl1 + nutellaBarcode + ".json";
         JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE_SEARCH, null);
 
-        dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, context);
+        dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq);
     }
 
     public void testProductNameSearchQueueOpenFoodFacts(){
@@ -34,7 +34,7 @@ public class RequestTester {
         String combinedUrl = testUrl1 + productName;
         JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.PRODUCT_NAME,null);
 
-        dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, context);
+        dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq);
     }
 
 }

@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.mealstock.databinding.FragmentProductDetailPageInfoBinding;
 import com.example.mealstock.models.Product;
 import com.example.mealstock.viewmodels.ProductDetailViewModel;
-import com.example.mealstock.viewmodels.ProductDetailViewModelFactory;
 
 import java.util.List;
 import java.util.Objects;
@@ -58,7 +57,7 @@ public class ProductDetailInfoPageFragment extends Fragment {
     }
 
     private void setUpViewModelObserving() {
-        viewModel = new ViewModelProvider(this, new ProductDetailViewModelFactory(requireActivity().getApplication(), requireContext())).get(ProductDetailViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(ProductDetailViewModel.class);
         ProductDetailFragment detailFragment = (ProductDetailFragment) getParentFragmentManager().findFragmentByTag("ProductDetail");
         setCurrentViewsForProduct(Objects.requireNonNull(detailFragment).getCurrentProduct());
         viewModel.getProduct().observe(requireActivity(), product -> {
