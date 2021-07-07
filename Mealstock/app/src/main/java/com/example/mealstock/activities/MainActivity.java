@@ -1,10 +1,13 @@
 package com.example.mealstock.activities;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,20 +16,19 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.mealstock.R;
+import com.example.mealstock.fragments.ProductScanFragment;
 import com.example.mealstock.network.NetworkDataTransmitterSingleton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CAMERA_PERMISSION = 201;
+    private static final int TIME_INTERVAL = 2000;
     private final String TAG = MainActivity.class.getSimpleName();
     private ProgressBar progressBar;
     private NetworkDataTransmitterSingleton dataTransmitter;
     private long mBackPressed;
-    private static final int TIME_INTERVAL = 2000;
     private FragmentManager supportFragmentManager;
 
     @Override
@@ -45,12 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void showShortSnackBarWithText(String text){
+    public void showShortSnackBarWithText(String text) {
         Snackbar.make(findViewById(R.id.main_layout), text, Snackbar.LENGTH_SHORT).show();
     }
 
-    public void setProgressBarVisibilityWithBool(boolean showProgressbar){
-        if(showProgressbar)
+    public void setProgressBarVisibilityWithBool(boolean showProgressbar) {
+        if (showProgressbar)
             progressBar.setVisibility(View.VISIBLE);
         else
             progressBar.setVisibility(View.GONE);
@@ -59,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        
-        if (supportFragmentManager.getBackStackEntryCount() > 0){
+
+        if (supportFragmentManager.getBackStackEntryCount() > 0) {
             super.onBackPressed();
 
         } else {
@@ -70,21 +72,29 @@ public class MainActivity extends AppCompatActivity {
                 System.exit(1);
                 return;
             } else {
-                Toast.makeText(getBaseContext(), "Click two times to close the App",    Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Click two times to close the App", Toast.LENGTH_SHORT).show();
             }
             mBackPressed = System.currentTimeMillis();
 
         }
 
-
-
-
-
-
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if(requestCode == REQUEST_CAMERA_PERMISSION){
+                Fragment fragment = supportFragmentManager.findFragmentById(R.id.navHostFragment).getChildFragmentManager().getFragments().get(0);
+                if(fragment != null && fragment instanceof ProductScanFragment){
+                    ProductScanFragment productScanFragment = (ProductScanFragment) fragment;
+                    productScanFragment.startCameraSource();
+                }
 
+            }
+        }
 
+    }
 
 
 }

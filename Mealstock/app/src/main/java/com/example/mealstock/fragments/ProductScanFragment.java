@@ -9,7 +9,6 @@ import android.text.InputType;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +124,8 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(requireActivity().getApplicationContext());
+        super.onViewCreated(view, savedInstanceState);
+        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(requireActivity());
         parentFragmentManager = getParentFragmentManager();
         mainActivity = (MainActivity) requireActivity();
         setUpViewModelObserving();
@@ -137,8 +137,6 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         initialiseBarcodeDetectorsAndSources();
         setUpDatePicker(productBoughtDateEditTextOnDialog, boughtDatePickerDialog);
         setUpDatePicker(productExpiryDateEditTextInDialog, expiryDatePickerDialog);
-
-        super.onViewCreated(view, savedInstanceState);
     }
 
     private void setUpFloatingActionButtons() {
@@ -148,18 +146,18 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
 
     private void setUpViewModelObserving() {
         barcodeScanViewModel = new ViewModelProvider(this).get(ProductScanViewModel.class);
-        barcodeScanViewModel.getBarcode().observe(getActivity(), barcode -> {
+        barcodeScanViewModel.getBarcode().observe(requireActivity(), barcode -> {
             barcodeText.setText(barcode);
         });
-        barcodeScanViewModel.getProduct().observe(getActivity(), product -> {
+        barcodeScanViewModel.getProduct().observe(requireActivity(), product -> {
             Log.d(TAG, "setUpViewModelObserving: " + product);
             currentProduct = product;
-            if(productAddDialog.isShowing()){
+            if (productAddDialog.isShowing()) {
                 productTitleTextViewOnDialog.setText(product.getProductName());
                 Glide.with(this).load(product.getImageUrl()).centerCrop().placeholder(R.drawable.product_placeholder).into(productImageOnDialog);
-                if(!product.getBoughtDate().toString().equals(""))
+                if (!product.getBoughtDate().toString().equals(""))
                     productBoughtDateEditTextOnDialog.setText(sdf.format(product.getBoughtDate()));
-                if(!product.getExpiryDate().toString().equals(""))
+                if (!product.getExpiryDate().toString().equals(""))
                     productExpiryDateEditTextInDialog.setText(sdf.format(product.getExpiryDate()));
 
             }
@@ -167,8 +165,8 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         });
     }
 
-    void setUpProductAddDialog(){
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+    void setUpProductAddDialog() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireActivity());
         LayoutInflater inflater = getLayoutInflater();
         productAddDialogView = inflater.inflate(R.layout.dialog_product_add, null);
 
@@ -210,44 +208,32 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
 
         //Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
 
-        barcodeDetector = new BarcodeDetector.Builder(getActivity())
-                .setBarcodeFormats(Barcode.ALL_FORMATS)
-                .build();
+        try {
+            if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                barcodeDetector = new BarcodeDetector.Builder(requireActivity())
+                        .setBarcodeFormats(Barcode.ALL_FORMATS)
+                        .build();
 
-        cameraSource = new CameraSource.Builder(getActivity(), barcodeDetector)
-                .setRequestedPreviewSize(1920, 1080)
-                .setAutoFocusEnabled(true) //you should add this feature
-                .build();
-
-        surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                try {
-                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        cameraSource.start(surfaceView.getHolder());
-                    } else {
-                        ActivityCompat.requestPermissions(getActivity(), new
-                                String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
+                cameraSource = new CameraSource.Builder(requireActivity(), barcodeDetector)
+                        .setRequestedPreviewSize(1920, 1080)
+                        .setAutoFocusEnabled(true) //you should add this feature
+                        .build();
+                cameraSource.start(surfaceView.getHolder());
+                startDetecting();
+            } else {
+                ActivityCompat.requestPermissions(requireActivity(), new
+                        String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
             }
 
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-                cameraSource.stop();
-            }
-        });
+    }
 
 
+
+    void startDetecting(){
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
@@ -274,7 +260,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
                                 newBarcodeData = barcodes.valueAt(0).displayValue;
                                 barcodeScanViewModel.setBarcode(barcodeData);
                             }
-                            if(!newBarcodeData.equals(barcodeData)){
+                            if (!newBarcodeData.equals(barcodeData)) {
                                 String barcodeSearchUrl = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
                                 String combinedUrl = barcodeSearchUrl + newBarcodeData + ".json";
                                 JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE_SEARCH, null);
@@ -321,15 +307,15 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     }
 
     private void setProductDateEditTextFromCurrentCalendar(EditText datePickerEditText) {
-        if(datePickerEditText.getId() == R.id.editText_boughtDate)
+        if (datePickerEditText.getId() == R.id.editText_boughtDate)
             currentProduct.setBoughtDate(myCalendar.getTime());
-        else if(datePickerEditText.getId() == R.id.editText_expiryDate)
+        else if (datePickerEditText.getId() == R.id.editText_expiryDate)
             currentProduct.setExpiryDate(myCalendar.getTime());
         barcodeScanViewModel.setProduct(currentProduct);
         //datePickerEditText.setText(sdf.format(myCalendar.getTime()));
     }
 
-    void initializeViewsFromDialog(){
+    void initializeViewsFromDialog() {
         productTitleTextViewOnDialog = productAddDialogView.findViewById(R.id.textView_product_expiry_date);
         storageSpinerOnDialog = productAddDialogView.findViewById(R.id.spinner_productStorage);
         productBoughtDateEditTextOnDialog = productAddDialogView.findViewById(R.id.editText_boughtDate);
@@ -353,7 +339,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         });
     }
 
-    void setUpStorageSpinner(){
+    void setUpStorageSpinner() {
         storageSpinerOnDialog.setAdapter(setUpStorageSpinnerAdapter());
         setUpStorageSpinnerClickListener();
     }
@@ -369,7 +355,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         return adapter;
     }
 
-    void setUpStorageSpinnerClickListener(){
+    void setUpStorageSpinnerClickListener() {
         storageSpinerOnDialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -387,11 +373,11 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     }
 
 
-    public void showProductAddDialog(){
+    public void showProductAddDialog() {
         productAddDialog.show();
     }
 
-    public void setBarcodeProduct(Product product){
+    public void setBarcodeProduct(Product product) {
         barcodeScanViewModel.setProduct(product);
     }
 
@@ -440,7 +426,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.fab_add_form:
                 handleProductAddFormFab();
                 break;
@@ -453,10 +439,12 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         }
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         fragmentScanBinding = null;
+        cameraSource.stop();
     }
 
     @Override
@@ -469,5 +457,27 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     public void onResume() {
         super.onResume();
         initialiseBarcodeDetectorsAndSources();
+    }
+
+
+
+    public void startCameraSource() {
+        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            try {
+                Log.d(TAG, "startCameraSource: " + "called");
+                barcodeDetector = new BarcodeDetector.Builder(requireActivity())
+                        .setBarcodeFormats(Barcode.ALL_FORMATS)
+                        .build();
+
+                cameraSource = new CameraSource.Builder(requireActivity(), barcodeDetector)
+                        .setRequestedPreviewSize(1920, 1080)
+                        .setAutoFocusEnabled(true) //you should add this feature
+                        .build();
+                cameraSource.start(surfaceView.getHolder());
+                startDetecting();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
