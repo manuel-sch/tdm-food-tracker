@@ -1,5 +1,6 @@
 package com.example.mealstock.activities;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -35,9 +36,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(ResetPasswordActivity.this,"Check your email to reset your password", Toast.LENGTH_LONG).show();
-                            onBackPressed();
-
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(ResetPasswordActivity.this);
+                            dialog.setMessage("Check your email to reset your password");
+                            dialog.setTitle("Password Reset");
+                            AlertDialog alertDialog = dialog.create();
+                            alertDialog.show();
                         }
                     }
                 });

@@ -35,7 +35,7 @@
     <string name="field_not_filled_out">field not filled out</string>
     <string name="email_pattern_error">email pattern error</string>
     <string name="user_has_been_registered_successfully">User has been registered successfully!</string>
-    <string name="user_has_been_registered_failed">User has been registered failed!</string>
+    <string name="user_has_been_registered_failed">Failed to register. Maybe you email is already used.</string>
     <string name="Failed_to_register_Please_try_again.">Failed to register! Please try again.</string>
     <string name="password_to_short">min password length should be 6 charters</string>
 

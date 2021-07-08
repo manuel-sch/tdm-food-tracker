@@ -7,26 +7,16 @@
     tools:context=".activities.LoginActivity">
 
 
-    <Button
-        android:id="@+id/button_goTo_inputActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="goToInputActivity"
-        android:text="Gehe zu Inputactivity"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
+   <!-- <Button
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="signIn"
-        android:text="sign in"
+        android:text="Google Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_goTo_inputActivity" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBarLogin" />
+        -->
 
     <TextView
         android:id="@+id/signInEmailAddressText"
@@ -123,8 +113,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
