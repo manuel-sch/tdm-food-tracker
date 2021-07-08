@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.mealstock.activities.SignInActivity"
+            android:name="com.example.mealstock.activities.GoogleSignInActivity"
             android:screenOrientation="portrait" />
 
         <activity

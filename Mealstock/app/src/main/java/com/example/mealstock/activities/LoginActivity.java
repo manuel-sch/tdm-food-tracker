@@ -1,5 +1,7 @@
 package com.example.mealstock.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,15 +9,12 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mealstock.R;
-import com.example.mealstock.constants.AppInfoConstants;
-import com.example.mealstock.utils.RequestTester;
-import com.example.mealstock.viewmodels.ProductRemoteSearchViewModel;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -23,23 +22,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
 
-    private static final int RC_SIGN_IN = 0;
+    private static final int RC_SIGN_IN = 9001;
     private final String TAG = LoginActivity.class.getSimpleName();
 
 
     //Google signIn
     private GoogleSignInClient mGoogleSignInClient;
-    private RequestTester reqTester;
 
-    private ProductRemoteSearchViewModel productViewModel;
 
 
     private FirebaseAuth mAuth;
@@ -60,12 +59,12 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(i);
         }
 
-        AppInfoConstants utilConstants = new AppInfoConstants(this);
-        reqTester = new RequestTester(this);
+
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -87,39 +86,54 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-
+/*
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case RC_SIGN_IN:
-                    // The Task returned from this call is always completed, no need to attach
-                    // a listener.
-                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                    handleSignInResult(task);
-                    break;
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e);
             }
-        } else {
-            Toast.makeText(
-                    getApplicationContext(),
-                    "onActivityResult not ok result.",
-                    Toast.LENGTH_LONG).show();
         }
     }
+    // [END onactivityresult]
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
-           // Intent intent = new Intent(this, GoogleSignInActivity.class);
-            //startActivity(intent);
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("error sign in", "signInResult:failed code=" + e.getStatusCode());
-        }
+    // [START auth_with_google]
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            updateUI(null);
+                        }
+                    }
+                });
     }
+
+    private void updateUI(FirebaseUser user) {
+
+    }
+
+
+ */
 
 
     public void goToRegisteringActivity(View view) {
@@ -177,12 +191,20 @@ public class LoginActivity extends AppCompatActivity {
 
                     }else{
                         user.sendEmailVerification();
-                        Toast.makeText(LoginActivity.this,"Check your email to verify your account", Toast.LENGTH_LONG).show();
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(LoginActivity.this);
+                        dialog.setMessage("Check your email to verify your account");
+                        dialog.setTitle("verify your account");
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
                     }
 
                 }
                 else{
-                    Toast.makeText(LoginActivity.this,"Failed to log in. Check your Credits", Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(LoginActivity.this);
+                    dialog.setMessage("Failed to log in. Check your Credits");
+                    dialog.setTitle("Check your Credits");
+                    AlertDialog alertDialog = dialog.create();
+                    alertDialog.show();
                 }
 
             }

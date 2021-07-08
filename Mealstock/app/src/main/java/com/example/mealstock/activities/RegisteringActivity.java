@@ -1,7 +1,9 @@
 package com.example.mealstock.activities;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -47,7 +49,7 @@ public class RegisteringActivity extends AppCompatActivity {
         String name = userName.getText().toString().trim();
         String email = userEmail.getText().toString().trim();
         String password = userPassword.getText().toString().trim();
-        String confirmpassword = userPasswordConfirm.getText().toString().trim();
+        String confirmPassword = userPasswordConfirm.getText().toString().trim();
 
         if(name.isEmpty()){
             userName.setError(getString(R.string.field_not_filled_out));
@@ -71,21 +73,28 @@ public class RegisteringActivity extends AppCompatActivity {
         }
 
 
-        if(confirmpassword.isEmpty()){
+        if(confirmPassword.isEmpty()){
             userPasswordConfirm.setError(getString(R.string.field_not_filled_out));
             userPasswordConfirm.requestFocus();
             return;
         }
 
 
-        /*
+
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             userEmail.setError(getString(R.string.email_pattern_error));
             userEmail.requestFocus();
             return;
         }
 
-         */
+        if(!confirmPassword.equals(password)){
+            Log.d("nya", "toast 2: "+name+password+email+confirmPassword);
+            userPasswordConfirm.setError("Stimmt nicht überein");
+            userPasswordConfirm.requestFocus();
+
+            return;
+        }
+
 
 
 
@@ -96,9 +105,7 @@ public class RegisteringActivity extends AppCompatActivity {
 
         }
 
-        Log.d("nya", "toast 2: "+name+password+email+confirmpassword);
-        toToast(name+password+email+confirmpassword);
-
+        Log.d("nya", "toast 2: "+name+password+email+confirmPassword);
 
         progressBar.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -119,19 +126,32 @@ public class RegisteringActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Log.d("nya", "toast: ");
-                                        Toast.makeText(RegisteringActivity.this, R.string.user_has_been_registered_successfully, Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.VISIBLE);
+                                        AlertDialog.Builder dialog = new AlertDialog.Builder(RegisteringActivity.this);
+                                        dialog.setMessage(R.string.user_has_been_registered_successfully);
+                                        dialog.setTitle("Yay");
+                                        AlertDialog alertDialog = dialog.create();
+                                        alertDialog.show();
+
                                         onBackPressed();
                                     } else {
-                                        Toast.makeText(RegisteringActivity.this, "Faild to register! Please try again.", Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.VISIBLE);
+                                        AlertDialog.Builder dialog = new AlertDialog.Builder(RegisteringActivity.this);
+                                        dialog.setMessage("Failed to register!");
+                                        dialog.setTitle("Failed to register. Maybe you email is already used. Please Try again");
+                                        AlertDialog alertDialog = dialog.create();
+                                        alertDialog.show();
                                         progressBar.setVisibility(View.VISIBLE);
                                     }
                                 }
                             });
 
                         } else {
-                            Toast.makeText(RegisteringActivity.this, R.string.user_has_been_registered_failed, Toast.LENGTH_LONG).show();
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(RegisteringActivity.this);
+                            dialog.setMessage(R.string.user_has_been_registered_failed);
+                            dialog.setTitle("Oh No");
+                            AlertDialog alertDialog = dialog.create();
+                            alertDialog.show();
                             progressBar.setVisibility(View.GONE);
                         }
                     }
