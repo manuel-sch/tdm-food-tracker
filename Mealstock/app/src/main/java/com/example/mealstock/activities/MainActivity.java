@@ -2,6 +2,7 @@ package com.example.mealstock.activities;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -11,16 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.mealstock.R;
-
 import com.example.mealstock.fragments.CalendarFragment;
 import com.example.mealstock.fragments.HomeFragment;
-import com.example.mealstock.fragments.ProductDetailFragment;
 import com.example.mealstock.fragments.ProductRemoteSearchFragment;
 import com.example.mealstock.fragments.ProductScanFragment;
 import com.example.mealstock.fragments.SettingsFragment;
@@ -45,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottomNavigationView);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        openFragment(HomeFragment.newInstance("", ""));
+        openFragment(HomeFragment.newInstance("", ""), "HomeFrag");
 
         this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(this.getApplicationContext());
         progressBar = findViewById(R.id.progressBar);
@@ -59,28 +54,28 @@ public class MainActivity extends AppCompatActivity {
                 @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.calenderFrag:
-                            openFragment(CalendarFragment.newInstance("", ""));
+                            openFragment(CalendarFragment.newInstance("", ""), "CalendarFrag");
                             return true;
                         case R.id.searchFrag:
-                            openFragment(ProductRemoteSearchFragment.newInstance("", ""));
+                            openFragment(ProductRemoteSearchFragment.newInstance("", ""), "SearchFrag");
                             return true;
                         case R.id.homeFrag:
-                            openFragment(HomeFragment.newInstance("", ""));
+                            openFragment(HomeFragment.newInstance("", ""), "HomeFrag");
                             return true;
                         case R.id.scanFrag:
-                            openFragment(ProductScanFragment.newInstance("", ""));
+                            openFragment(ProductScanFragment.newInstance("", ""), "ScanFrag");
                             return true;
                         case R.id.settingFrag:
-                            openFragment(SettingsFragment.newInstance("", ""));
+                            openFragment(SettingsFragment.newInstance("", ""), "SettingsFrag");
                             return true;
                     }
                     return false;
                 }
             };
 
-    public void openFragment(Fragment fragment) {
+    public void openFragment(Fragment fragment, String tag) {
         getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.navHostFragment,
-                fragment).commit();
+                fragment, tag).commit();
        
     }
 
@@ -120,12 +115,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             if(requestCode == REQUEST_CAMERA_PERMISSION){
-                Fragment fragment = supportFragmentManager.findFragmentById(R.id.navHostFragment).getChildFragmentManager().getFragments().get(0);
+                Log.d(TAG, "onRequestPermissionsResult: " + supportFragmentManager.getFragments() );
+                Fragment fragment = supportFragmentManager.findFragmentByTag("ScanFrag");
                 if(fragment != null && fragment instanceof ProductScanFragment){
                     ProductScanFragment productScanFragment = (ProductScanFragment) fragment;
-                    productScanFragment.startCameraSource();
+                    productScanFragment.startCameraSourceBasedOnRequiredPermission(true);
                 }
 
             }

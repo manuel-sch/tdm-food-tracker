@@ -9,6 +9,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,10 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     // Constants
     private static final String TAG = ProductScanFragment.class.getSimpleName();
     private static final int REQUEST_CAMERA_PERMISSION = 201;
-
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    // Datepicker/Calendar
+    private final Calendar myCalendar = Calendar.getInstance();
     // Activityviews
     private FloatingActionButton productSearchFab, productFormFab;
     private ExtendedFloatingActionButton productInputFab;
@@ -66,17 +70,12 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     private SurfaceView surfaceView;
     private ProgressBar progressBar;
     private TextView barcodeText;
-
     // Barcode
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private String barcodeData;
-
-    // Datepicker/Calendar
-    private final Calendar myCalendar = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.GERMANY);
     private DatePickerDialog.OnDateSetListener boughtDatePickerDialog, expiryDatePickerDialog;
-
     // Dialog
     private TextView productTitleTextViewOnDialog;
     private AlertDialog productAddDialog;
@@ -85,27 +84,21 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     private EditText productBoughtDateEditTextOnDialog, productExpiryDateEditTextInDialog;
     private Spinner storageSpinerOnDialog;
     private NumberPicker productUnitNumberPicker;
-
     // Utils
     private NetworkDataTransmitterSingleton dataTransmitter;
     private ProductScanViewModel barcodeScanViewModel;
     private FragmentScanBinding fragmentScanBinding;
     private FragmentManager parentFragmentManager;
     private MainActivity mainActivity;
-
     // Other Variables
     private boolean isAllFabsVisible;
     private Product currentProduct = new Product();
-
-    public ProductScanFragment() {
-        super(R.layout.fragment_scan);
-    }
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    public ProductScanFragment() {
+        super(R.layout.fragment_scan);
+    }
 
     public static ProductScanFragment newInstance(String param1, String param2) {
         ProductScanFragment fragment = new ProductScanFragment();
@@ -135,6 +128,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         fragmentScanBinding = FragmentScanBinding.inflate(inflater, container, false);
         View view = fragmentScanBinding.getRoot();
+        initializeViewsOfActivity();
         return view;
     }
 
@@ -151,9 +145,8 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         setUpProductAddDialog();
         initializeViewsFromDialog();
         setUpStorageSpinner();
-        initializeViewsOfActivity();
         setUpFloatingActionButtons();
-        initialiseBarcodeDetectorsAndSources();
+        startCameraSourceBasedOnRequiredPermission(false);
         setUpDatePicker(productBoughtDateEditTextOnDialog, boughtDatePickerDialog);
         setUpDatePicker(productExpiryDateEditTextInDialog, expiryDatePickerDialog);
     }
@@ -221,80 +214,6 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         progressBar = fragmentScanBinding.progressBar;
         surfaceView = fragmentScanBinding.surfaceView;
         barcodeText = fragmentScanBinding.barcodeText;
-    }
-
-    private void initialiseBarcodeDetectorsAndSources() {
-
-        //Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
-
-        try {
-            if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                barcodeDetector = new BarcodeDetector.Builder(requireActivity())
-                        .setBarcodeFormats(Barcode.ALL_FORMATS)
-                        .build();
-
-                cameraSource = new CameraSource.Builder(requireActivity(), barcodeDetector)
-                        .setRequestedPreviewSize(1920, 1080)
-                        .setAutoFocusEnabled(true) //you should add this feature
-                        .build();
-                cameraSource.start(surfaceView.getHolder());
-                startDetecting();
-            } else {
-                ActivityCompat.requestPermissions(requireActivity(), new
-                        String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-
-    void startDetecting(){
-        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
-            @Override
-            public void release() {
-                // Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections) {
-                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
-                if (barcodes.size() != 0) {
-
-
-                    barcodeText.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            String newBarcodeData;
-                            if (barcodes.valueAt(0).email != null) {
-                                barcodeText.removeCallbacks(null);
-                                newBarcodeData = barcodes.valueAt(0).email.address;
-                                barcodeScanViewModel.setBarcode(barcodeData);
-
-                            } else {
-                                newBarcodeData = barcodes.valueAt(0).displayValue;
-                                barcodeScanViewModel.setBarcode(barcodeData);
-                            }
-                            if (!newBarcodeData.equals(barcodeData)) {
-                                String barcodeSearchUrl = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
-                                String combinedUrl = barcodeSearchUrl + newBarcodeData + ".json";
-                                JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE_SEARCH, null);
-                                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, requireActivity());
-                                mainActivity.setProgressBarVisibilityWithBool(true);
-                            }
-                            barcodeData = newBarcodeData;
-
-
-                        }
-                    });
-
-                }
-            }
-        });
     }
 
 
@@ -463,40 +382,124 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
     public void onDestroyView() {
         super.onDestroyView();
         fragmentScanBinding = null;
-        cameraSource.stop();
+        //cameraSource.stop();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        cameraSource.release();
+        if(cameraSource != null)
+            cameraSource.release();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        initialiseBarcodeDetectorsAndSources();
+        startCameraSourceBasedOnRequiredPermission(false);
     }
 
 
+    public void startCameraSourceBasedOnRequiredPermission(boolean fromAnsweringPermission) {
+        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            barcodeDetector = new BarcodeDetector.Builder(requireActivity())
+                    .setBarcodeFormats(Barcode.ALL_FORMATS)
+                    .build();
 
-    public void startCameraSource() {
-        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            try {
-                Log.d(TAG, "startCameraSource: " + "called");
-                barcodeDetector = new BarcodeDetector.Builder(requireActivity())
-                        .setBarcodeFormats(Barcode.ALL_FORMATS)
-                        .build();
 
-                cameraSource = new CameraSource.Builder(requireActivity(), barcodeDetector)
-                        .setRequestedPreviewSize(1920, 1080)
-                        .setAutoFocusEnabled(true) //you should add this feature
-                        .build();
-                cameraSource.start(surfaceView.getHolder());
-                startDetecting();
-            } catch (IOException e) {
-                e.printStackTrace();
+            cameraSource = new CameraSource.Builder(requireActivity(), barcodeDetector)
+                    .setRequestedPreviewSize(1920, 1080)
+                    .setAutoFocusEnabled(true) //you should add this feature
+                    .build();
+
+            surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+                @Override
+                public void surfaceCreated(SurfaceHolder holder) {
+                    try {
+                        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                            cameraSource.start(surfaceView.getHolder());
+                        } else {
+                            ActivityCompat.requestPermissions(requireActivity(), new
+                                    String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+                @Override
+                public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
+
+                }
+
+                @Override
+                public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
+                    cameraSource.stop();
+                }
+            });
+            if(fromAnsweringPermission) {
+                try {
+                    cameraSource.start(surfaceView.getHolder());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            Log.d(TAG, "startCameraSourceBasedOnRequiredPermission: " + "camera source starting now");
+            startDetecting();
+        } else {
+            if (!fromAnsweringPermission) {
+                ActivityCompat.requestPermissions(requireActivity(), new
+                        String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+            }
+
         }
     }
+
+    void startDetecting() {
+        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+            @Override
+            public void release() {
+                // Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void receiveDetections(Detector.Detections<Barcode> detections) {
+                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
+                if (barcodes.size() != 0) {
+
+
+                    barcodeText.post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            String newBarcodeData;
+                            if (barcodes.valueAt(0).email != null) {
+                                barcodeText.removeCallbacks(null);
+                                newBarcodeData = barcodes.valueAt(0).email.address;
+                                barcodeScanViewModel.setBarcode(barcodeData);
+
+                            } else {
+                                newBarcodeData = barcodes.valueAt(0).displayValue;
+                                barcodeScanViewModel.setBarcode(barcodeData);
+                            }
+                            if (!newBarcodeData.equals(barcodeData)) {
+                                String barcodeSearchUrl = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
+                                String combinedUrl = barcodeSearchUrl + newBarcodeData + ".json";
+                                JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE_SEARCH, null);
+                                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, requireActivity());
+                                mainActivity.setProgressBarVisibilityWithBool(true);
+                            }
+                            barcodeData = newBarcodeData;
+
+
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
 }
