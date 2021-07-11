@@ -27,6 +27,8 @@ public class ProductDetailViewModel extends AndroidViewModel {
     private final FireBaseRepository fireBaseRepository;
     private final NetworkDataTransmitterSingleton networkDataTransmitterSingleton;
 
+    private MutableLiveData<Boolean> recipesFound;
+
     private ToEnglishTranslator toEnglishTranslator;
 
     private MutableLiveData<Product> currentDetailProduct;
@@ -47,14 +49,10 @@ public class ProductDetailViewModel extends AndroidViewModel {
         return currentDetailProduct;
     }
 
-    public Product getCurrentProduct() {
-        return currentDetailProduct.getValue();
-    }
-
-    public List<Recipe> getCurrentRecipes() {
-        if(recipesForCurrentDetailProduct == null)
-            recipesForCurrentDetailProduct = new MutableLiveData<>();
-        return recipesForCurrentDetailProduct.getValue();
+    public MutableLiveData<Boolean> getRecipesFound() {
+        if(recipesFound == null)
+            recipesFound = new MutableLiveData<>();
+        return recipesFound;
     }
 
     public LiveData<List<Recipe>> getRecipes() {
@@ -65,6 +63,12 @@ public class ProductDetailViewModel extends AndroidViewModel {
 
     public void setRecipes(List<Recipe> recipes) {
         this.recipesForCurrentDetailProduct.postValue(recipes);
+    }
+
+    public void setRecipesFound(boolean found) {
+        if(recipesFound == null)
+            recipesFound = new MutableLiveData<>();
+        this.recipesFound.postValue(found);
     }
 
     public void setProduct(Product product) {
@@ -87,13 +91,10 @@ public class ProductDetailViewModel extends AndroidViewModel {
     }
 
     private void setRecipesByFetchingFromServer(String information){
-        //MutableLiveData<List<Recipe>> fetchedRecipes = new MutableLiveData<>();
         String combinedUrl = UrlRequestConstants.EDAMAM_RECIPE_SEARCH + information + UrlRequestConstants.EDAMAM_RECIPE_APP_ID_APP_KEY;
         Log.d(TAG, "setRecipesByFetchingFromServer: " + combinedUrl);
-        //String combinedUrl = UrlRequestConstants.EDAMAM_RECIPE_SEARCH + productInformationToSearchForInRecipe + UrlRequestConstants.EDAMAM_RECIPE_APP_ID_APP_KEY;
         JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.RECIPE_SEARCH, null);
         networkDataTransmitterSingleton.requestJsonObjectResponseForJsonRequestWithContext(jsonReq);
-        //recipesForCurrentDetailProduct = fetchedRecipes;
     }
 
     @Override

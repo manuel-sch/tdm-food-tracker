@@ -26,7 +26,6 @@ public class JsonHandler {
     }
 
     public static List<Recipe> parseJsonArrayWithMultipleRecipesToRecipeList(JSONObject jsonObject) throws JSONException {
-        Log.d(TAG, "parseJsonArrayWithMultipleRecipesToRecipeList: " + "durchlaufen");
         List<Recipe> recipes = new ArrayList<>();
         if (jsonObject.has("hits") && jsonObject.getJSONArray("hits").length() > 0) {
             JSONArray recipesJsonArrays = jsonObject.getJSONArray("hits");

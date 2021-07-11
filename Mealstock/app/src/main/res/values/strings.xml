@@ -89,6 +89,7 @@
     <string name="placeholder_recipe_name">Rezeptname</string>
     <string name="placeholder_total_time">Arbeitszeit</string>
     <string name="title_recipes_for_product">Beliebte Gerichte zu Ihrem Produkt</string>
+    <string name="text_no_recipes_found">Es wurden keine Rezepte zum Produkt gefunden.</string>
 
 
 </resources>

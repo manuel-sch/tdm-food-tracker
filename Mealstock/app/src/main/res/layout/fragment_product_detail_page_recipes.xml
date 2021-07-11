@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
     android:orientation="vertical"
-    tools:context=".fragments.ProductDetailRecipesPageFragment">
+    tools:context=".fragments.ProductDetailRecipesPageFragment"
+    android:tag="ProductDetailRecipesPageFrag">
 
     <TextView
         android:id="@+id/textView_recipe_list_title"
@@ -18,9 +18,18 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         tools:itemCount="3"
         />
+
+    <TextView
+        android:id="@+id/textView_recipe_list_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:text="@string/text_no_recipes_found"
+        style="@style/text_red_small"/>
 
 </LinearLayout>

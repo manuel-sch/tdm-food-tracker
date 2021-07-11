@@ -1,7 +1,6 @@
 package com.example.mealstock.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +77,6 @@ public class ProductDetailNutritionFactsPageFragment extends Fragment {
 
     private void setCurrentViewsForProduct(Product product){
         Map<String, String> nutritionFacts = product.getNutritionFacts();
-        Log.d(TAG, "setUpViewModelObserving: " + nutritionFacts);
         energyKjTextView.setText(nutritionFacts.get("energy-kj_100g"));
         energyKcalTextView.setText(nutritionFacts.get("energy-kcal_100g"));
         fatTextView.setText(nutritionFacts.get("fat_100g"));

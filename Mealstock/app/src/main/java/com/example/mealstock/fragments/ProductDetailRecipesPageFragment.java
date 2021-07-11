@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,11 +20,12 @@ import com.example.mealstock.models.Recipe;
 import com.example.mealstock.viewmodels.ProductDetailViewModel;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ProductDetailRecipesPageFragment extends Fragment implements RecipeListForProductRecyclerViewAdapter.RecipeItemClickListener {
 
     private final String TAG = ProductDetailRecipesPageFragment.class.getSimpleName();
+
+    private TextView noRecipesFoundTextView;
 
     private RecyclerView recyclerView;
     private RecipeListForProductRecyclerViewAdapter recyclerViewAdapter;
@@ -51,6 +53,7 @@ public class ProductDetailRecipesPageFragment extends Fragment implements Recipe
 
     private void initializeViews() {
         recyclerView = viewBinding.recyclerView;
+        noRecipesFoundTextView = viewBinding.textViewRecipeListEmpty;
     }
 
     private void setUpRecyclerView() {
@@ -61,29 +64,27 @@ public class ProductDetailRecipesPageFragment extends Fragment implements Recipe
     }
 
     private void setUpViewModelObserving() {
-        viewModel = new ViewModelProvider(requireActivity()).get(ProductDetailViewModel.class);
-        Log.d(TAG, "setUpViewModelObserving: " + getParentFragmentManager().getFragments());
+
         ProductDetailFragment detailFragment = (ProductDetailFragment) getParentFragmentManager().findFragmentByTag("ProductDetail");
-        Log.d(TAG, "setUpViewModelObserving: " + Objects.requireNonNull(detailFragment).currentRecipes);
+        assert detailFragment != null;
+        viewModel = new ViewModelProvider(detailFragment).get(ProductDetailViewModel.class);
 
-
-        /*
-        currentRecipes = Objects.requireNonNull(detailFragment).currentRecipes;
-        if (currentRecipes != null && !currentRecipes.isEmpty())
-            recyclerViewAdapter.updateRecipes(currentRecipes);
-         */
-
-        currentRecipes = viewModel.getCurrentRecipes();
-        if (currentRecipes != null && !currentRecipes.isEmpty())
-            recyclerViewAdapter.updateRecipes(currentRecipes);
-
-
-
-        viewModel.getRecipes().observe(requireActivity(), recipes -> {
-            currentRecipes.clear();
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> {
+            if(currentRecipes != null)
+                currentRecipes.clear();
             currentRecipes = recipes;
             recyclerViewAdapter.updateRecipes(recipes);
         });
+
+        viewModel.getRecipesFound().observe(getViewLifecycleOwner(), found -> {
+            Log.d(TAG, "setUpViewModelObserving: " + found);
+            if(found)
+                noRecipesFoundTextView.setVisibility(View.GONE);
+            else
+                noRecipesFoundTextView.setVisibility(View.VISIBLE);
+
+        });
+
     }
 
     @Override

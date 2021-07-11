@@ -38,7 +38,7 @@ public class NetworkDataTransmitterSingleton {
 
     private static final String TAG = NetworkDataTransmitterSingleton.class.getSimpleName();
     private static NetworkDataTransmitterSingleton instance = null;
-    private static boolean alreadySearchedForRecipe = false;
+    private static boolean recipeSearchedWithProductName = false;
     private static Context queueContext;
     private final ImageLoader imageLoader;
     private RequestQueue queue;
@@ -94,7 +94,7 @@ public class NetworkDataTransmitterSingleton {
                         handleProductNameSearchResponse(response);
 
                     } else if (jsonReq.getRequestMethod() == RequestMethod.RECIPE_SEARCH) {
-                        Log.d(TAG, "onResponse: " + response.toString(1));
+                        //Log.d(TAG, "onResponse: " + response.toString(1));
                         handleRecipeSearchResponse(response);
 
                     } else {
@@ -118,7 +118,7 @@ public class NetworkDataTransmitterSingleton {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<>();
-                Log.d(TAG, "getHeaders: " + AppInfoConstants.getAppName() + " " + AppInfoConstants.getAppVersion());
+                // Log.d(TAG, "getHeaders: " + AppInfoConstants.getAppName() + " " + AppInfoConstants.getAppVersion());
                 // Represents our Requests as Request from our Application for API Server.
                 params.put("User-Agent", AppInfoConstants.getAppName() + " - Android - " + AppInfoConstants.getAppVersion());
                 return params;
@@ -215,15 +215,21 @@ public class NetworkDataTransmitterSingleton {
     private void handleRecipeSearchResponse(JSONObject response) {
         try {
             Fragment navHostFragment = mainActivity.getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
-            Log.d(TAG, "handleRecipeSearchResponse: " + navHostFragment.getParentFragmentManager().findFragmentByTag("ProductDetail"));
+            //Log.d(TAG, "handleRecipeSearchResponse: " + navHostFragment.getParentFragmentManager().findFragmentByTag("ProductDetail"));
             ProductDetailFragment detailFragment = (ProductDetailFragment) navHostFragment.getParentFragmentManager().findFragmentByTag("ProductDetail");
             if (detailFragment != null) {
+                Log.d(TAG, "handleRecipeSearchResponse: " + recipeSearchedWithProductName);
                 if (response.getJSONArray("hits").length() != 0) {
-                    Log.d(TAG, "handleRecipeSearchResponse: " + "keine Hits für die derzeitige Produktinformation.");
                     setRecipesInDetailFragmentViewmodel(response, detailFragment);
-                } else if (!alreadySearchedForRecipe) {
+                    detailFragment.setRecipesFoundInViewModel(true);
+                } else if (!recipeSearchedWithProductName) {
                     searchRecipesWithProductName(detailFragment);
                 }
+                else{
+                    Log.d(TAG, "handleRecipeSearchResponse: " + "nichts jefunden");
+                    detailFragment.setRecipesFoundInViewModel(false);
+                }
+
             }
             mainActivity.setProgressBarVisibilityWithBool(false);
         } catch (JSONException e) {
@@ -234,11 +240,12 @@ public class NetworkDataTransmitterSingleton {
 
     private void setRecipesInDetailFragmentViewmodel(JSONObject response, ProductDetailFragment detailFragment){
         try {
-            alreadySearchedForRecipe = false;
-            Log.d(TAG, "onResponse: " + response.getJSONArray("hits").getJSONObject(0).toString(1));
+            recipeSearchedWithProductName = false;
+            //Log.d(TAG, "onResponse: " + response.getJSONArray("hits").getJSONObject(0).toString(1));
             List<Recipe> foundRecipes = null;
             foundRecipes = JsonHandler.parseJsonArrayWithMultipleRecipesToRecipeList(response);
-            Log.d(TAG, "setRecipesInDetailFragmentViewmodel: " + foundRecipes);
+            Log.d(TAG, "setRecipesInDetailFragmentViewmodel: " + "Es wurden Rezepte gefunden!");
+            //Log.d(TAG, "setRecipesInDetailFragmentViewmodel: " + foundRecipes);
             detailFragment.setRecipes(foundRecipes);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -247,7 +254,7 @@ public class NetworkDataTransmitterSingleton {
     }
 
     private void searchRecipesWithProductName(ProductDetailFragment detailFragment){
-        alreadySearchedForRecipe = true;
+        recipeSearchedWithProductName = true;
         detailFragment.setProductInformationToSearchForInRecipesWithProductName();
         Log.d(TAG, "searchRecipesWithProductName: " + "No recipes found, searching with Product Name now.");
     }

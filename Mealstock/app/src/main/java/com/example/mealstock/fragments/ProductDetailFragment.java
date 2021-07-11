@@ -116,6 +116,10 @@ public class ProductDetailFragment extends Fragment {
         currentRecipes = recipes;
     }
 
+    public void setRecipesFoundInViewModel(boolean found){
+        viewModel.setRecipesFound(found);
+    }
+
 
     @Override
     public void onDestroyView() {
