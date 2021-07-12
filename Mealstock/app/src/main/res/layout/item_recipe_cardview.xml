@@ -73,7 +73,7 @@
                 android:shadowRadius="10"
                 android:text="time"
                 android:textColor="@color/white"
-                android:textSize="10dp" />
+                android:textSize="15dp" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

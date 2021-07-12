@@ -2,9 +2,11 @@ package com.example.mealstock.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +24,7 @@ import java.util.List;
 
 public class RecipeSearchFragment extends Fragment implements RecipeListAdapter.onRecipeListener {
 
+    private ImageView favStar;
     private RecyclerView recyclerView;
     private FragmentRecipeSearchBinding viewBinding;
 
@@ -35,6 +38,7 @@ public class RecipeSearchFragment extends Fragment implements RecipeListAdapter.
                              Bundle savedInstanceState) {
         viewBinding = FragmentRecipeSearchBinding.inflate(inflater, container, false);
         View view = viewBinding.getRoot();
+        favStar = view.findViewById(R.id.favstar);
         return view;
     }
 
@@ -44,6 +48,11 @@ public class RecipeSearchFragment extends Fragment implements RecipeListAdapter.
 
         setUpViews();
         setUpRecyclerView();
+
+        //favStar.setOnClickListener(v -> {
+            //favStar.setImageResource(R.drawable.star_unregistered);
+        //});
+
     }
 
     private void setUpViews() {
