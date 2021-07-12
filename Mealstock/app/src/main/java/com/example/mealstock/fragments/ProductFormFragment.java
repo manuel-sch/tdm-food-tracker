@@ -1,7 +1,6 @@
 package com.example.mealstock.fragments;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +22,7 @@ import com.example.mealstock.R;
 import com.example.mealstock.databinding.FragmentProductFormBinding;
 import com.example.mealstock.models.Product;
 import com.example.mealstock.viewmodels.ProductFormViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,10 +44,12 @@ public class ProductFormFragment extends Fragment {
     private EditText productIngredientEditText;
     private EditText productPriceEditText;
     private EditText productUnitEditText;
+    private EditText productBrandsEditText;
     private EditText productBoughtDateEditText;
     private EditText productExpiryDateEditText;
     private Spinner productStorageSpinner;
     private DatePickerDialog.OnDateSetListener boughtDatePickerDialog, expiryDatePickerDialog;
+    private FloatingActionButton productSaveFloatingActionButton;
 
     private Product currentProduct = new Product();
 
@@ -84,9 +85,17 @@ public class ProductFormFragment extends Fragment {
         productIngredientEditText = binding.editTextProductIngredients;
         productPriceEditText = binding.editTextProductPrice;
         productUnitEditText = binding.editTextProductUnit;
+        productBrandsEditText = binding.editTextProductBrands;
         productBoughtDateEditText = binding.editTextBoughtDate;
         productExpiryDateEditText = binding.editTextExpiryDate;
         productStorageSpinner = binding.spinnerStorage;
+        productSaveFloatingActionButton = binding.fabProductSave;
+        productSaveFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productViewModel.insertProduct(currentProduct);
+            }
+        });
     }
 
     void setUpViews() {
@@ -105,9 +114,11 @@ public class ProductFormFragment extends Fragment {
             if(product.getQuantity() != 0)
                 productQuanityEditText.setText(String.valueOf(product.getQuantity()));
             if(product.getUnit() != 0)
-                productQuanityEditText.setText(String.valueOf(product.getUnit()));
+                productUnitEditText.setText(String.valueOf(product.getUnit()));
             if(product.getIngredients() != null)
                 productIngredientEditText.setText(product.getIngredients());
+            if(product.getBrands() != null)
+                productBrandsEditText.setText(String.valueOf(product.getBrands()));
             if(product.getPrice() != 0)
                 productPriceEditText.setText(String.valueOf(product.getPrice()));
             if(!product.getBoughtDate().toString().equals(""))
@@ -180,16 +191,5 @@ public class ProductFormFragment extends Fragment {
         //datePickerEditText.setText(sdf.format(myCalendar.getTime()));
     }
 
-
-    public void handleSaveForm(View v) {
-        productViewModel.insertProduct(currentProduct);
-    }
-
-    private void showToastMessage(String message) {
-        Context context = requireActivity().getApplicationContext();
-        int duration = Toast.LENGTH_LONG;
-        Toast toast = Toast.makeText(context, message, duration);
-        toast.show();
-    }
 
 }
