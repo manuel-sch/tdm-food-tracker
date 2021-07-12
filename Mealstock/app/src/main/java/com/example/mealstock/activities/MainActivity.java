@@ -1,6 +1,11 @@
 package com.example.mealstock.activities;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -10,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -33,6 +39,16 @@ public class MainActivity extends AppCompatActivity {
     private long mBackPressed;
     private FragmentManager supportFragmentManager;
     BottomNavigationView bottomNavigation;
+
+    private static final String PRIMARY_CHANNEL_ID = "expired_food_notification_channel";
+
+    private NotificationManager mNotifyManager;
+    private static final int NOTIFICATION_ID = 0;
+    private static final String ACTION_UPDATE_NOTIFICATION =
+            "com.example.mealstock.ACTION_UPDATE_NOTIFICATION";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
         this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(MainActivity.this);
         progressBar = findViewById(R.id.progressBar);
         supportFragmentManager = getSupportFragmentManager();
+
+        createNotificationChannel();
+
+        sendNotification();
 
 
     }
@@ -71,6 +91,56 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
             };
+
+    public void createNotificationChannel() {
+        mNotifyManager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >=
+                android.os.Build.VERSION_CODES.O) {
+            // Create a NotificationChannel
+            NotificationChannel notificationChannel = new NotificationChannel(PRIMARY_CHANNEL_ID,
+                    "Mascot Notification", NotificationManager
+                    .IMPORTANCE_DEFAULT);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setDescription("Notification from Mascot");
+            mNotifyManager.createNotificationChannel(notificationChannel);
+        }
+    }
+    private NotificationCompat.Builder getNotificationBuilder(){NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this, PRIMARY_CHANNEL_ID)
+            .setContentTitle("You've been notified!")
+            .setContentText("This is your notification text.")
+            .setSmallIcon(R.drawable.ic_calendar);
+        return notifyBuilder;
+    };
+
+    /**
+     * OnClick method for the "Notify Me!" button.
+     * Creates and delivers a simple notification.
+     */
+    public void sendNotification() {
+
+        // Sets up the pending intent to update the notification.
+        // Corresponds to a press of the Update Me! button.
+        Intent updateIntent = new Intent(ACTION_UPDATE_NOTIFICATION);
+        PendingIntent updatePendingIntent = PendingIntent.getBroadcast(this,
+                NOTIFICATION_ID, updateIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        // Build the notification with all of the parameters using helper
+        // method.
+        NotificationCompat.Builder notifyBuilder = getNotificationBuilder();
+
+        // Add the action button using the pending intent.
+        notifyBuilder.addAction(R.drawable.ic_calendar,
+                "hey hey", updatePendingIntent);
+
+        // Deliver the notification.
+        mNotifyManager.notify(NOTIFICATION_ID, notifyBuilder.build());
+
+    }
+
+
 
     public void openFragment(Fragment fragment, String tag) {
         getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.navHostFragment,
@@ -127,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
 }
 
