@@ -7,7 +7,7 @@
     android:padding="@dimen/padding_extra_large">
 
     <TextView
-        android:id="@+id/textView_product_expiry_date"
+        android:id="@+id/textView_recipe_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +35,7 @@
 
     <!---->
     <ImageView
-        android:id="@+id/imageView_product"
+        android:id="@+id/imageView_recipe"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
         android:layout_marginEnd="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_product_expiry_date">
+        app:layout_constraintTop_toBottomOf="@id/textView_recipe_name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText_boughtDate"
@@ -121,7 +121,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/numberPicker_productUnit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imageView_product"
+        app:layout_constraintStart_toEndOf="@id/imageView_recipe"
         android:paddingBottom="@dimen/padding_small"
         android:text="@string/description_productUnit"
         android:textAlignment="center"
@@ -131,10 +131,10 @@
         android:id="@+id/numberPicker_productUnit"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="@id/imageView_product"
+        app:layout_constraintBottom_toBottomOf="@id/imageView_recipe"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imageView_product"
-        app:layout_constraintTop_toTopOf="@id/imageView_product">
+        app:layout_constraintStart_toEndOf="@id/imageView_recipe"
+        app:layout_constraintTop_toTopOf="@id/imageView_recipe">
 
     </NumberPicker>
 

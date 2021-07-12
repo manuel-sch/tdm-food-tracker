@@ -105,8 +105,8 @@ public class ProductListForSoonExpiringProductsRecyclerViewAdapter extends Recyc
         public ProductItemViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            productImageView = itemView.findViewById(R.id.imageView_product);
-            expiryDateTextView = itemView.findViewById(R.id.textView_product_expiry_date);
+            productImageView = itemView.findViewById(R.id.imageView_recipe);
+            expiryDateTextView = itemView.findViewById(R.id.textView_recipe_name);
 
         }
 

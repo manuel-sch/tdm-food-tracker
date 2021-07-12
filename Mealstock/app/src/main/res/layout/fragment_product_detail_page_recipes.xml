@@ -3,88 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center_vertical"
     android:orientation="vertical"
-    tools:context=".fragments.ProductDetailRecipesPageFragment">
+    tools:context=".fragments.ProductDetailRecipesPageFragment"
+    android:tag="ProductDetailRecipesPageFrag">
 
     <TextView
+        android:id="@+id/textView_recipe_list_title"
+        style="@style/text_primary_dark"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:textColor="#60C5B8"
-        android:textStyle="bold"
-        android:text="Beliebte Gerichte zu Ihrem Produkt"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/title_recipes_for_product" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        tools:itemCount="3"
         />
 
-    <ScrollView
+    <TextView
+        android:id="@+id/textView_recipe_list_empty"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_margin="10dp">
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            app:cardCornerRadius="30dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#60C5B8"
-                android:paddingHorizontal="25dp">
-
-                <ImageView
-                    android:id="@+id/cardImg_recipe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="75dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/product_placeholder"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/card_recipeTitle"
-                    style="@style/title_primary_3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLength="30"
-                    android:text="Rezept"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/cardImg_recipe"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/card_timeRecipe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10min"
-                    android:textColor="@color/white"
-                    android:textSize="11dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.456"
-                    app:layout_constraintStart_toEndOf="@+id/cardImg_recipe"
-                    app:layout_constraintTop_toBottomOf="@+id/card_recipeTitle" />
-
-                <ImageView
-                    android:id="@+id/timer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@+id/card_timeRecipe"
-                    app:layout_constraintTop_toBottomOf="@+id/card_recipeTitle"
-                    app:srcCompat="@drawable/ic_timer" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-    </ScrollView>
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:text="@string/text_no_recipes_found"
+        style="@style/text_red_small"/>
 
 </LinearLayout>

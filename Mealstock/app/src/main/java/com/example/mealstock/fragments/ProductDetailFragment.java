@@ -20,10 +20,12 @@ import com.example.mealstock.R;
 import com.example.mealstock.adapters.ProductDetailSlideAdapter;
 import com.example.mealstock.databinding.FragmentProductDetailBinding;
 import com.example.mealstock.models.Product;
+import com.example.mealstock.models.Recipe;
 import com.example.mealstock.viewmodels.ProductDetailViewModel;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -39,6 +41,8 @@ public class ProductDetailFragment extends Fragment {
 
     private Product currentProduct;
     private ViewPager2 detailViewPager;
+
+    public List<Recipe> currentRecipes;
 
     private TextView productNameTextView;
     private TextView productExpiryDateTextView;
@@ -102,6 +106,20 @@ public class ProductDetailFragment extends Fragment {
     public Product getCurrentProduct(){
         return currentProduct;
     }
+
+    public void setProductInformationToSearchForInRecipesWithProductName(){
+        viewModel.setProductInformationToSearchForInRecipe(currentProduct.getProductName());
+    }
+
+    public void setRecipes(List<Recipe> recipes){
+        viewModel.setRecipes(recipes);
+        currentRecipes = recipes;
+    }
+
+    public void setRecipesFoundInViewModel(boolean found){
+        viewModel.setRecipesFound(found);
+    }
+
 
     @Override
     public void onDestroyView() {

@@ -10,7 +10,7 @@
     android:gravity="center">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView_product"
+        android:id="@+id/imageView_recipe"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/product_placeholder"
@@ -18,7 +18,7 @@
         app:civ_border_width="3dp" />
 
     <TextView
-        android:id="@+id/textView_product_expiry_date"
+        android:id="@+id/textView_recipe_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"

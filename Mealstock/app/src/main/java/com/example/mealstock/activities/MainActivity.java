@@ -41,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottomNavigationView);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         openFragment(HomeFragment.newInstance("", ""), "HomeFrag");
-
-        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(this.getApplicationContext());
+        this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(MainActivity.this);
         progressBar = findViewById(R.id.progressBar);
         supportFragmentManager = getSupportFragmentManager();
 

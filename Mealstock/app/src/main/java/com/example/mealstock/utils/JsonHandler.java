@@ -1,9 +1,9 @@
 package com.example.mealstock.utils;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.example.mealstock.models.Product;
+import com.example.mealstock.models.Recipe;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,18 +16,230 @@ import java.util.List;
 
 public class JsonHandler {
 
-    public static String TAG;
+    private static final String TAG = JsonHandler.class.getSimpleName();
 
-    public static Product parseJsonObjectWithSingleProductToProduct(Context context, JSONObject jsonObject) throws JSONException {
-        TAG = context.getClass().getSimpleName();
+    public static Product parseJsonObjectWithSingleProductToProduct(JSONObject jsonObject) throws JSONException {
         JSONObject productJsonObject = jsonObject.getJSONObject("product");
         Product product = setUpProductEntityAndGetItForProductJsonObject(productJsonObject);
         //Log.d(TAG, "parseJsonObjectToProduct: product " + product);
         return product;
     }
 
-    public static List<Product> parseJsonArrayWithMultipleProductsToProductList(Context context, JSONObject jsonObject) throws JSONException {
-        TAG = context.getClass().getSimpleName();
+    public static List<Recipe> parseJsonArrayWithMultipleRecipesToRecipeList(JSONObject jsonObject) throws JSONException {
+        List<Recipe> recipes = new ArrayList<>();
+        if (jsonObject.has("hits") && jsonObject.getJSONArray("hits").length() > 0) {
+            JSONArray recipesJsonArrays = jsonObject.getJSONArray("hits");
+            for (int i = 0; i < recipesJsonArrays.length() && i < 6; i++) {
+                recipes.add(setUpRecipeEntityAndGetItForRecipeJsonObject(recipesJsonArrays.getJSONObject(i).getJSONObject("recipe")));
+            }
+        }
+        return recipes;
+    }
+
+
+    public static Recipe setUpRecipeEntityAndGetItForRecipeJsonObject(JSONObject recipeJsonObject) {
+
+
+        Recipe recipe = new Recipe();
+
+        recipe.setName(getRecipeNameFromJsonObject(recipeJsonObject));
+        recipe.setUrl(getRecipeLinkFromJsonObject(recipeJsonObject));
+        recipe.setImage(getRecipeImageUrlFromJsonObject(recipeJsonObject));
+        recipe.setQuantity(getRecipeQuantityFromResponseJsonObject(recipeJsonObject));
+        recipe.setIngredients(getRecipeIngredientsFromResponseJsonObject(recipeJsonObject));
+        recipe.setEnergyInKcal(getRecipeCaloriesFromResponseJsonObject(recipeJsonObject));
+        recipe.setTotalTimeInMinutes(getRecipeTotalTimeInMinutesFromResponseJsonObject(recipeJsonObject));
+        recipe.setCuisineType(getRecipeCuisineTypeFromResponseJsonObject(recipeJsonObject));
+        recipe.setMealType(getRecipeMealTypeFromResponseJsonObject(recipeJsonObject));
+        recipe.setDishType(getRecipeDishTypeFromResponseJsonObject(recipeJsonObject));
+
+        //Log.d(TAG, "setUpRecipeEntityAndGetItForRecipeJsonObject: " + recipe);
+
+        return recipe;
+    }
+
+
+    private static String getRecipeNameFromJsonObject(JSONObject recipeJsonObject) {
+        try{
+            String recipeName = "";
+            if (recipeJsonObject.has("label") && !recipeJsonObject.getString("label").isEmpty()) {
+                recipeName = recipeJsonObject.getString("label");
+            }
+            //Log.d(TAG, "getProductNameFromProductJsonObject: " + recipeName);
+
+            return recipeName;
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static String getRecipeLinkFromJsonObject(JSONObject recipeJsonObject) {
+        try{
+            String recipeUrl = "";
+            if (recipeJsonObject.has("url") && !recipeJsonObject.getString("url").isEmpty()) {
+                recipeUrl = recipeJsonObject.getString("url");
+            }
+            //Log.d(TAG, "getProductNameFromProductJsonObject: " + recipeName);
+
+            return recipeUrl;
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static String getRecipeImageUrlFromJsonObject(JSONObject recipeJsonObject) {
+        try{
+            String imageUrl = "";
+            if (recipeJsonObject.has("image") && !recipeJsonObject.getString("image").isEmpty()) {
+                imageUrl = recipeJsonObject.getString("image");
+            }
+            //Log.d(TAG, "getRecipeImageUrlFromJsonObject: " + imageUrl);
+
+            return imageUrl;
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static int getRecipeQuantityFromResponseJsonObject(JSONObject recipeJsonObject) {
+        int quantity = 1;
+        try{
+            if (recipeJsonObject.has("yield") && !recipeJsonObject.getString("yield").isEmpty()) {
+                quantity = recipeJsonObject.getInt("yield");
+            }
+            //Log.d(TAG, "getRecipeQuantityFromResponseJsonObject: " + quantity);
+
+            return quantity;
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+            return quantity;
+        }
+    }
+
+    private static String getRecipeIngredientsFromResponseJsonObject(JSONObject recipeJsonObject) {
+        try{
+            StringBuilder ingredients = new StringBuilder();
+            if (recipeJsonObject.has("ingredientLines")) {
+                JSONArray jsonIngredients = recipeJsonObject.getJSONArray("ingredientLines");
+                for (int i = 0; i < jsonIngredients.length(); i++) {
+                    ingredients.append(jsonIngredients.get(i).toString());
+                    if (i != jsonIngredients.length()-1)
+                        ingredients.append(",");
+                }
+                // Log.d(TAG, "getCategoriesFromResponseJsonObject: allergen: " + categories);
+            }
+
+            return ingredients.toString();
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private static double getRecipeCaloriesFromResponseJsonObject(JSONObject recipeJsonObject) {
+        double caloriesInKcal = 0;
+        try{
+            if (recipeJsonObject.has("calories") && !recipeJsonObject.getString("calories").isEmpty()) {
+                caloriesInKcal = recipeJsonObject.getDouble("calories");
+            }
+            //Log.d(TAG, "getRecipeCaloriesFromResponseJsonObject: " + caloriesInKcal);
+
+            return caloriesInKcal;
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+            return caloriesInKcal;
+        }
+    }
+
+    private static int getRecipeTotalTimeInMinutesFromResponseJsonObject(JSONObject recipeJsonObject) {
+        int totalTimeInMinutes = 0;
+        try{
+            if (recipeJsonObject.has("totalTime") && !recipeJsonObject.getString("totalTime").isEmpty()) {
+                totalTimeInMinutes = recipeJsonObject.getInt("totalTime");
+            }
+            //Log.d(TAG, "getRecipeTotalTimeFromResponseJsonObject: " + totalTimeInMinutes);
+
+            return totalTimeInMinutes;
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+            return totalTimeInMinutes;
+        }
+    }
+
+    private static String getRecipeCuisineTypeFromResponseJsonObject(JSONObject recipeJsonObject) {
+        try{
+            StringBuilder cuisineType = new StringBuilder();
+            if (recipeJsonObject.has("cuisineType")) {
+                JSONArray cuisineTypeJsonArray = recipeJsonObject.getJSONArray("cuisineType");
+                for (int i = 0; i < cuisineTypeJsonArray.length(); i++) {
+                    cuisineType.append(cuisineTypeJsonArray.get(i).toString());
+                    if (i != cuisineTypeJsonArray.length()-1)
+                        cuisineType.append(",");
+                }
+                // Log.d(TAG, "getCategoriesFromResponseJsonObject: allergen: " + categories);
+            }
+
+            return cuisineType.toString();
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private static String getRecipeMealTypeFromResponseJsonObject(JSONObject recipeJsonObject) {
+        try{
+            StringBuilder mealType = new StringBuilder();
+            if (recipeJsonObject.has("mealType")) {
+                JSONArray mealTypeJsonArray = recipeJsonObject.getJSONArray("mealType");
+                for (int i = 0; i < mealTypeJsonArray.length(); i++) {
+                    mealType.append(mealTypeJsonArray.get(i).toString());
+                    if (i != mealTypeJsonArray.length()-1)
+                        mealType.append(",");
+                }
+                // Log.d(TAG, "getCategoriesFromResponseJsonObject: allergen: " + categories);
+            }
+
+            return mealType.toString();
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private static String getRecipeDishTypeFromResponseJsonObject(JSONObject recipeJsonObject) {
+        try{
+            StringBuilder dishType = new StringBuilder();
+            if (recipeJsonObject.has("dishType")) {
+                JSONArray dishTypeJsonArray = recipeJsonObject.getJSONArray("dishType");
+                for (int i = 0; i < dishTypeJsonArray.length(); i++) {
+                    dishType.append(dishTypeJsonArray.get(i).toString());
+                    if (i != dishTypeJsonArray.length()-1)
+                        dishType.append(",");
+                }
+                // Log.d(TAG, "getCategoriesFromResponseJsonObject: allergen: " + categories);
+            }
+
+            return dishType.toString();
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static List<Product> parseJsonArrayWithMultipleProductsToProductList(JSONObject jsonObject) throws JSONException {
         List<Product> products = new ArrayList<>();
         if (jsonObject.has("products")) {
             JSONArray productsJsonArray = jsonObject.getJSONArray("products");
@@ -51,7 +263,10 @@ public class JsonHandler {
 
         product.setBarcode(getBarcodeFromResponseJsonObject(productJsonObject));
         product.setProductName(getProductNameFromProductJsonObject(productJsonObject));
-        product.setGenericName(getGenericNameFromProductJsonObject(productJsonObject));
+        if(!getGenericNameFromProductJsonObject(productJsonObject).equals(""))
+            product.setGenericName(getGenericNameFromProductJsonObject(productJsonObject));
+        else
+            product.setGenericName(product.getProductName());
         product.setBrands(getBrandFromResponseJsonObject(productJsonObject));
         product.setImageUrl(getImageUrlFromResponseJsonObject(productJsonObject));
         product.setAllergens(getAllergensFromResponseJsonObject(productJsonObject));
@@ -228,47 +443,47 @@ public class JsonHandler {
             try {
                 JSONObject nutrimentsJsonObject = productJsonObject.getJSONObject("nutriments");
 
-                if(!nutrimentsJsonObject.has("energy-kcal_100g") && !nutrimentsJsonObject.getString("energy-kcal_100g").equals("0"))
+                if(nutrimentsJsonObject.has("energy-kcal_100g") && !nutrimentsJsonObject.getString("energy-kcal_100g").equals("0"))
                     nutritionFacts.put("energy-kcal_100g", nutrimentsJsonObject.getString("energy-kcal_100g") + "kcal");
                 else
                     nutritionFacts.put("energy-kcal_100g", noData);
 
-                if(!nutrimentsJsonObject.has("energy-kj_100g") && !nutrimentsJsonObject.getString("energy-kj_100g").equals("0"))
+                if(nutrimentsJsonObject.has("energy-kj_100g") && !nutrimentsJsonObject.getString("energy-kj_100g").equals("0"))
                     nutritionFacts.put("energy-kj_100g", nutrimentsJsonObject.getString("energy-kj_100g") + "kj");
                 else
                     nutritionFacts.put("energy-kj_100g", noData);
 
-                if(!nutrimentsJsonObject.has("fat_100g") && !nutrimentsJsonObject.getString("fat_100g").equals("0"))
+                if(nutrimentsJsonObject.has("fat_100g") && !nutrimentsJsonObject.getString("fat_100g").equals("0"))
                     nutritionFacts.put("fat_100g", nutrimentsJsonObject.getString("fat_100g") + "g");
                 else
                     nutritionFacts.put("fat_100g", noData);
 
-                if(!nutrimentsJsonObject.has("saturated-fat_100g") && !nutrimentsJsonObject.getString("saturated-fat_100g").equals("0"))
+                if(nutrimentsJsonObject.has("saturated-fat_100g") && !nutrimentsJsonObject.getString("saturated-fat_100g").equals("0"))
                     nutritionFacts.put("saturated-fat_100g", nutrimentsJsonObject.getString("saturated-fat_100g") + "g");
                 else
                     nutritionFacts.put("saturated-fat_100g", noData);
 
-                if(!nutrimentsJsonObject.has("carbohydrates_100g") && !nutrimentsJsonObject.getString("carbohydrates_100g").equals("0"))
+                if(nutrimentsJsonObject.has("carbohydrates_100g") && !nutrimentsJsonObject.getString("carbohydrates_100g").equals("0"))
                     nutritionFacts.put("carbohydrates_100g", nutrimentsJsonObject.getString("carbohydrates_100g") + "g");
                 else
                     nutritionFacts.put("carbohydrates_100g", noData);
 
-                if(!nutrimentsJsonObject.has("sugars_100g") && !nutrimentsJsonObject.getString("sugars_100g").equals("0"))
+                if(nutrimentsJsonObject.has("sugars_100g") && !nutrimentsJsonObject.getString("sugars_100g").equals("0"))
                     nutritionFacts.put("sugars_100g", nutrimentsJsonObject.getString("sugars_100g") + "g");
                 else
                     nutritionFacts.put("sugars_100g", noData);
 
-                if(!nutrimentsJsonObject.has("proteins_100g") && !nutrimentsJsonObject.getString("proteins_100g").equals("0"))
+                if(nutrimentsJsonObject.has("proteins_100g") && !nutrimentsJsonObject.getString("proteins_100g").equals("0"))
                     nutritionFacts.put("proteins_100g", nutrimentsJsonObject.getString("proteins_100g") + "g");
                 else
                     nutritionFacts.put("proteins_100g", noData);
 
-                if(!nutrimentsJsonObject.has("salt_100g") && !nutrimentsJsonObject.getString("salt_100g").equals("0"))
+                if(nutrimentsJsonObject.has("salt_100g") && !nutrimentsJsonObject.getString("salt_100g").equals("0"))
                     nutritionFacts.put("salt_100g", nutrimentsJsonObject.getString("salt_100g") + "g");
                 else
                     nutritionFacts.put("salt_100g", noData);
 
-                if(!nutrimentsJsonObject.has("sodium_100g") && !nutrimentsJsonObject.getString("sodium_100g").equals("0"))
+                if(nutrimentsJsonObject.has("sodium_100g") && !nutrimentsJsonObject.getString("sodium_100g").equals("0"))
                     nutritionFacts.put("sodium_100g", nutrimentsJsonObject.getString("sodium_100g") + "g");
                 else
                     nutritionFacts.put("sodium_100g", noData);

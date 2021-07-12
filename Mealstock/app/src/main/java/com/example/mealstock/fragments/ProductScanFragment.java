@@ -216,7 +216,6 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         barcodeText = fragmentScanBinding.barcodeText;
     }
 
-
     void setUpDatePicker(EditText datePickerEditText, DatePickerDialog.OnDateSetListener datePickerDialog) {
         datePickerEditText.setInputType(InputType.TYPE_NULL);
         datePickerDialog = new DatePickerDialog.OnDateSetListener() {
@@ -253,12 +252,12 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         //datePickerEditText.setText(sdf.format(myCalendar.getTime()));
     }
 
-    void initializeViewsFromDialog() {
-        productTitleTextViewOnDialog = productAddDialogView.findViewById(R.id.textView_product_expiry_date);
+    void initializeViewsFromDialog(){
+        productTitleTextViewOnDialog = productAddDialogView.findViewById(R.id.textView_recipe_name);
         storageSpinerOnDialog = productAddDialogView.findViewById(R.id.spinner_productStorage);
         productBoughtDateEditTextOnDialog = productAddDialogView.findViewById(R.id.editText_boughtDate);
         productExpiryDateEditTextInDialog = productAddDialogView.findViewById(R.id.editText_expiryDate);
-        productImageOnDialog = productAddDialogView.findViewById(R.id.imageView_product);
+        productImageOnDialog = productAddDialogView.findViewById(R.id.imageView_recipe);
         productUnitNumberPicker = productAddDialogView.findViewById(R.id.numberPicker_productUnit);
         setUpProductUnitPicker();
 
@@ -488,7 +487,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
                                 String barcodeSearchUrl = UrlRequestConstants.OPENFOODFACTS_GET_PRODUCT_WITH_BARCODE;
                                 String combinedUrl = barcodeSearchUrl + newBarcodeData + ".json";
                                 JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE_SEARCH, null);
-                                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq, requireActivity());
+                                dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq);
                                 mainActivity.setProgressBarVisibilityWithBool(true);
                             }
                             barcodeData = newBarcodeData;

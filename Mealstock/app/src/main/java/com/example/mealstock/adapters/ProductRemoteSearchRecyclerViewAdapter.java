@@ -80,8 +80,8 @@ public class ProductRemoteSearchRecyclerViewAdapter extends RecyclerView.Adapter
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            imageViewProductTitle = itemView.findViewById(R.id.imageView_product);
-            textViewProductTitle = itemView.findViewById(R.id.textView_product_expiry_date);
+            imageViewProductTitle = itemView.findViewById(R.id.imageView_recipe);
+            textViewProductTitle = itemView.findViewById(R.id.textView_recipe_name);
             textViewProductQuantity = itemView.findViewById(R.id.textView_productQuantity);
             cardView = itemView.findViewById(R.id.cardView);
 

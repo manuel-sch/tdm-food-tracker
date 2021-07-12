@@ -5,10 +5,14 @@
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="../../../../Library/Android/sdk/platforms/android-30/data/res/layout/simple_spinner_item.xml" value="0.25833333333333336" />
+        <entry key="app/src/main/res/drawable-v24/product_foreground.xml" value="0.2703125" />
         <entry key="app/src/main/res/drawable/background.xml" value="0.2828125" />
         <entry key="app/src/main/res/drawable/ic_calendar.xml" value="0.246875" />
         <entry key="app/src/main/res/drawable/ic_form.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/drawable/ic_input.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/drawable/ic_ueberschrift.xml" value="0.2703125" />
+        <entry key="app/src/main/res/drawable/non_active_dot.xml" value="0.2703125" />
+        <entry key="app/src/main/res/drawable/page_indicator_unselected.xml" value="0.2703125" />
         <entry key="app/src/main/res/drawable/product_item_selector.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/font-v26/monsterrat.xml" value="0.42407407407407405" />
         <entry key="app/src/main/res/font/monsterrat.xml" value="0.42407407407407405" />
@@ -61,6 +65,7 @@
         <entry key="app/src/main/res/layout/item_product_list.xml" value="0.28854166666666664" />
         <entry key="app/src/main/res/layout/item_product_simple.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/item_recipe_cardview.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/item_recipe_list.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/item_soon_expiring_product.xml" value="0.25364583333333335" />
         <entry key="app/src/main/res/layout/new_dialog_product_from_barcode.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/recycler_row.xml" value="0.23072916666666668" />

@@ -107,9 +107,9 @@ public class ProductListForStorageRecyclerViewAdapter  extends RecyclerView.Adap
             super(itemView);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
-            imageViewProductTitle = itemView.findViewById(R.id.imageView_product);
-            textViewProductName = itemView.findViewById(R.id.textView_product_expiry_date);
-            textViewProductBoughtDate = itemView.findViewById(R.id.textView_productBoughDate_value);
+            imageViewProductTitle = itemView.findViewById(R.id.imageView_recipe);
+            textViewProductName = itemView.findViewById(R.id.textView_recipe_name);
+            textViewProductBoughtDate = itemView.findViewById(R.id.textView_recipe_total_time);
             textViewProductExpiryDate = itemView.findViewById(R.id.textView_productExpiryDate_value);
             cardView = itemView.findViewById(R.id.cardView);
 

@@ -57,7 +57,7 @@ public class ProductDetailInfoPageFragment extends Fragment {
     }
 
     private void setUpViewModelObserving() {
-        viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(ProductDetailViewModel.class);
         ProductDetailFragment detailFragment = (ProductDetailFragment) getParentFragmentManager().findFragmentByTag("ProductDetail");
         setCurrentViewsForProduct(Objects.requireNonNull(detailFragment).getCurrentProduct());
         viewModel.getProduct().observe(requireActivity(), product -> {
