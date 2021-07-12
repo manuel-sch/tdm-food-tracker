@@ -26,15 +26,20 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity
-            android:name="com.example.mealstock.activities.LoginActivity"
-            android:screenOrientation="portrait">
+        <activity android:name="com.example.mealstock.activities.SplashActivity"
+            android:theme="@style/Splash">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.example.mealstock.activities.LoginActivity"
+
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.example.mealstock.activities.GoogleSignInActivity"
             android:screenOrientation="portrait" />

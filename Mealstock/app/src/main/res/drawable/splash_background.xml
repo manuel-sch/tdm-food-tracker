@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <color
+            android:name="white"
+            android:color="#0F0F0F" />
+    </item>
+
+    <item>
+        <bitmap
+            android:gravity="fill"
+            android:antialias="true"
+            android:dither="true"
+            android:filter="true"
+            android:src="@drawable/splashscreen_background_veggies"/>
+    </item>
+
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/mealstock_icon_transparent"/>
+    </item>
+</layer-list>
