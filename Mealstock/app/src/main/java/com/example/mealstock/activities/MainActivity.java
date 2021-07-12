@@ -3,6 +3,8 @@ package com.example.mealstock.activities;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -25,6 +27,7 @@ import com.example.mealstock.fragments.HomeFragment;
 import com.example.mealstock.fragments.ProductRemoteSearchFragment;
 import com.example.mealstock.fragments.ProductScanFragment;
 import com.example.mealstock.fragments.SettingsFragment;
+import com.example.mealstock.models.Product;
 import com.example.mealstock.network.NetworkDataTransmitterSingleton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String ACTION_UPDATE_NOTIFICATION =
             "com.example.mealstock.ACTION_UPDATE_NOTIFICATION";
 
+    private NotificationReceiver mReceiver = new NotificationReceiver();
 
 
     @Override
@@ -62,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
         supportFragmentManager = getSupportFragmentManager();
 
         createNotificationChannel();
-
-        sendNotification();
 
 
     }
@@ -92,6 +94,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
+    /**
+     * Unregisters the receiver when the app is being destroyed.
+     */
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mReceiver);
+        super.onDestroy();
+    }
+
     public void createNotificationChannel() {
         mNotifyManager = (NotificationManager)
                 getSystemService(NOTIFICATION_SERVICE);
@@ -108,18 +119,7 @@ public class MainActivity extends AppCompatActivity {
             mNotifyManager.createNotificationChannel(notificationChannel);
         }
     }
-    private NotificationCompat.Builder getNotificationBuilder(){NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this, PRIMARY_CHANNEL_ID)
-            .setContentTitle("You've been notified!")
-            .setContentText("This is your notification text.")
-            .setSmallIcon(R.drawable.ic_calendar);
-        return notifyBuilder;
-    };
-
-    /**
-     * OnClick method for the "Notify Me!" button.
-     * Creates and delivers a simple notification.
-     */
-    public void sendNotification() {
+    public void sendNotification(Product currentProduct) {
 
         // Sets up the pending intent to update the notification.
         // Corresponds to a press of the Update Me! button.
@@ -131,14 +131,22 @@ public class MainActivity extends AppCompatActivity {
         // method.
         NotificationCompat.Builder notifyBuilder = getNotificationBuilder();
 
+        String s = "Hey hey :D wollte kurz daran erinnern das dein Produkt :" + currentProduct.getProductName() +"in sieben tagen abläuft. Gucke dir in der app ein paar rezepte an um es zu verwerten ;)";
         // Add the action button using the pending intent.
-        notifyBuilder.addAction(R.drawable.ic_calendar,
-                "hey hey", updatePendingIntent);
+        notifyBuilder.addAction(R.mipmap.component_foreground,
+                s, updatePendingIntent);
 
         // Deliver the notification.
         mNotifyManager.notify(NOTIFICATION_ID, notifyBuilder.build());
 
     }
+    private NotificationCompat.Builder getNotificationBuilder(){NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this, PRIMARY_CHANNEL_ID)
+            .setContentTitle("Oh no. Bald läuft dein Produk ab :(")
+            .setContentText("This is your notification text.")
+            .setSmallIcon(R.mipmap.component_foreground);
+        return notifyBuilder;
+    };
+
 
 
 
@@ -196,6 +204,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public class NotificationReceiver extends BroadcastReceiver {
+
+        public NotificationReceiver() {
+        }
+
+        /**
+         * Receives the incoming broadcasts and responds accordingly.
+         *
+         * @param context Context of the app when the broadcast is received.
+         * @param intent The broadcast intent containing the action.
+         */
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Update the notification.
+           // updateNotification();
+        }
     }
 
 }

@@ -35,9 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.mealstock.activities.GoogleSignInActivity"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.example.mealstock.activities.MainActivity"

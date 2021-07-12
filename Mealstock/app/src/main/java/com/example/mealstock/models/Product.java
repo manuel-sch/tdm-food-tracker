@@ -45,6 +45,8 @@ public class Product implements Serializable, Comparable<Product> {
 
     private int unit = 1;
 
+    private boolean alreadyNotificated = false;
+
 
     public List<String> getAllergensAsList(){
         String[] allergenTokens = allergens.split(", ");
@@ -202,6 +204,14 @@ public class Product implements Serializable, Comparable<Product> {
 
     public void setUnit(int unit) {
         this.unit = unit;
+    }
+
+    public boolean isAlreadyNotificated() {
+        return alreadyNotificated;
+    }
+
+    public void setAlreadyNotificated(boolean alreadyNotificated) {
+        this.alreadyNotificated = alreadyNotificated;
     }
 
     @Override
