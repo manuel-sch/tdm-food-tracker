@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/calenderFrag"
-        android:title="Calender"
-        android:icon="@drawable/ic_calendar"/>
+
     <item
         android:id="@+id/searchFrag"
         android:title="Search"
@@ -18,9 +15,5 @@
         android:id="@+id/scanFrag"
         android:title="Scan"
         android:icon="@drawable/ic_scanner"/>
-    <item
-        android:id="@+id/settingFrag"
-        android:title="Settings"
-        android:icon="@drawable/ic_settings"
-        />
+
 </menu>
