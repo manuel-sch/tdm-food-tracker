@@ -38,7 +38,7 @@ public class NetworkDataTransmitterSingleton {
 
     private static final String TAG = NetworkDataTransmitterSingleton.class.getSimpleName();
     private static NetworkDataTransmitterSingleton instance = null;
-    private static boolean recipeSearchedWithProductName = false;
+    public static boolean recipeSearchedWithProductName = false;
     private static Context queueContext;
     private final ImageLoader imageLoader;
     private RequestQueue queue;
@@ -81,7 +81,7 @@ public class NetworkDataTransmitterSingleton {
     public void requestJsonObjectResponseForJsonRequestWithContext(JsonRequest jsonReq) {
 
         mainActivity.setProgressBarVisibilityWithBool(true);
-
+        Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: Request Url: " + jsonReq.getUrl());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(jsonReq.getHttpMethod(), jsonReq.getUrl(), jsonReq.getJsonObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -94,6 +94,7 @@ public class NetworkDataTransmitterSingleton {
                         handleProductNameSearchResponse(response);
 
                     } else if (jsonReq.getRequestMethod() == RequestMethod.RECIPE_SEARCH) {
+
                         //Log.d(TAG, "onResponse: " + response.toString(1));
                         handleRecipeSearchResponse(response);
                     } else {

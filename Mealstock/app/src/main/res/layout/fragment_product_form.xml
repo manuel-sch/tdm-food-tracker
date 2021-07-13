@@ -51,7 +51,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/editText_productUnit_layout"
+                    android:id="@+id/editText_genericName_layout"
                     style="@style/editText_primary_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -59,6 +59,26 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editText_productName_layout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_genericName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:hint="@string/hint_generic_name"
+                        android:inputType="textAutoCorrect"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editText_productUnit_layout"
+                    style="@style/editText_primary_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_genericName_layout">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editText_productUnit"
@@ -106,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:hint="@string/hint_product_price"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -209,6 +229,28 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView_storageDescription">
 
                 </Spinner>
+
+                <Button
+                    android:id="@+id/button_take_product_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/hint_take_product_image"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner_storage" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/product_image"
+                    android:layout_width="204dp"
+                    android:layout_height="214dp"
+                    android:layout_marginTop="24dp"
+                    android:src="@drawable/product_placeholder"
+                    app:civ_border_color="#60C5B8"
+                    app:civ_border_width="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button_take_product_image" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

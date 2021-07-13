@@ -51,7 +51,7 @@
         <entry key="app/src/main/res/layout/fragment_product_detail_page_nutrition_facts.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_product_detail_page_recipes.xml" value="0.284375" />
         <entry key="app/src/main/res/layout/fragment_product_detail_view.xml" value="0.28177083333333336" />
-        <entry key="app/src/main/res/layout/fragment_product_form.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/fragment_product_form.xml" value="0.36268174474959614" />
         <entry key="app/src/main/res/layout/fragment_product_list.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/fragment_recipe_search.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_scan.xml" value="0.23020833333333332" />
@@ -71,6 +71,7 @@
         <entry key="app/src/main/res/layout/recycler_row.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.23072916666666668" />
+        <entry key="app/src/main/res/xml/file_paths.xml" value="0.2359375" />
         <entry key="app/src/main/res/xml/root_preferences.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/xml/searchable.xml" value="0.25052083333333336" />
       </map>
