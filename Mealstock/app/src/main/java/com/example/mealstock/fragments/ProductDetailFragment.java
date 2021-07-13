@@ -108,7 +108,7 @@ public class ProductDetailFragment extends Fragment {
     }
 
     public void setProductInformationToSearchForInRecipesWithProductName(){
-        viewModel.setProductInformationToSearchForInRecipe(currentProduct.getProductName());
+        viewModel.requestRecipesFromServerWithInformation(currentProduct.getProductName(), false);
     }
 
     public void setRecipes(List<Recipe> recipes){

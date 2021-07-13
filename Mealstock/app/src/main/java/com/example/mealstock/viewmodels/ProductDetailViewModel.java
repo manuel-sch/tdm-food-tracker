@@ -84,17 +84,15 @@ public class ProductDetailViewModel extends AndroidViewModel {
         toEnglishTranslator.setTranslatedToEnglishProductInformationForRecipeSearch();
     }
 
-    public void setProductInformationToSearchForInRecipe(String information){
-        if(!information.isEmpty()){
-            setRecipesByFetchingFromServer(information);
-        }
-    }
 
-    private void setRecipesByFetchingFromServer(String information){
-        String combinedUrl = UrlRequestConstants.EDAMAM_RECIPE_SEARCH + information + UrlRequestConstants.EDAMAM_RECIPE_APP_ID_APP_KEY;
-        Log.d(TAG, "setRecipesByFetchingFromServer: " + combinedUrl);
-        JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.RECIPE_SEARCH, null);
-        networkDataTransmitterSingleton.requestJsonObjectResponseForJsonRequestWithContext(jsonReq);
+    public void requestRecipesFromServerWithInformation(String information, boolean onlyOneRequest){
+        if(!information.isEmpty()){
+            String combinedUrl = UrlRequestConstants.EDAMAM_RECIPE_SEARCH + information + UrlRequestConstants.EDAMAM_RECIPE_APP_ID_APP_KEY;
+            JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.RECIPE_SEARCH, null);
+            networkDataTransmitterSingleton.requestJsonObjectResponseForJsonRequestWithContext(jsonReq);
+            if(onlyOneRequest)
+                NetworkDataTransmitterSingleton.recipeSearchedWithProductName = true;
+        }
     }
 
     @Override

@@ -49,7 +49,7 @@ public class ToEnglishTranslator {
             LanguageIdentifier languageIdentifier =
                     LanguageIdentification.getClient(
                             new LanguageIdentificationOptions.Builder()
-                                    .setConfidenceThreshold(0.1f)
+                                    .setConfidenceThreshold(0.5f)
                                     .build());
             languageIdentifier.identifyLanguage(productInformation)
                     .addOnSuccessListener(
@@ -59,6 +59,8 @@ public class ToEnglishTranslator {
                                     // undetermined
                                     if (languageCode.equals("und")) {
                                         Log.d(TAG, "Can't identify language.");
+                                        ProductDetailViewModel productDetailViewModel = (ProductDetailViewModel) viewModel;
+                                        productDetailViewModel.requestRecipesFromServerWithInformation(currentProduct.getProductName(), true);
                                     } else {
                                         Log.d(TAG, "Languagecode: " + languageCode);
                                         translateGenericNameBasedOnLanguageTag(languageCode);
@@ -69,8 +71,8 @@ public class ToEnglishTranslator {
                             new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    // Model couldn’t be loaded or other internal error.
-                                    // ...
+                                    ProductDetailViewModel productDetailViewModel = (ProductDetailViewModel) viewModel;
+                                    productDetailViewModel.requestRecipesFromServerWithInformation(currentProduct.getProductName(), true);
                                 }
                             });
         }
@@ -78,36 +80,45 @@ public class ToEnglishTranslator {
 
     private void translateGenericNameBasedOnLanguageTag(String languageTag){
         setUpTranslator(languageTag);
-        translate();
+        if(toEnglishTranslator != null)
+            translate();
+        else{
+            if(viewModel instanceof ProductDetailViewModel){
+                ProductDetailViewModel productDetailViewModel = (ProductDetailViewModel) viewModel;
+                productDetailViewModel.requestRecipesFromServerWithInformation(currentProduct.getProductName(), true);
+            }
+        }
     }
 
     private void setUpTranslator(String languageTag){
-        TranslatorOptions options =
-                new TranslatorOptions.Builder()
-                        .setSourceLanguage(Objects.requireNonNull(TranslateLanguage.fromLanguageTag(languageTag)))
-                        .setTargetLanguage(TranslateLanguage.ENGLISH)
-                        .build();
-        toEnglishTranslator =
-                Translation.getClient(options);
-        DownloadConditions conditions = new DownloadConditions.Builder()
-                .requireWifi()
-                .build();
-        toEnglishTranslator.downloadModelIfNeeded(conditions)
-                .addOnSuccessListener(
-                        new OnSuccessListener() {
-                            @Override
-                            public void onSuccess(Object o) {
-                                Log.d(TAG, "onSuccess: " + "Languagemodel downloaded.");
-                            }
-                        })
-                .addOnFailureListener(
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Model couldn’t be downloaded or other internal error.
-                                // ...
-                            }
-                        });
+        if (TranslateLanguage.fromLanguageTag(languageTag) != null) {
+            TranslatorOptions options =
+                    new TranslatorOptions.Builder()
+                            .setSourceLanguage((Objects.requireNonNull(TranslateLanguage.fromLanguageTag(languageTag))))
+                            .setTargetLanguage(TranslateLanguage.ENGLISH)
+                            .build();
+            toEnglishTranslator =
+                    Translation.getClient(options);
+            DownloadConditions conditions = new DownloadConditions.Builder()
+                    .requireWifi()
+                    .build();
+            toEnglishTranslator.downloadModelIfNeeded(conditions)
+                    .addOnSuccessListener(
+                            new OnSuccessListener() {
+                                @Override
+                                public void onSuccess(Object o) {
+                                    Log.d(TAG, "onSuccess: " + "Languagemodel downloaded.");
+                                }
+                            })
+                    .addOnFailureListener(
+                            new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Model couldn’t be downloaded or other internal error.
+                                    // ...
+                                }
+                            });
+        }
 
     }
 
@@ -121,7 +132,7 @@ public class ToEnglishTranslator {
                                 Log.d(TAG, "onSuccess: Übersetzter Name des Produktes: " + translatedGenericName);
                                 if(viewModel instanceof ProductDetailViewModel){
                                     ProductDetailViewModel productDetailViewModel = (ProductDetailViewModel) viewModel;
-                                    productDetailViewModel.setProductInformationToSearchForInRecipe(translatedGenericName);
+                                    productDetailViewModel.requestRecipesFromServerWithInformation(translatedGenericName, false);
                                 }
                             }
                         })
@@ -136,6 +147,7 @@ public class ToEnglishTranslator {
     }
 
     public void close(){
-        toEnglishTranslator.close();
+        if(toEnglishTranslator != null)
+            toEnglishTranslator.close();
     }
 }

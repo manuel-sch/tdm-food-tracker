@@ -54,7 +54,7 @@
     <string name="hint_product_price">Wie teuer?</string>
     <string name="hint_product_quanity">Wie oft?</string>
     <string name="hint_product_ingredients">Was ist enthalten?</string>
-    <string name="hint_product_unit">In welchem Maß?</string>
+    <string name="hint_product_unit">In welchem Maß? (ml/g)</string>
 
     <string name="description_add_product">Produkt hinzufügen</string>
     <string name="description_productImage">Productimage</string>
@@ -90,6 +90,9 @@
     <string name="placeholder_total_time">Arbeitszeit</string>
     <string name="title_recipes_for_product">Beliebte Gerichte zu Ihrem Produkt</string>
     <string name="text_no_recipes_found">Es wurden keine Rezepte zum Produkt gefunden.</string>
+    <string name="hint_product_brands">Von welcher Marke?</string>
+    <string name="hint_take_product_image">Produktbild aufnehmen</string>
+    <string name="hint_generic_name">Wie würde man es allgemein nennen?</string>
 
 
 </resources>

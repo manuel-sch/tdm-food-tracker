@@ -43,7 +43,7 @@ public class Product implements Serializable, Comparable<Product> {
 
     private double price;
 
-    private int unit = 1;
+    private int unit = 0;
 
 
     public List<String> getAllergensAsList(){

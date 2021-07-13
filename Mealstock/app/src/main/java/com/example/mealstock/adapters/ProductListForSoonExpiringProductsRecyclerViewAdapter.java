@@ -1,7 +1,6 @@
 package com.example.mealstock.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,22 +57,22 @@ public class ProductListForSoonExpiringProductsRecyclerViewAdapter extends Recyc
 
 
         Date currentDate = calendar.getTime();
-        Log.d("TAG1", "setExpiryDateTextViewColorBasedOnLeftTime: " + currentDate);
+        //Log.d("TAG1", "setExpiryDateTextViewColorBasedOnLeftTime: " + currentDate);
 
         calendar.add(Calendar.DAY_OF_YEAR, 7);
         Date pastSevenDaysDate = calendar.getTime();
-        Log.d("TAG2", "setExpiryDateTextViewColorBasedOnLeftTime: " + pastSevenDaysDate);
+        //Log.d("TAG2", "setExpiryDateTextViewColorBasedOnLeftTime: " + pastSevenDaysDate);
 
         calendar.add(Calendar.DAY_OF_YEAR, 7);
         Date pastFourteenDaysDate = calendar.getTime();
-        Log.d("TAG3", "setExpiryDateTextViewColorBasedOnLeftTime: " + pastFourteenDaysDate);
+        //Log.d("TAG3", "setExpiryDateTextViewColorBasedOnLeftTime: " + pastFourteenDaysDate);
 
         calendar.add(Calendar.DAY_OF_YEAR, 16);
         Date pastOneMonthDate = calendar.getTime();
-        Log.d("TAG4", "setExpiryDateTextViewColorBasedOnLeftTime: " + pastOneMonthDate);
+        //Log.d("TAG4", "setExpiryDateTextViewColorBasedOnLeftTime: " + pastOneMonthDate);
 
         Date expiryDate = currentProduct.getExpiryDate();
-        Log.d("TAG5", "setExpiryDateTextViewColorBasedOnLeftTime: " + expiryDate);
+        //Log.d("TAG5", "setExpiryDateTextViewColorBasedOnLeftTime: " + expiryDate);
 
         if(expiryDate.before(pastSevenDaysDate)){
             expiryDateTextView.setTextColor(ContextCompat.getColor(context, R.color.red_dark));

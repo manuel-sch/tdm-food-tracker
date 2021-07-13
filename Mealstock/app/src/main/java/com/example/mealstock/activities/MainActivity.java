@@ -1,5 +1,7 @@
 package com.example.mealstock.activities;
 
+import static com.example.mealstock.fragments.ProductFormFragment.CAMERA_PERMISSION_REQUEST;
+
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.mealstock.R;
 import com.example.mealstock.fragments.CalendarFragment;
 import com.example.mealstock.fragments.HomeFragment;
+import com.example.mealstock.fragments.ProductFormFragment;
 import com.example.mealstock.fragments.ProductRemoteSearchFragment;
 import com.example.mealstock.fragments.ProductScanFragment;
 import com.example.mealstock.fragments.SettingsFragment;
@@ -25,7 +28,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CAMERA_PERMISSION = 201;
+    private static final int REQUEST_CAMERA_PERMISSION_FOR_SCANNER = 100;
     private static final int TIME_INTERVAL = 2000;
     private final String TAG = MainActivity.class.getSimpleName();
     private ProgressBar progressBar;
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            if(requestCode == REQUEST_CAMERA_PERMISSION){
+            if(requestCode == REQUEST_CAMERA_PERMISSION_FOR_SCANNER){
                 Log.d(TAG, "onRequestPermissionsResult: " + supportFragmentManager.getFragments() );
                 Fragment fragment = supportFragmentManager.findFragmentByTag("ScanFrag");
                 if(fragment != null && fragment instanceof ProductScanFragment){
@@ -124,10 +127,16 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
+            else if(requestCode == CAMERA_PERMISSION_REQUEST){
+                Fragment fragment = supportFragmentManager.findFragmentByTag("ProductForm");
+                if(fragment != null && fragment instanceof ProductFormFragment){
+                    ProductFormFragment productScanFragment = (ProductFormFragment) fragment;
+                    productScanFragment.takeImage();
+                }
+            }
         }
 
     }
-
 
 }
 
