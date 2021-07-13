@@ -37,7 +37,6 @@ public class ProductDetailNutritionFactsPageFragment extends Fragment {
     private TextView nutritionScoreTextView;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,17 +74,26 @@ public class ProductDetailNutritionFactsPageFragment extends Fragment {
         });
     }
 
-    private void setCurrentViewsForProduct(Product product){
+    private void setCurrentViewsForProduct(Product product) {
         Map<String, String> nutritionFacts = product.getNutritionFacts();
-        energyKjTextView.setText(nutritionFacts.get("energy-kj_100g"));
-        energyKcalTextView.setText(nutritionFacts.get("energy-kcal_100g"));
-        fatTextView.setText(nutritionFacts.get("fat_100g"));
-        saturatedFatTextView.setText(nutritionFacts.get("saturated-fat_100g"));
-        carbohydratesTextView.setText(nutritionFacts.get("carbohydrates_100g"));
-        sugarTextView.setText(nutritionFacts.get("sugars_100g"));
-        proteinTextView.setText(nutritionFacts.get("proteins_100g"));
-        saltTextView.setText(nutritionFacts.get("salt_100g"));
-        sodiumTextView.setText(nutritionFacts.get("sodium_100g"));
+        if(nutritionFacts.containsKey("energy-kj_100g"))
+            energyKjTextView.setText(nutritionFacts.get("energy-kj_100g"));
+        if(nutritionFacts.containsKey("energy-kcal_100g"))
+            energyKcalTextView.setText(nutritionFacts.get("energy-kcal_100g"));
+        if(nutritionFacts.containsKey("fat_100g"))
+            fatTextView.setText(nutritionFacts.get("fat_100g"));
+        if(nutritionFacts.containsKey("saturated-fat_100g"))
+            saturatedFatTextView.setText(nutritionFacts.get("saturated-fat_100g"));
+        if(nutritionFacts.containsKey("carbohydrates_100g"))
+            carbohydratesTextView.setText(nutritionFacts.get("carbohydrates_100g"));
+        if(nutritionFacts.containsKey("sugars_100g"))
+            sugarTextView.setText(nutritionFacts.get("sugars_100g"));
+        if(nutritionFacts.containsKey("proteins_100g"))
+            proteinTextView.setText(nutritionFacts.get("proteins_100g"));
+        if(nutritionFacts.containsKey("salt_100g"))
+            saltTextView.setText(nutritionFacts.get("salt_100g"));
+        if(nutritionFacts.containsKey("sodium_100g"))
+            sodiumTextView.setText(nutritionFacts.get("sodium_100g"));
         nutritionScoreTextView.setText(product.getNutrientLevel());
     }
 

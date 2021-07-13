@@ -14,21 +14,22 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mealstock.adapters.RecipeListForProductRecyclerViewAdapter;
+import com.example.mealstock.R;
+import com.example.mealstock.adapters.RecipeListInProductRecyclerViewAdapter;
 import com.example.mealstock.databinding.FragmentProductDetailPageRecipesBinding;
 import com.example.mealstock.models.Recipe;
 import com.example.mealstock.viewmodels.ProductDetailViewModel;
 
 import java.util.List;
 
-public class ProductDetailRecipesPageFragment extends Fragment implements RecipeListForProductRecyclerViewAdapter.RecipeItemClickListener {
+public class ProductDetailRecipesPageFragment extends Fragment implements RecipeListInProductRecyclerViewAdapter.RecipeItemClickListener {
 
     private final String TAG = ProductDetailRecipesPageFragment.class.getSimpleName();
 
     private TextView noRecipesFoundTextView;
 
     private RecyclerView recyclerView;
-    private RecipeListForProductRecyclerViewAdapter recyclerViewAdapter;
+    private RecipeListInProductRecyclerViewAdapter recyclerViewAdapter;
 
     private List<Recipe> currentRecipes;
 
@@ -57,7 +58,7 @@ public class ProductDetailRecipesPageFragment extends Fragment implements Recipe
     }
 
     private void setUpRecyclerView() {
-        recyclerViewAdapter = new RecipeListForProductRecyclerViewAdapter(this);
+        recyclerViewAdapter = new RecipeListInProductRecyclerViewAdapter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -70,6 +71,7 @@ public class ProductDetailRecipesPageFragment extends Fragment implements Recipe
         viewModel = new ViewModelProvider(detailFragment).get(ProductDetailViewModel.class);
 
         viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> {
+            Log.d(TAG, "setUpViewModelObserving: " + recipes);
             if(currentRecipes != null)
                 currentRecipes.clear();
             currentRecipes = recipes;
@@ -88,7 +90,10 @@ public class ProductDetailRecipesPageFragment extends Fragment implements Recipe
     }
 
     @Override
-    public void onRecipeItemClick(Recipe clickedProduct) {
-        Log.d(TAG, "onRecipeItemClick: " + "pressed on recipe");
+    public void onRecipeItemClick(Recipe clickedRecipe) {
+        Bundle recipeDetailBundle = new Bundle();
+        recipeDetailBundle.putSerializable("Recipe", clickedRecipe);
+        requireActivity().getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.navHostFragment,
+                RecipeDetailFragment.class, recipeDetailBundle, "RecipeDetailFrag").addToBackStack("RecipeDetailFrag").commit();
     }
 }

@@ -1,6 +1,11 @@
 package com.example.mealstock.models;
 
-public class Recipe {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Recipe implements Serializable {
 
     private String name;
     private String image;
@@ -40,6 +45,10 @@ public class Recipe {
 
     public String getIngredients() {
         return ingredients;
+    }
+
+    public List<String> getIngredientsAsList(){
+        return Arrays.asList(this.ingredients.split(","));
     }
 
     public void setIngredients(String ingredients) {

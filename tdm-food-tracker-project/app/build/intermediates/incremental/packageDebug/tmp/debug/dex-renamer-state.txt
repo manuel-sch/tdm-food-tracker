@@ -1,4 +1,0 @@
-#Mon May 31 18:40:36 CEST 2021
-base.0=S\:\\Beuth\\Projekt\\sourcetree\\tdm-food-tracker-project\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

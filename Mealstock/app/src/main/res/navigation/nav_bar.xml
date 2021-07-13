@@ -6,9 +6,9 @@
     app:startDestination="@id/homeFrag">
     <fragment
         android:id="@+id/searchFrag"
-        android:name="com.example.mealstock.fragments.SearchLocalFragment"
+        android:name="com.example.mealstock.fragments.RecipeSearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search_local" />
+        tools:layout="@layout/fragment_recipe_search" />
     <fragment
         android:id="@+id/calenderFrag"
         android:name="com.example.mealstock.fragments.CalendarFragment"

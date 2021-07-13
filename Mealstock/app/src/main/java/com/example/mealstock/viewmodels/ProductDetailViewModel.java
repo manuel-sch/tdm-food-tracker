@@ -91,7 +91,7 @@ public class ProductDetailViewModel extends AndroidViewModel {
             JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.RECIPE_SEARCH, null);
             networkDataTransmitterSingleton.requestJsonObjectResponseForJsonRequestWithContext(jsonReq);
             if(onlyOneRequest)
-                NetworkDataTransmitterSingleton.recipeSearchedWithProductName = true;
+                NetworkDataTransmitterSingleton.noOtherRecipeSearchWithProductNameNeeded = true;
         }
     }
 

@@ -8,6 +8,14 @@
         <item>Kühlfach</item>
         <item>Regal</item>
     </string-array>
+
+    <string-array name="product_filter">
+        <item>Milchprodukte</item>
+        <item>Fleisch</item>
+        <item>Gemüse</item>
+        <item>Obst</item>
+    </string-array>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
@@ -93,6 +101,11 @@
     <string name="hint_product_brands">Von welcher Marke?</string>
     <string name="hint_take_product_image">Produktbild aufnehmen</string>
     <string name="hint_generic_name">Wie würde man es allgemein nennen?</string>
+    <string name="text_recipe_instructions">Kochanweisungen</string>
+    <string name="text_recipe_quantity">Portionen</string>
+    <string name="text_cuisine_type">Regionalität</string>
+    <string name="text_meal_type">Menüart</string>
+    <string name="text_dish_type">Speiseart</string>
 
 
 </resources>

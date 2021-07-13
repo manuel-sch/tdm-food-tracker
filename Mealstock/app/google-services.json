@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:859177012180:android:278df320f6fe7c2db02441",
         "android_client_info": {
-          "package_name": "com.example.tdm_food_tracker.navidialog"
+          "package_name": "com.example.mealstock"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "859177012180-1e9ob8uach5fofn2ri6koh1k5topsjbn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.tdm_food_tracker.navidialog",
+            "package_name": "com.example.mealstock",
             "certificate_hash": "08dc288ebd0708d80d64633eb4554abb385bace0"
           }
         },

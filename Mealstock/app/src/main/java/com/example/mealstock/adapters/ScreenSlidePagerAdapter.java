@@ -7,7 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 
 import com.example.mealstock.fragments.FridgeFreezerFragment;
-import com.example.mealstock.fragments.ShelfFragment;
+import com.example.mealstock.fragments.ShelfDrinksFragment;
 
 public class ScreenSlidePagerAdapter extends FragmentStateAdapter {
 
@@ -26,7 +26,7 @@ public class ScreenSlidePagerAdapter extends FragmentStateAdapter {
             case 0:
                 return new FridgeFreezerFragment(viewPager);
             case 1:
-                return new ShelfFragment(viewPager);
+                return new ShelfDrinksFragment(viewPager);
         }
         return null;
     }

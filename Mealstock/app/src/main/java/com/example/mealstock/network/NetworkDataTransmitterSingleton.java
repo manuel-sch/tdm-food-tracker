@@ -38,7 +38,7 @@ public class NetworkDataTransmitterSingleton {
 
     private static final String TAG = NetworkDataTransmitterSingleton.class.getSimpleName();
     private static NetworkDataTransmitterSingleton instance = null;
-    public static boolean recipeSearchedWithProductName = false;
+    public static boolean noOtherRecipeSearchWithProductNameNeeded = false;
     private static Context queueContext;
     private final ImageLoader imageLoader;
     private RequestQueue queue;
@@ -168,9 +168,8 @@ public class NetworkDataTransmitterSingleton {
         try {
             if (response.getString("status_verbose").equals("product found")) {
 
-                Fragment navHostFragment = mainActivity.getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
-                Log.d(TAG, "handleBarcodeSearchResponse: " + navHostFragment.getChildFragmentManager().getFragments());
-                ProductScanFragment scanFragment = (ProductScanFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+                Log.d(TAG, "handleBarcodeSearchResponse: " + mainActivity.getSupportFragmentManager().getFragments());
+                ProductScanFragment scanFragment = (ProductScanFragment) mainActivity.getSupportFragmentManager().findFragmentByTag("ScanFrag");
                 if (scanFragment != null) {
                     Product newProduct = JsonHandler.parseJsonObjectWithSingleProductToProduct(response);
                     scanFragment.setBarcodeProduct(newProduct);
@@ -218,11 +217,10 @@ public class NetworkDataTransmitterSingleton {
             //Log.d(TAG, "handleRecipeSearchResponse: " + navHostFragment.getParentFragmentManager().findFragmentByTag("ProductDetail"));
             ProductDetailFragment detailFragment = (ProductDetailFragment) navHostFragment.getParentFragmentManager().findFragmentByTag("ProductDetail");
             if (detailFragment != null) {
-                Log.d(TAG, "handleRecipeSearchResponse: " + recipeSearchedWithProductName);
                 if (response.getJSONArray("hits").length() != 0) {
                     setRecipesInDetailFragmentViewmodel(response, detailFragment);
                     detailFragment.setRecipesFoundInViewModel(true);
-                } else if (!recipeSearchedWithProductName) {
+                } else if (!noOtherRecipeSearchWithProductNameNeeded) {
                     searchRecipesWithProductName(detailFragment);
                 }
                 else{
@@ -240,7 +238,7 @@ public class NetworkDataTransmitterSingleton {
 
     private void setRecipesInDetailFragmentViewmodel(JSONObject response, ProductDetailFragment detailFragment){
         try {
-            recipeSearchedWithProductName = false;
+            noOtherRecipeSearchWithProductNameNeeded = false;
             //Log.d(TAG, "onResponse: " + response.getJSONArray("hits").getJSONObject(0).toString(1));
             List<Recipe> foundRecipes = null;
             foundRecipes = JsonHandler.parseJsonArrayWithMultipleRecipesToRecipeList(response);
@@ -254,7 +252,7 @@ public class NetworkDataTransmitterSingleton {
     }
 
     private void searchRecipesWithProductName(ProductDetailFragment detailFragment){
-        recipeSearchedWithProductName = true;
+        noOtherRecipeSearchWithProductNameNeeded = true;
         detailFragment.setProductInformationToSearchForInRecipesWithProductName();
         Log.d(TAG, "searchRecipesWithProductName: " + "No recipes found, searching with Product Name now.");
     }

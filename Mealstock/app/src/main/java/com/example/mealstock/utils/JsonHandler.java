@@ -443,47 +443,56 @@ public class JsonHandler {
             try {
                 JSONObject nutrimentsJsonObject = productJsonObject.getJSONObject("nutriments");
 
-                if(nutrimentsJsonObject.has("energy-kcal_100g") && !nutrimentsJsonObject.getString("energy-kcal_100g").equals("0"))
+                if(nutrimentsJsonObject.has("energy-kcal_100g") && !nutrimentsJsonObject.getString("energy-kcal_100g").equals("0")
+                        && !nutrimentsJsonObject.getString("energy-kcal_100g").isEmpty())
                     nutritionFacts.put("energy-kcal_100g", nutrimentsJsonObject.getString("energy-kcal_100g") + "kcal");
                 else
                     nutritionFacts.put("energy-kcal_100g", noData);
 
-                if(nutrimentsJsonObject.has("energy-kj_100g") && !nutrimentsJsonObject.getString("energy-kj_100g").equals("0"))
+                if(nutrimentsJsonObject.has("energy-kj_100g") && !nutrimentsJsonObject.getString("energy-kj_100g").equals("0")
+                        && !nutrimentsJsonObject.getString("energy-kj_100g").isEmpty())
                     nutritionFacts.put("energy-kj_100g", nutrimentsJsonObject.getString("energy-kj_100g") + "kj");
                 else
                     nutritionFacts.put("energy-kj_100g", noData);
 
-                if(nutrimentsJsonObject.has("fat_100g") && !nutrimentsJsonObject.getString("fat_100g").equals("0"))
+                if(nutrimentsJsonObject.has("fat_100g") && !nutrimentsJsonObject.getString("fat_100g").equals("0")
+                        && !nutrimentsJsonObject.getString("fat_100g").isEmpty())
                     nutritionFacts.put("fat_100g", nutrimentsJsonObject.getString("fat_100g") + "g");
                 else
                     nutritionFacts.put("fat_100g", noData);
 
-                if(nutrimentsJsonObject.has("saturated-fat_100g") && !nutrimentsJsonObject.getString("saturated-fat_100g").equals("0"))
+                if(nutrimentsJsonObject.has("saturated-fat_100g") && !nutrimentsJsonObject.getString("saturated-fat_100g").equals("0")
+                        && !nutrimentsJsonObject.getString("saturated-fat_100g").isEmpty())
                     nutritionFacts.put("saturated-fat_100g", nutrimentsJsonObject.getString("saturated-fat_100g") + "g");
                 else
                     nutritionFacts.put("saturated-fat_100g", noData);
 
-                if(nutrimentsJsonObject.has("carbohydrates_100g") && !nutrimentsJsonObject.getString("carbohydrates_100g").equals("0"))
+                if(nutrimentsJsonObject.has("carbohydrates_100g") && !nutrimentsJsonObject.getString("carbohydrates_100g").equals("0")
+                        && !nutrimentsJsonObject.getString("carbohydrates_100g").isEmpty())
                     nutritionFacts.put("carbohydrates_100g", nutrimentsJsonObject.getString("carbohydrates_100g") + "g");
                 else
                     nutritionFacts.put("carbohydrates_100g", noData);
 
-                if(nutrimentsJsonObject.has("sugars_100g") && !nutrimentsJsonObject.getString("sugars_100g").equals("0"))
+                if(nutrimentsJsonObject.has("sugars_100g") && !nutrimentsJsonObject.getString("sugars_100g").equals("0")
+                        && !nutrimentsJsonObject.getString("sugars_100g").isEmpty())
                     nutritionFacts.put("sugars_100g", nutrimentsJsonObject.getString("sugars_100g") + "g");
                 else
                     nutritionFacts.put("sugars_100g", noData);
 
-                if(nutrimentsJsonObject.has("proteins_100g") && !nutrimentsJsonObject.getString("proteins_100g").equals("0"))
+                if(nutrimentsJsonObject.has("proteins_100g") && !nutrimentsJsonObject.getString("proteins_100g").equals("0")
+                        && !nutrimentsJsonObject.getString("proteins_100g").isEmpty())
                     nutritionFacts.put("proteins_100g", nutrimentsJsonObject.getString("proteins_100g") + "g");
                 else
                     nutritionFacts.put("proteins_100g", noData);
 
-                if(nutrimentsJsonObject.has("salt_100g") && !nutrimentsJsonObject.getString("salt_100g").equals("0"))
+                if(nutrimentsJsonObject.has("salt_100g") && !nutrimentsJsonObject.getString("salt_100g").equals("0")
+                        && !nutrimentsJsonObject.getString("salt_100g").isEmpty())
                     nutritionFacts.put("salt_100g", nutrimentsJsonObject.getString("salt_100g") + "g");
                 else
                     nutritionFacts.put("salt_100g", noData);
 
-                if(nutrimentsJsonObject.has("sodium_100g") && !nutrimentsJsonObject.getString("sodium_100g").equals("0"))
+                if(nutrimentsJsonObject.has("sodium_100g") && !nutrimentsJsonObject.getString("sodium_100g").equals("0")
+                        && !nutrimentsJsonObject.getString("sodium_100g").isEmpty())
                     nutritionFacts.put("sodium_100g", nutrimentsJsonObject.getString("sodium_100g") + "g");
                 else
                     nutritionFacts.put("sodium_100g", noData);
