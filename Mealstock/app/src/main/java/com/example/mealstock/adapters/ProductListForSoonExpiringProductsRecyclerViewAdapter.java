@@ -108,13 +108,12 @@ public class ProductListForSoonExpiringProductsRecyclerViewAdapter extends Recyc
 
 
         Log.d("TAG6", "setExpiryDateTextViewColorBasedOnLeftTime: " + !currentProduct.isAlreadyNotificated());
-
-        if(!currentProduct.isAlreadyNotificated()){
-            sendNotification(currentProduct);
-        }
-
+        
         if(expiryDate.before(pastSevenDaysDate)){
             expiryDateTextView.setTextColor(ContextCompat.getColor(context, R.color.red_dark));
+            if(!currentProduct.isAlreadyNotificated()){
+                sendNotification(currentProduct);
+            }
         }
         else if(expiryDate.before(pastFourteenDaysDate)){
             expiryDateTextView.setTextColor(ContextCompat.getColor(context, R.color.orange));
