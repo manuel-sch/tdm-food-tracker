@@ -10,6 +10,7 @@
         android:id="@+id/Startseite_CheckKuehlschrank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/text_check_your_fridge"
         android:textAlignment="center"
@@ -37,7 +38,11 @@
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:contentDescription="@string/Button_for_gefrierfach_list"
-            android:src="@drawable/fridge_frierfach" />
+
+            android:scaleType="centerCrop"
+            android:src="@drawable/fridge_frierfach"
+
+            />
 
         <ImageView
             android:id="@+id/kuehl"
@@ -47,6 +52,8 @@
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:contentDescription="@string/Button_for_kuehlfach_list"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:src="@drawable/fridge_kuehl" />
     </LinearLayout>
 
