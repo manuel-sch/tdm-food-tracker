@@ -38,7 +38,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CAMERA_PERMISSION_FOR_SCANNER = 100;
     private static final int TIME_INTERVAL = 2000;
     private final String TAG = MainActivity.class.getSimpleName();
     private ProgressBar progressBar;
@@ -207,9 +206,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(TAG, "onRequestPermissionsResult: 1 " + supportFragmentManager.getFragments() );
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            if(requestCode == REQUEST_CAMERA_PERMISSION_FOR_SCANNER){
-                Log.d(TAG, "onRequestPermissionsResult: " + supportFragmentManager.getFragments() );
+            Log.d(TAG, "onRequestPermissionsResult: 2 " + supportFragmentManager.getFragments() );
+            Log.d(TAG, "onRequestPermissionsResult: requestcode: " + requestCode);
+            if(requestCode == ProductScanFragment.REQUEST_CAMERA_SCAN_PERMISSION){
+                Log.d(TAG, "onRequestPermissionsResult: 3 " + supportFragmentManager.getFragments() );
                 Fragment fragment = supportFragmentManager.findFragmentByTag("ScanFrag");
                 if(fragment != null && fragment instanceof ProductScanFragment){
                     ProductScanFragment productScanFragment = (ProductScanFragment) fragment;
