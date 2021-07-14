@@ -22,11 +22,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.mealstock.R;
 import com.example.mealstock.activities.MainActivity;
+import com.example.mealstock.database.FireBaseRepository;
 import com.example.mealstock.models.Product;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -47,6 +52,8 @@ public class ProductListForSoonExpiringProductsRecyclerViewAdapter extends Recyc
 
     private View v;
 
+    private FireBaseRepository fireBaseRepository;
+
     public ProductListForSoonExpiringProductsRecyclerViewAdapter(ProductItemClickListener clickListener) {
         products = new ArrayList<>();
         this.clickListener = clickListener;
@@ -56,6 +63,7 @@ public class ProductListForSoonExpiringProductsRecyclerViewAdapter extends Recyc
     @NonNull
     @Override
     public ProductItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        fireBaseRepository = new FireBaseRepository();
         context = parent.getContext();
         v = LayoutInflater.from(context).inflate(R.layout.item_soon_expiring_product, parent, false);
         mNotifyManager = (NotificationManager)
@@ -107,7 +115,7 @@ public class ProductListForSoonExpiringProductsRecyclerViewAdapter extends Recyc
         //Log.d("TAG5", "setExpiryDateTextViewColorBasedOnLeftTime: " + expiryDate);
 
 
-        Log.d("TAG6", "setExpiryDateTextViewColorBasedOnLeftTime: " + !currentProduct.isAlreadyNotificated());
+        Log.d("TAG6", "setExpiryDateTextViewColorBasedOnLeftTime: " + currentProduct.isAlreadyNotificated());
         
         if(expiryDate.before(pastSevenDaysDate)){
             expiryDateTextView.setTextColor(ContextCompat.getColor(context, R.color.red_dark));
@@ -123,13 +131,39 @@ public class ProductListForSoonExpiringProductsRecyclerViewAdapter extends Recyc
         }
     }
 
+    private void updateProductFireBase(Product product) {
+        fireBaseRepository.getProductReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                
+                for (DataSnapshot storageSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot productSnapshot : storageSnapshot.getChildren()) {
+                        if (productSnapshot.getValue(Product.class).getProductName().equals(product.getProductName())){
+                            Product p = productSnapshot.getValue(Product.class);
+                            p.setAlreadyNotificated(true);
+                            productSnapshot.getRef().setValue(p);
+                        }
+                        productSnapshot.getKey();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //Toast.makeText(null, "Fail to get data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     /**
      * OnClick method for the "Notify Me!" button.
      * Creates and delivers a simple notification.
      */
     public void sendNotification(Product currentProduct) {
 
-        currentProduct.setAlreadyNotificated(true);
+        updateProductFireBase(currentProduct);
         // Sets up the pending intent to update the notification.
         // Corresponds to a press of the Update Me! button.
         Intent updateIntent = new Intent(ACTION_UPDATE_NOTIFICATION);

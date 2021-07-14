@@ -115,6 +115,8 @@ public class HomeFragment extends Fragment implements ProductListForSoonExpiring
                 for (DataSnapshot storageSnapshot : snapshot.getChildren()) {
                     for (DataSnapshot productSnapshot : storageSnapshot.getChildren()) {
                         currentProducts.add(productSnapshot.getValue(Product.class));
+                        productSnapshot.getKey();
+
                     }
                 }
                 Collections.sort(currentProducts);
