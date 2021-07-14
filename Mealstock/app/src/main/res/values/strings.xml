@@ -82,6 +82,7 @@
     <string name="text_confirm">OK</string>
     <string name="description_productUnit">Anzahl</string>
     <string name="text_no_data">Keine Daten.</string>
+    <string name="text_no_time_data">\?\?\?</string>
     <string name="text_energy_kcal">Energie (kcal)</string>
     <string name="text_saturated_fat">Gesättigte Fettsäuren</string>
     <string name="text_fat">Fett</string>

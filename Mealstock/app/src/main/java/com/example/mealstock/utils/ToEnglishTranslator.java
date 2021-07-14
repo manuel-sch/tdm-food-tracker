@@ -80,8 +80,10 @@ public class ToEnglishTranslator {
 
     private void translateGenericNameBasedOnLanguageTag(String languageTag){
         setUpTranslator(languageTag);
-        if(toEnglishTranslator != null)
+        if(toEnglishTranslator != null){
+            Log.d(TAG, "translateGenericNameBasedOnLanguageTag: Translating now");
             translate();
+        }
         else{
             if(viewModel instanceof ProductDetailViewModel){
                 ProductDetailViewModel productDetailViewModel = (ProductDetailViewModel) viewModel;
@@ -92,6 +94,7 @@ public class ToEnglishTranslator {
 
     private void setUpTranslator(String languageTag){
         if (TranslateLanguage.fromLanguageTag(languageTag) != null) {
+            Log.d(TAG, "setUpTranslator: with language Tag: " + languageTag);
             TranslatorOptions options =
                     new TranslatorOptions.Builder()
                             .setSourceLanguage((Objects.requireNonNull(TranslateLanguage.fromLanguageTag(languageTag))))

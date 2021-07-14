@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -115,7 +113,7 @@ public class ProductListForSoonExpiringProductsRecyclerViewAdapter extends Recyc
         //Log.d("TAG5", "setExpiryDateTextViewColorBasedOnLeftTime: " + expiryDate);
 
 
-        Log.d("TAG6", "setExpiryDateTextViewColorBasedOnLeftTime: " + currentProduct.isAlreadyNotificated());
+        //Log.d("TAG6", "setExpiryDateTextViewColorBasedOnLeftTime: " + currentProduct.isAlreadyNotificated());
         
         if(expiryDate.before(pastSevenDaysDate)){
             expiryDateTextView.setTextColor(ContextCompat.getColor(context, R.color.red_dark));

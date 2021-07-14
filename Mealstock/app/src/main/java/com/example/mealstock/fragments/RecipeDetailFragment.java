@@ -76,7 +76,8 @@ public class RecipeDetailFragment extends Fragment {
         viewModel.getCurrentRecipe().observe(requireActivity(), currentRecipe -> {
             nameTextView.setText(currentRecipe.getName());
             Glide.with(this).load(currentRecipe.getImage()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.recipe_placeholder).into(circleImageView);
-            cookingTimeTextView.setText(String.valueOf(currentRecipe.getTotalTimeInMinutes()));
+            if(currentRecipe.getTotalTimeInMinutes() != 0)
+                cookingTimeTextView.setText(String.valueOf(currentRecipe.getTotalTimeInMinutes()));
             Log.d(TAG, "setUpViewModelObserving: " + currentRecipe.getIngredientsAsList());
             recyclerViewAdapter.updateIngredients(currentRecipe.getIngredientsAsList());
             if(!currentRecipe.getUrl().isEmpty())
