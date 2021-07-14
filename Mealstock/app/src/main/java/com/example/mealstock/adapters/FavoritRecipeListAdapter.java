@@ -17,14 +17,14 @@ import com.example.mealstock.models.Recipe;
 
 import java.util.List;
 
-public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeItemViewHolder> {
+public class FavoritRecipeListAdapter extends RecyclerView.Adapter<FavoritRecipeListAdapter.RecipeItemViewHolder> {
 
     private final Context context;
     private final List<Recipe> recipes;
     private onRecipeListener clickListener;
 
 
-    public RecipeListAdapter(Context context, List<Recipe> recipes, onRecipeListener clickListener){
+    public FavoritRecipeListAdapter(Context context, List<Recipe> recipes, onRecipeListener clickListener){
         this.context = context;
         this.recipes = recipes;
         this.clickListener  = clickListener;
@@ -42,7 +42,10 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
     public void onBindViewHolder(@NonNull RecipeItemViewHolder holder, int position) {
         Glide.with(context).load(recipes.get(position).getImage()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.product_placeholder).into(holder.imageViewRecipe);
         holder.textViewRecipeTitle.setText(recipes.get(position).getName());
-        holder.textViewCookingTime.setText(recipes.get(position).getTotalTimeInMinutes());
+        if(recipes.get(position).getTotalTimeInMinutes()!=0){
+            holder.textViewCookingTime.setText(recipes.get(position).getTotalTimeInMinutes());
+        }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

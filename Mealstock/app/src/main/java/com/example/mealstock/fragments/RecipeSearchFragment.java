@@ -12,11 +12,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealstock.R;
-import com.example.mealstock.adapters.RecipeListAdapter;
+import com.example.mealstock.adapters.FavoritRecipeListAdapter;
 import com.example.mealstock.databinding.FragmentRecipeSearchBinding;
 import com.example.mealstock.models.Recipe;
 
-public class RecipeSearchFragment extends Fragment implements RecipeListAdapter.onRecipeListener {
+public class RecipeSearchFragment extends Fragment implements FavoritRecipeListAdapter.onRecipeListener {
 
     private ImageView favStar;
     private RecyclerView recyclerView;

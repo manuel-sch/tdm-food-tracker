@@ -38,8 +38,6 @@
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:contentDescription="@string/Button_for_gefrierfach_list"
-
-            android:scaleType="centerCrop"
             android:src="@drawable/fridge_frierfach"
 
             />
@@ -52,8 +50,6 @@
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:contentDescription="@string/Button_for_kuehlfach_list"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
             android:src="@drawable/fridge_kuehl" />
     </LinearLayout>
 
