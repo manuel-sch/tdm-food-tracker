@@ -20,7 +20,10 @@
         android:roundIcon="@mipmap/product_round"
         android:supportsRtl="true"
 
-        android:theme="@style/Theme.Mealstock">
+        android:theme="@style/Theme.Mealstock"
+
+        android:name=".FirebaseHandler"
+        >
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"

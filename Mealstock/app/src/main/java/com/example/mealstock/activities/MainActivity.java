@@ -12,6 +12,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -24,16 +26,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.mealstock.R;
-import com.example.mealstock.fragments.CalendarFragment;
 import com.example.mealstock.fragments.HomeFragment;
 import com.example.mealstock.fragments.ProductFormFragment;
 import com.example.mealstock.fragments.ProductRemoteSearchFragment;
 import com.example.mealstock.fragments.ProductScanFragment;
-import com.example.mealstock.fragments.SettingsFragment;
 import com.example.mealstock.models.Product;
 import com.example.mealstock.network.NetworkDataTransmitterSingleton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -77,9 +78,6 @@ public class MainActivity extends AppCompatActivity {
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
-                        case R.id.calenderFrag:
-                            openFragment(CalendarFragment.newInstance("", ""), "CalendarFrag");
-                            return true;
                         case R.id.searchFrag:
                             openFragment(ProductRemoteSearchFragment.newInstance("", ""), "SearchFrag");
                             return true;
@@ -88,9 +86,6 @@ public class MainActivity extends AppCompatActivity {
                             return true;
                         case R.id.scanFrag:
                             openFragment(ProductScanFragment.newInstance("", ""), "ScanFrag");
-                            return true;
-                        case R.id.settingFrag:
-                            openFragment(SettingsFragment.newInstance("", ""), "SettingsFrag");
                             return true;
                     }
                     return false;
@@ -190,6 +185,23 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_logout,menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.logoutMenu){
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
