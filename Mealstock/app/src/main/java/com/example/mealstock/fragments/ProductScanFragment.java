@@ -58,7 +58,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
 
     // Constants
     private static final String TAG = ProductScanFragment.class.getSimpleName();
-    private static final int REQUEST_CAMERA_PERMISSION = 201;
+    public static final int REQUEST_CAMERA_SCAN_PERMISSION = 101;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     // Datepicker/Calendar
@@ -418,7 +418,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
                             cameraSource.start(surfaceView.getHolder());
                         } else {
                             ActivityCompat.requestPermissions(requireActivity(), new
-                                    String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                                    String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_SCAN_PERMISSION);
                         }
 
                     } catch (IOException e) {
@@ -450,7 +450,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
         } else {
             if (!fromAnsweringPermission) {
                 ActivityCompat.requestPermissions(requireActivity(), new
-                        String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                        String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_SCAN_PERMISSION);
             }
 
         }
