@@ -15,9 +15,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/product_ic"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/product_round"
         android:supportsRtl="true"
 
         android:theme="@style/Theme.Mealstock">
@@ -48,9 +48,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.mealstock.activities.GoogleSignInActivity"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.example.mealstock.activities.MainActivity"
