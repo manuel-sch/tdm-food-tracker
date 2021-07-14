@@ -357,7 +357,7 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
 
     public void handleProductSearchFab() {
         parentFragmentManager.beginTransaction()
-                .setReorderingAllowed(true).replace(R.id.navHostFragment, ProductRemoteSearchFragment.class, null, "ProductRemoteSearch")
+                .setReorderingAllowed(true).replace(R.id.navHostFragment, ProductRemoteSearchFragment.class, null, "ProductRemoteSearchFrag")
                 .addToBackStack("ProductRemoteSearch").commit();
     }
 

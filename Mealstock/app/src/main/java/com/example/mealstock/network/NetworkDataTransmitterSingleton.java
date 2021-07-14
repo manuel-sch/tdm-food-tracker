@@ -190,8 +190,7 @@ public class NetworkDataTransmitterSingleton {
     private void handleProductNameSearchResponse(JSONObject response) {
         try {
             if (response.getJSONArray("products").length() != 0) {
-                Fragment navHostFragment = mainActivity.getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
-                ProductRemoteSearchFragment searchFragment = (ProductRemoteSearchFragment) navHostFragment.getChildFragmentManager().findFragmentByTag("ProductRemoteSearch");
+                ProductRemoteSearchFragment searchFragment = (ProductRemoteSearchFragment) mainActivity.getSupportFragmentManager().findFragmentByTag("ProductRemoteSearchFrag");
                 if (searchFragment != null) {
                     List<Product> foundProducts = JsonHandler.parseJsonArrayWithMultipleProductsToProductList(response);
                     searchFragment.setCurrentProducts(foundProducts);
