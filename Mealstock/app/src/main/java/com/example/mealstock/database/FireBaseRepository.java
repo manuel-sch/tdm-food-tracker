@@ -4,9 +4,9 @@ import android.util.Log;
 
 import com.example.mealstock.constants.ProductConstants;
 import com.example.mealstock.models.Product;
+import com.example.mealstock.models.Recipe;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +26,7 @@ public class FireBaseRepository {
     private final DatabaseReference userReference;
     private final DatabaseReference userIDReference;
     private final DatabaseReference productReference;
+    private final DatabaseReference recipeReference;
 
     private final DatabaseReference freezerProductsReference;
     private final DatabaseReference fridgeProductsReference;
@@ -40,56 +41,43 @@ public class FireBaseRepository {
         firebaseInstance = FirebaseDatabase.getInstance();
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         uID = user.getUid();
         userReference = FirebaseDatabase.getInstance().getReference("Users");
         userIDReference = userReference.child(uID);
+
+        recipeReference = userIDReference.child("Recipes");
         productReference = userIDReference.child("Products");
+
         freezerProductsReference = productReference.child(ProductConstants.FREEZER);
         drinksProductsReference = productReference.child(ProductConstants.DRINKS);
         fridgeProductsReference = productReference.child(ProductConstants.FRIDGE);
         shelfProductsReference = productReference.child(ProductConstants.SHELF);
 
+    }
 
+    public void insertRecipe(Recipe recipe){
+        Log.d(TAG, "insertRecipe: " + recipe);
+        recipeReference.push().setValue(recipe);
+    }
 
-        ChildEventListener childEventListener = new ChildEventListener() {
+    public void deleteRecipe(String recipeName){
+        Query query = recipeReference.orderByChild("name").equalTo(recipeName);
 
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                //Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
-                //Product product = dataSnapshot.getValue(Product.class);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot toDeletedSnapshot: dataSnapshot.getChildren()) {
+                    toDeletedSnapshot.getRef().removeValue();
+                }
             }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                //Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
-                //Product newProduct = dataSnapshot.getValue(Product.class);
-                //String productKey = dataSnapshot.getKey();
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                //Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-                //String commentKey = dataSnapshot.getKey();
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-                //Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-               // Product movedComment = dataSnapshot.getValue(Product.class);
-                //String commentKey = dataSnapshot.getKey();
-            }
-
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-
+                Log.e(TAG, "onCancelled", databaseError.toException());
             }
-        };
-
-        productReference.addChildEventListener(childEventListener);
-
+        });
     }
 
     public void insertProduct(Product product){
@@ -139,6 +127,10 @@ public class FireBaseRepository {
 
     public String getuID() {
         return uID;
+    }
+
+    public DatabaseReference getRecipeReference() {
+        return recipeReference;
     }
 
     public DatabaseReference getProductReference() {

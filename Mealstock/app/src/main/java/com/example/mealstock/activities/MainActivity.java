@@ -28,8 +28,8 @@ import androidx.fragment.app.FragmentManager;
 import com.example.mealstock.R;
 import com.example.mealstock.fragments.HomeFragment;
 import com.example.mealstock.fragments.ProductFormFragment;
-import com.example.mealstock.fragments.ProductRemoteSearchFragment;
 import com.example.mealstock.fragments.ProductScanFragment;
+import com.example.mealstock.fragments.RecipeSearchFragment;
 import com.example.mealstock.models.Product;
 import com.example.mealstock.network.NetworkDataTransmitterSingleton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.searchFrag:
-                            openFragment(ProductRemoteSearchFragment.newInstance("", ""), "SearchFrag");
+                            openFragment(new RecipeSearchFragment(), "SearchFrag");
                             return true;
                         case R.id.homeFrag:
                             openFragment(HomeFragment.newInstance("", ""), "HomeFrag");

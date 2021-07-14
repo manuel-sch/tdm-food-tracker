@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ public class RecipeDetailFragment extends Fragment {
 
     private RecipeIngredientsRecyclerViewAdapter recyclerViewAdapter;
 
+    private ImageButton favoriteStarImageView;
     private TextView nameTextView;
     private TextView cookingTimeTextView;
     private CircleImageView circleImageView;
@@ -65,8 +67,44 @@ public class RecipeDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initializeViews();
+        setUpFavoriteButton();
         setUpRecyclerView();
         setUpViewModelObserving();
+    }
+
+    private void initializeViews() {
+        favoriteStarImageView = viewBinding.imageButtonFavoriteStar;
+        nameTextView = viewBinding.textViewRecipeName;
+        circleImageView = viewBinding.imageViewRecipe;
+        cookingTimeTextView = viewBinding.textViewCookingTime;
+        ingredientsRecyclerView = viewBinding.recyclerViewRecipeIngredients;
+        instructionsTextView = viewBinding.textViewCookingInstructionsLink;
+        dishTypeTextView = viewBinding.textViewDishType;
+        mealTypeTextView = viewBinding.textViewMealType;
+        quantityTextView = viewBinding.textViewQuantity;
+        quisineTypeTextView = viewBinding.textViewCuisineType;
+        energyInKcalTextView = viewBinding.textViewEnergyKcal;
+    }
+
+    private void setUpFavoriteButton() {
+        favoriteStarImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currentRecipe.isFavorite()){
+                    favoriteStarImageView.setImageResource(R.drawable.ic_star_off);
+                    currentRecipe.setFavorite(false);
+                    viewModel.setCurrentRecipe(currentRecipe);
+                    viewModel.deleteRecipe(currentRecipe);
+                }
+                else{
+                    favoriteStarImageView.setImageResource(R.drawable.ic_star_on);
+                    currentRecipe.setFavorite(true);
+                    viewModel.setCurrentRecipe(currentRecipe);
+                    viewModel.insertRecipe(currentRecipe);
+                }
+
+            }
+        });
     }
 
     private void setUpViewModelObserving() {
@@ -92,20 +130,11 @@ public class RecipeDetailFragment extends Fragment {
                 quantityTextView.setText(String.valueOf(currentRecipe.getQuantity()));
             if(!String.valueOf(Math.round(currentRecipe.getEnergyInKcal())).isEmpty())
                 energyInKcalTextView.setText(String.valueOf(Math.round(currentRecipe.getEnergyInKcal())));
+            if(currentRecipe.isFavorite())
+                favoriteStarImageView.setImageResource(R.drawable.ic_star_on);
+            else
+                favoriteStarImageView.setImageResource(R.drawable.ic_star_off);
         });
-    }
-
-    private void initializeViews() {
-        nameTextView = viewBinding.textViewRecipeName;
-        circleImageView = viewBinding.imageViewRecipe;
-        cookingTimeTextView = viewBinding.textViewCookingTime;
-        ingredientsRecyclerView = viewBinding.recyclerViewRecipeIngredients;
-        instructionsTextView = viewBinding.textViewCookingInstructionsLink;
-        dishTypeTextView = viewBinding.textViewDishType;
-        mealTypeTextView = viewBinding.textViewMealType;
-        quantityTextView = viewBinding.textViewQuantity;
-        quisineTypeTextView = viewBinding.textViewCuisineType;
-        energyInKcalTextView = viewBinding.textViewEnergyKcal;
     }
 
     private void setUpRecyclerView() {

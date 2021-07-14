@@ -10,15 +10,17 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.mealstock.database.FireBaseRepository;
 import com.example.mealstock.models.Recipe;
 
-public class RecipeDetailViewModel extends AndroidViewModel {
+import java.util.List;
 
-    private final String TAG = RecipeDetailViewModel.class.getSimpleName();
+public class RecipeSearchViewModel extends AndroidViewModel {
+
+    private final String TAG = RecipeSearchViewModel.class.getSimpleName();
 
     private final FireBaseRepository fireBaseRepository;
 
-    private MutableLiveData<Recipe> currentRecipe;
+    private MutableLiveData<List<Recipe>> currentRecipe;
 
-    public RecipeDetailViewModel(@NonNull Application application) {
+    public RecipeSearchViewModel(@NonNull Application application) {
         super(application);
         currentRecipe = new MutableLiveData<>();
         fireBaseRepository = new FireBaseRepository();
@@ -32,11 +34,11 @@ public class RecipeDetailViewModel extends AndroidViewModel {
         fireBaseRepository.deleteRecipe(recipe.getName());
     }
 
-    public LiveData<Recipe> getCurrentRecipe() {
+    public LiveData<List<Recipe>> getCurrentRecipes() {
         return currentRecipe;
     }
 
-    public void setCurrentRecipe(Recipe currentRecipe) {
+    public void setCurrentRecipes(List<Recipe> currentRecipe) {
         this.currentRecipe.postValue(currentRecipe);
     }
 }
