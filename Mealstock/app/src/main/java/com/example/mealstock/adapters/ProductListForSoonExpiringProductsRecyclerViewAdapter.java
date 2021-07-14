@@ -161,7 +161,7 @@ public class ProductListForSoonExpiringProductsRecyclerViewAdapter extends Recyc
         // Build the notification with all of the parameters.
         NotificationCompat.Builder notifyBuilder = new NotificationCompat
                 .Builder(v.getContext(), PRIMARY_CHANNEL_ID)
-                .setContentTitle("Oh no. Dein Produkt läuft in weniger als sieben tagen ab :(")
+                .setContentTitle("Erinnerung: Dein Produkt läuft in weniger als 7 Tagen ab")
                 .setSmallIcon(R.mipmap.component_foreground)
                 .setAutoCancel(true).setContentIntent(notificationPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
