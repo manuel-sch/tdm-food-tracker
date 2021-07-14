@@ -76,15 +76,22 @@ public class RecipeDetailFragment extends Fragment {
         viewModel.getCurrentRecipe().observe(requireActivity(), currentRecipe -> {
             nameTextView.setText(currentRecipe.getName());
             Glide.with(this).load(currentRecipe.getImage()).centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.recipe_placeholder).into(circleImageView);
+            
             cookingTimeTextView.setText(String.valueOf(currentRecipe.getTotalTimeInMinutes()));
             Log.d(TAG, "setUpViewModelObserving: " + currentRecipe.getIngredientsAsList());
             recyclerViewAdapter.updateIngredients(currentRecipe.getIngredientsAsList());
-            instructionsTextView.setText(currentRecipe.getUrl());
-            dishTypeTextView.setText(currentRecipe.getDishType());
-            mealTypeTextView.setText(currentRecipe.getMealType());
-            quisineTypeTextView.setText(currentRecipe.getCuisineType());
-            quantityTextView.setText(String.valueOf(currentRecipe.getQuantity()));
-            energyInKcalTextView.setText(String.valueOf(Math.round(currentRecipe.getEnergyInKcal())));
+            if(!currentRecipe.getUrl().isEmpty())
+                instructionsTextView.setText(currentRecipe.getUrl());
+            if(!currentRecipe.getDishType().isEmpty())
+                dishTypeTextView.setText(currentRecipe.getDishType());
+            if(!currentRecipe.getMealType().isEmpty())
+                mealTypeTextView.setText(currentRecipe.getMealType());
+            if(!currentRecipe.getCuisineType().isEmpty())
+                quisineTypeTextView.setText(currentRecipe.getCuisineType());
+            if(!String.valueOf(currentRecipe.getQuantity()).isEmpty())
+                quantityTextView.setText(String.valueOf(currentRecipe.getQuantity()));
+            if(!String.valueOf(Math.round(currentRecipe.getEnergyInKcal())).isEmpty())
+                energyInKcalTextView.setText(String.valueOf(Math.round(currentRecipe.getEnergyInKcal())));
         });
     }
 
