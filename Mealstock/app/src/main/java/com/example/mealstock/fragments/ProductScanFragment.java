@@ -488,7 +488,6 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
                                 String combinedUrl = barcodeSearchUrl + newBarcodeData + ".json";
                                 JsonRequest jsonReq = new JsonRequest(combinedUrl, Request.Method.GET, RequestMethod.BARCODE_SEARCH, null);
                                 dataTransmitter.requestJsonObjectResponseForJsonRequestWithContext(jsonReq);
-                                mainActivity.setProgressBarVisibilityWithBool(true);
                             }
                             barcodeData = newBarcodeData;
 
@@ -499,6 +498,14 @@ public class ProductScanFragment extends Fragment implements View.OnClickListene
                 }
             }
         });
+    }
+
+    public void setProgressBarVisibilityWithBool(boolean showProgressbar) {
+        Log.d(TAG, "setProgressBarVisibilityWithBool: " + showProgressbar);
+        if (showProgressbar)
+            progressBar.setVisibility(View.VISIBLE);
+        else
+            progressBar.setVisibility(View.GONE);
     }
 
 }

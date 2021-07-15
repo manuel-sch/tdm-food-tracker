@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,7 @@ public class RecipeSearchFragment extends Fragment implements FavoriteRecipeList
 
     private RecipeSearchViewModel viewModel;
 
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private SearchView searchView;
 
@@ -74,6 +76,7 @@ public class RecipeSearchFragment extends Fragment implements FavoriteRecipeList
     private void initializeViews() {
         recyclerView = viewBinding.recipeListView;
         searchView = viewBinding.searchBar;
+        progressBar = viewBinding.progressBar;
     }
 
 
@@ -132,6 +135,14 @@ public class RecipeSearchFragment extends Fragment implements FavoriteRecipeList
                 return false;
             }
         });
+    }
+
+    public void setProgressBarVisibilityWithBool(boolean showProgressbar) {
+        Log.d(TAG, "setProgressBarVisibilityWithBool: " + showProgressbar);
+        if (showProgressbar)
+            progressBar.setVisibility(View.VISIBLE);
+        else
+            progressBar.setVisibility(View.GONE);
     }
 
 

@@ -79,13 +79,13 @@ public class NetworkDataTransmitterSingleton {
     }
 
     public void requestJsonObjectResponseForJsonRequestWithContext(JsonRequest jsonReq) {
-
-        mainActivity.setProgressBarVisibilityWithBool(true);
+        handleProgressBarOfCurrentFragment(jsonReq.getRequestMethod(), true);
         Log.d(TAG, "requestJsonObjectResponseForJsonRequestWithContext: Request Url: " + jsonReq.getUrl());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(jsonReq.getHttpMethod(), jsonReq.getUrl(), jsonReq.getJsonObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    handleProgressBarOfCurrentFragment(jsonReq.getRequestMethod(), false);
                     if (jsonReq.getRequestMethod() == RequestMethod.BARCODE_SEARCH) {
                         Log.d(TAG, "onResponse: " + response.toString(1));
                         handleBarcodeSearchResponse(response);
@@ -112,7 +112,7 @@ public class NetworkDataTransmitterSingleton {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "onErrorResponse: " + error.getMessage());
-                mainActivity.setProgressBarVisibilityWithBool(false);
+                handleProgressBarOfCurrentFragment(jsonReq.getRequestMethod(), false);
             }
         }) {
             @Override
@@ -133,6 +133,23 @@ public class NetworkDataTransmitterSingleton {
 
         jsonObjectRequest.setTag(TAG);
         queue.add(jsonObjectRequest);
+    }
+
+    private void handleProgressBarOfCurrentFragment(RequestMethod requestMethod, Boolean showProgressBar) {
+        switch(requestMethod){
+            case PRODUCT_NAME:
+                ProductRemoteSearchFragment remoteSearchFrag = (ProductRemoteSearchFragment) mainActivity.getSupportFragmentManager().findFragmentByTag("ProductRemoteSearchFrag");
+                assert remoteSearchFrag != null;
+                remoteSearchFrag.setProgressBarVisibilityWithBool(showProgressBar);
+                break;
+            case BARCODE_SEARCH:
+                ProductScanFragment scanFrag = (ProductScanFragment) mainActivity.getSupportFragmentManager().findFragmentByTag("ScanFrag");
+                assert scanFrag != null;
+                scanFrag.setProgressBarVisibilityWithBool(showProgressBar);
+                break;
+            default:
+                break;
+        }
     }
 
     public void requestStringResponseForUrlWithContext(String url, Context context) {
@@ -180,7 +197,6 @@ public class NetworkDataTransmitterSingleton {
                 Log.e(TAG, "handleBarcodeSearchResponse: " + errorMessage);
                 mainActivity.showShortSnackBarWithText(errorMessage);
             }
-            mainActivity.setProgressBarVisibilityWithBool(false);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -195,12 +211,10 @@ public class NetworkDataTransmitterSingleton {
                     List<Product> foundProducts = JsonHandler.parseJsonArrayWithMultipleProductsToProductList(response);
                     searchFragment.setCurrentProducts(foundProducts);
                 }
-                mainActivity.setProgressBarVisibilityWithBool(false);
             } else {
                 String errorMessage = "Keine Produkte zum Namen gefunden!";
                 Log.e(TAG, "handleBarcodeSearchResponse: " + errorMessage);
                 mainActivity.showShortSnackBarWithText(errorMessage);
-                mainActivity.setProgressBarVisibilityWithBool(false);
             }
 
 
@@ -228,7 +242,6 @@ public class NetworkDataTransmitterSingleton {
                 }
 
             }
-            mainActivity.setProgressBarVisibilityWithBool(false);
         } catch (JSONException e) {
             e.printStackTrace();
         }

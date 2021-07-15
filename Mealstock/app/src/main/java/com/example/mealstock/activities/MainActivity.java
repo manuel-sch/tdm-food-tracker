@@ -15,8 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int TIME_INTERVAL = 2000;
     private final String TAG = MainActivity.class.getSimpleName();
-    private ProgressBar progressBar;
+
     private NetworkDataTransmitterSingleton dataTransmitter;
     private long mBackPressed;
     private FragmentManager supportFragmentManager;
@@ -65,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         openFragment(HomeFragment.newInstance("", ""), "HomeFrag");
         this.dataTransmitter = NetworkDataTransmitterSingleton.getInstance(MainActivity.this);
-        progressBar = findViewById(R.id.progressBar);
         supportFragmentManager = getSupportFragmentManager();
 
         createNotificationChannel();
@@ -158,13 +155,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void showShortSnackBarWithText(String text) {
         Snackbar.make(findViewById(R.id.main_layout), text, Snackbar.LENGTH_SHORT).show();
-    }
-
-    public void setProgressBarVisibilityWithBool(boolean showProgressbar) {
-        if (showProgressbar)
-            progressBar.setVisibility(View.VISIBLE);
-        else
-            progressBar.setVisibility(View.GONE);
     }
 
 

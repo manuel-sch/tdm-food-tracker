@@ -328,6 +328,14 @@ public class ProductRemoteSearchFragment extends Fragment implements ProductRemo
             productExpiryDateEditTextInDialog.setText(sdf.format(selectedProduct.getExpiryDate()));
     }
 
+    public void setProgressBarVisibilityWithBool(boolean showProgressbar) {
+        Log.d(TAG, "setProgressBarVisibilityWithBool: " + showProgressbar);
+        if (showProgressbar)
+            progressBar.setVisibility(View.VISIBLE);
+        else
+            progressBar.setVisibility(View.GONE);
+    }
+
     @Override
     public void onClick(View v) {
         switch(v.getId()){
