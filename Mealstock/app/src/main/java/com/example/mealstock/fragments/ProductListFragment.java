@@ -64,7 +64,6 @@ public class ProductListFragment extends Fragment implements ProductListForStora
         Log.d(TAG, "onViewCreated: " + storageOfProducts);
 
         initializeViews();
-        setUpSpinner();
         initRecyclerView();
         setUpFireBase();
         setUpSearchBar();
@@ -73,7 +72,6 @@ public class ProductListFragment extends Fragment implements ProductListForStora
     }
 
     private void initializeViews() {
-        storageSpinner = binding.filterSpinner;
         recyclerView = binding.recyclerView;
         searchView = binding.SearchViewProductList;
 
@@ -99,12 +97,6 @@ public class ProductListFragment extends Fragment implements ProductListForStora
         });
     }
 
-    private void setUpSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.product_filter, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        storageSpinner.setAdapter(adapter);
-    }
 
     private void initRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());

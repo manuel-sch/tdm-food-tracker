@@ -30,17 +30,8 @@
             android:layout_height="35dp"
             android:background="@color/white"
             android:queryHint="Produkt eingeben"
-            app:layout_constraintEnd_toStartOf="@+id/filter_spinner"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Spinner
-            android:id="@+id/filter_spinner"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="?attr/colorPrimary"
-            app:layout_constraintStart_toEndOf="@+id/Search_View_Product_List"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
