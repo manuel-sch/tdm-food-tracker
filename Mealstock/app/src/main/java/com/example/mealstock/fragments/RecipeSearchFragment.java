@@ -145,6 +145,11 @@ public class RecipeSearchFragment extends Fragment implements FavoriteRecipeList
     }
 
     @Override
+    public void onUnfavoriteClick(Recipe clickedRecipe) {
+        viewModel.deleteRecipe(clickedRecipe);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         viewBinding = null;

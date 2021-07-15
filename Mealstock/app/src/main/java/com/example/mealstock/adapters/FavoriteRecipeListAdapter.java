@@ -114,6 +114,13 @@ public class FavoriteRecipeListAdapter extends RecyclerView.Adapter<FavoriteReci
             favStarImageView = itemView.findViewById(R.id.favstar);
             textViewRecipeTitle = itemView.findViewById(R.id.recipeTitle);
             textViewCookingTime = itemView.findViewById(R.id.recipeTime);
+            favStarImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    clickListener.onUnfavoriteClick(recipes.get(position));
+                }
+            });
         }
 
         @Override
@@ -126,6 +133,7 @@ public class FavoriteRecipeListAdapter extends RecyclerView.Adapter<FavoriteReci
 
     public interface RecipeClickListener {
         void onRecipeClick(Recipe clickedRecipe);
+        void onUnfavoriteClick(Recipe clickedRecipe);
     }
 }
 
