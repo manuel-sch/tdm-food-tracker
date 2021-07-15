@@ -10,6 +10,7 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name ="lightgrey">#E0E0E0</color>
 
     <color name="bluegreen_lighter">#abebe0</color>
     <color name="bluegreen_light">#73d9c8</color>

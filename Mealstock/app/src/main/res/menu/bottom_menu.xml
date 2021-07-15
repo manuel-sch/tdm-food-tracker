@@ -4,16 +4,16 @@
 
     <item
         android:id="@+id/searchFrag"
-        android:title="Search"
-        android:icon="@drawable/ic_search" />
+        android:title="Rezepte"
+        android:icon="@drawable/ic_star_on" />
 
     <item
         android:id="@+id/homeFrag"
-        android:title="Home"
-        android:icon="@drawable/ic_home"/>
+        android:title="Zuhause"
+        android:icon="@drawable/ic_home_filled"/>
     <item
         android:id="@+id/scanFrag"
-        android:title="Scan"
+        android:title="Eingabe"
         android:icon="@drawable/ic_scanner"/>
 
 </menu>

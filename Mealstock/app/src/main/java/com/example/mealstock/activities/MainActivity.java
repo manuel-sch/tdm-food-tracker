@@ -79,12 +79,15 @@ public class MainActivity extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.searchFrag:
                             openFragment(new RecipeSearchFragment(), "SearchFrag");
+                            item.setChecked(true);
                             return true;
                         case R.id.homeFrag:
                             openFragment(HomeFragment.newInstance("", ""), "HomeFrag");
+                            item.setChecked(true);
                             return true;
                         case R.id.scanFrag:
                             openFragment(ProductScanFragment.newInstance("", ""), "ScanFrag");
+                            item.setChecked(true);
                             return true;
                     }
                     return false;
