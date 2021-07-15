@@ -145,9 +145,12 @@ public class ProductFormFragment extends Fragment {
                 currentProduct.setProductName(productNameEditText.getText().toString());
                 currentProduct.setGenericName(productGenericNameEditText.getText().toString());
                 currentProduct.setBrands(productBrandsEditText.getText().toString());
-                currentProduct.setUnit(Integer.parseInt(productUnitEditText.getText().toString()));
-                currentProduct.setPrice(Double.parseDouble(productPriceEditText.getText().toString()));
-                currentProduct.setQuantity(Double.parseDouble(productQuanityEditText.getText().toString()));
+                if(!productUnitEditText.getText().toString().isEmpty())
+                    currentProduct.setUnit(Integer.parseInt(productUnitEditText.getText().toString()));
+                if(!productPriceEditText.getText().toString().isEmpty())
+                    currentProduct.setPrice(Double.parseDouble(productPriceEditText.getText().toString()));
+                if(!productQuanityEditText.getText().toString().isEmpty())
+                    currentProduct.setQuantity(Double.parseDouble(productQuanityEditText.getText().toString()));
                 currentProduct.setIngredients(productIngredientEditText.getText().toString());
                 Log.d(TAG, "onClick: Produkt: " + currentProduct + " wurde hinzugefügt.");
                 productViewModel.insertProduct(currentProduct);
