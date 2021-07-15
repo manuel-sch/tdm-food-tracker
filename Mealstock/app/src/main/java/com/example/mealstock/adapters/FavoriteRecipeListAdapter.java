@@ -109,6 +109,7 @@ public class FavoriteRecipeListAdapter extends RecyclerView.Adapter<FavoriteReci
 
         public RecipeItemViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             imageViewRecipe = itemView.findViewById(R.id.imageView_recipe);
             favStarImageView = itemView.findViewById(R.id.favstar);
             textViewRecipeTitle = itemView.findViewById(R.id.recipeTitle);
